@@ -1,8 +1,10 @@
-package za.co.robusttech.sewa_in;
+package za.co.robusttech.sewa_in.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import za.co.robusttech.sewa_in.R;
 
 public class MainActivity extends AppCompatActivity {
 
