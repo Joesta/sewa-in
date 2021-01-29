@@ -78,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void register(final String username, String email, String password){
+    private void register(final String username, final String email, String password){
 
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -95,8 +95,11 @@ public class RegisterActivity extends AppCompatActivity {
                             hashMap.put("id", userid);
                             hashMap.put("name", username);
                             hashMap.put("imageURL", "default");
-                            hashMap.put("status", "offline");
-                            hashMap.put("search", username.toLowerCase());
+                            hashMap.put("email", email);
+                            hashMap.put("address", "default");
+                            hashMap.put("addressName", "default");
+                            hashMap.put("phone", "default");
+                            hashMap.put("addressPin", "default");
 
                             reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -110,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            Toast.makeText(RegisterActivity.this, "You can't register woth this email or password", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "You can't register with this email or password", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
