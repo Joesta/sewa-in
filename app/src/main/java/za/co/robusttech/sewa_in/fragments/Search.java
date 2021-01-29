@@ -92,8 +92,6 @@ public class Search extends Fragment {
     public static class UsersViewHolder extends RecyclerView.ViewHolder {
 
         View mView;
-        Button btn_follow;
-
         UsersViewHolder(View itemView) {
             super(itemView);
 

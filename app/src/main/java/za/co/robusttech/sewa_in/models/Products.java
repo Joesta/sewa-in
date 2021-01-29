@@ -28,6 +28,17 @@ public class Products {
 
     }
 
+    public Products(String productImage, String productName, String productDesciption, String productPrice) {
+
+        this.productName = productName;
+        this.productImage = productImage;
+        this.productPrice = productPrice;
+        this.productDesciption = productDesciption;
+
+    }
+
+
+
     public String getProductName() {
         return productName;
     }
