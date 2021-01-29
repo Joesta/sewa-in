@@ -32,6 +32,7 @@ import za.co.robusttech.sewa_in.R;
 import za.co.robusttech.sewa_in.fragments.Frag1;
 import za.co.robusttech.sewa_in.fragments.Frag2;
 import za.co.robusttech.sewa_in.fragments.Frag3;
+import za.co.robusttech.sewa_in.fragments.Search;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -68,8 +69,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         final TabLayout tabLayout = findViewById(R.id.tab_layout);
         final ViewPager viewPager = findViewById(R.id.view_pager);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new Frag1(), "Users");
-        viewPagerAdapter.addFragment(new Frag2(), "Profile");
+        viewPagerAdapter.addFragment(new Frag1(), "Home");
+        viewPagerAdapter.addFragment(new Search(), "Search");
         viewPagerAdapter.addFragment(new Frag3(), "Frag");
 
 
