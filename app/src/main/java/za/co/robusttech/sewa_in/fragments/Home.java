@@ -1,17 +1,20 @@
 package za.co.robusttech.sewa_in.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -22,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import za.co.robusttech.sewa_in.R;
+import za.co.robusttech.sewa_in.activities.ItemDetailActivity;
 import za.co.robusttech.sewa_in.models.Products;
 
 public class Home extends Fragment {
@@ -45,8 +50,8 @@ public class Home extends Fragment {
         gridView = view.findViewById(R.id.grid_layout);
         gridLoad();
 
-
         return view;
+
 
     }
 
@@ -112,53 +117,67 @@ public class Home extends Fragment {
 
 
     private void gridLoad() {
-        product = new ArrayList<>();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Products");
-        mDatabaseRef.addChildEventListener(new ChildEventListener() {
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onChildAdded(@NotNull DataSnapshot dataSnapshot, String s) {
-                GenericTypeIndicator<HashMap<String, String>> genericTypeIndicator = new GenericTypeIndicator<HashMap<String, String>>() {
-                };
-
-                String productImage = dataSnapshot.getValue(genericTypeIndicator).get("productImage");
-                String productName = dataSnapshot.getValue(genericTypeIndicator).get("productName");
-                String productDesciption = dataSnapshot.getValue(genericTypeIndicator).get("productDesciption");
-                String productPrice = dataSnapshot.getValue(genericTypeIndicator).get("productPrice");
-
-                Log.e("LoadDataGson", "name " + productName + "  value  " + productImage);
-
-
-
-                Products products = new Products(productImage , productName, productDesciption ,productPrice);
-                product.add(products);
-
-                CustomAdapter customAdapter = new CustomAdapter(getContext(), product);
-                gridView.setVisibility(View.VISIBLE);
-                gridView.setAdapter(customAdapter);
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), ItemDetailActivity.class);
+                intent.putExtra("productName", product.get(position).getProductName());
+                intent.putExtra("productRatings", product.get(position).getProductRatings());
+                intent.putExtra("productPrice", product.get(position).getProductPrice());
+                intent.putExtra("productDeliveryTime", product.get(position).getProductDeliveryTime());
+                intent.putExtra("productDescription", product.get(position).getProductDesciption());
+                intent.putExtra("productDiscount", product.get(position).getProductDiscount());
+                intent.putExtra("productId", product.get(position).getProductId());
+                intent.putExtra("productCategory", product.get(position).getProductCategory());
+                intent.putExtra("productImage", product.get(position).getProductImage());
+                startActivity(intent);
+                Toast.makeText(getContext(), product.get(position).getProductId(), Toast.LENGTH_SHORT).show();
 
             }
         });
 
+
+        product = new ArrayList<>();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Products");
+       mDatabaseRef.addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+               for (DataSnapshot data:snapshot.getChildren()){
+
+                   Products pro = data.getValue(Products.class);
+                   String productImage = pro.getProductImage();
+                   String productName = pro.getProductName();
+                   String productDesciption = pro.getProductDesciption();
+                   String productPrice = pro.getProductPrice();
+                   String productId = pro.getProductId();
+                   String productCategory = pro.getProductCategory();
+                   String productDiscount = pro.getProductDiscount();
+                   String productDeliveryTime = pro.getProductDeliveryTime();
+                   String productRatings = pro.getProductRatings();
+                   String productSeller = pro.getProductSeller();
+                   String productAvailability = pro.getProductAvailability();
+                   String productOriginalPrice = pro.getProductOriginalPrice();
+
+                   Products products = new Products(productImage , productName, productDesciption ,productPrice , productId, productCategory , productDiscount, productDeliveryTime , productRatings, productSeller ,productAvailability , productOriginalPrice);
+                   product.add(products);
+
+                   CustomAdapter customAdapter = new CustomAdapter(getContext(), product);
+                   gridView.setVisibility(View.VISIBLE);
+                   gridView.setAdapter(customAdapter);
+
+               }
+
+
+
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError error) {
+
+           }
+       });
 
 
 

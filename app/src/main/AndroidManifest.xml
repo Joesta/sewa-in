@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="MissingClass">
-        <activity android:name=".activities.ProfileActivity"></activity>
+        <activity android:name=".activities.ItemDetailActivity"></activity>
+        <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.ForgotPasswordActivity" />
         <activity android:name=".activities.LoginActivity" />

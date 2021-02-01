@@ -11,33 +11,35 @@ public class Products {
     private String productDiscount;
     private String productCategory;
     private String productId;
+    private String productSeller;
+    private String productAvailability;
+    private String productOriginalPrice;
 
-    public Products(String productName, String productImage, String productRatings, String productPrice, String productDeliveryTime, String productDesciption, String productDiscount, String productCategory, String productId) {
-        this.productName = productName;
-        this.productImage = productImage;
-        this.productRatings = productRatings;
-        this.productPrice = productPrice;
-        this.productDeliveryTime = productDeliveryTime;
-        this.productDesciption = productDesciption;
-        this.productDiscount = productDiscount;
-        this.productCategory = productCategory;
-        this.productId = productId;
-    }
+
 
     public Products(){
 
     }
 
-    public Products(String productImage, String productName, String productDesciption, String productPrice) {
+    public Products(String productImage, String productName, String productDesciption, String productPrice, String productId, String productCategory, String productDiscount, String productDeliveryTime, String productRatings, String productSeller, String productAvailability, String productOriginalPrice) {
 
-        this.productName = productName;
+
         this.productImage = productImage;
-        this.productPrice = productPrice;
+        this.productName = productName;
         this.productDesciption = productDesciption;
+        this.productPrice = productPrice;
+        this.productId = productId;
+        this.productCategory = productCategory;
+        this.productDiscount = productDiscount;
+        this.productDeliveryTime = productDeliveryTime;
+        this.productRatings = productRatings;
+        this.productSeller = productSeller;
+        this.productAvailability = productAvailability;
+        this.productOriginalPrice = productOriginalPrice;
+
+
 
     }
-
-
 
     public String getProductName() {
         return productName;
@@ -109,5 +111,29 @@ public class Products {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public String getProductSeller() {
+        return productSeller;
+    }
+
+    public void setProductSeller(String productSeller) {
+        this.productSeller = productSeller;
+    }
+
+    public String getProductAvailability() {
+        return productAvailability;
+    }
+
+    public void setProductAvailability(String productAvailability) {
+        this.productAvailability = productAvailability;
+    }
+
+    public String getProductOriginalPrice() {
+        return productOriginalPrice;
+    }
+
+    public void setProductOriginalPrice(String productOriginalPrice) {
+        this.productOriginalPrice = productOriginalPrice;
     }
 }
