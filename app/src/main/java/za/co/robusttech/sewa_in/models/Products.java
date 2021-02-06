@@ -1,5 +1,7 @@
 package za.co.robusttech.sewa_in.models;
 
+import com.google.firebase.database.Exclude;
+
 public class Products {
 
     private String productName;
@@ -14,6 +16,7 @@ public class Products {
     private String productSeller;
     private String productAvailability;
     private String productOriginalPrice;
+    private String mKey;
 
 
 
@@ -135,5 +138,16 @@ public class Products {
 
     public void setProductOriginalPrice(String productOriginalPrice) {
         this.productOriginalPrice = productOriginalPrice;
+    }
+
+
+    @Exclude
+    public String getKey() {
+        return mKey;
+    }
+
+    @Exclude
+    public void setKey(String key) {
+        mKey = key;
     }
 }

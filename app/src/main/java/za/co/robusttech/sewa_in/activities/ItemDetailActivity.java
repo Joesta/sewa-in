@@ -6,13 +6,16 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -70,6 +73,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         detainDeliveryTime = findViewById(R.id.product_details_deliveryTime);
         detainRatings = findViewById(R.id.product_details_ratings);
         description = findViewById(R.id.product_details_body);
+        final LinearLayout add_to_cart_btn = findViewById(R.id.add_to_cart_btn);
         detainDiscount = findViewById(R.id.product_details_discount);
 
 
@@ -107,7 +111,7 @@ public class ItemDetailActivity extends AppCompatActivity {
                 String productDeliveryTime = products.getProductDeliveryTime();
                 String productDescription = products.getProductDesciption();
                 String productDiscount = products.getProductDiscount();
-                String productId = products.getProductId();
+                final String productId = products.getProductId();
                 String productCategory = products.getProductCategory();
                 String productSeller = products.getProductSeller();
                 String productAvailability = products.getProductAvailability();
@@ -131,9 +135,23 @@ public class ItemDetailActivity extends AppCompatActivity {
                 discount.setText(productDiscount);
                 ratings.setText(productRatings);
 
+                add_to_cart_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        FirebaseDatabase.getInstance().getReference().child("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child("inCart").child(productId).setValue(true);
+
+                        FirebaseDatabase.getInstance().getReference().child("Cart").child(productId)
+                                .child("onCart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(true);
 
 
+                        Intent intent = new Intent(ItemDetailActivity.this, ItemDetailActivity.class);
+                        intent.putExtra("productId", productId);
+                        startActivity(intent);
 
+                    }
+                });
 
             }
 
