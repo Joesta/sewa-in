@@ -41,6 +41,7 @@ import java.util.List;
 
 import za.co.robusttech.sewa_in.R;
 import za.co.robusttech.sewa_in.activities.AddCartActivity;
+import za.co.robusttech.sewa_in.activities.ItemDetailActivity;
 import za.co.robusttech.sewa_in.models.Products;
 
 
@@ -62,13 +63,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
         return new ImageViewHolder(v);
     }
 
-
     @Override
     public void onBindViewHolder(final ImageViewHolder holder, final int position) {
 
         final Products products = Products.get(position);
         holder.productName.setText(products.getProductName());
         holder.productPrice.setText(products.getProductPrice());
+        Glide.with(mContext).load(products.getProductImage()).into(holder.product_image);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ItemDetailActivity.class);
+                intent.putExtra("productId" , products.getProductId());
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 

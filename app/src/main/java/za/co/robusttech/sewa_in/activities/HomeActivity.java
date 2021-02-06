@@ -253,7 +253,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             protected void onBindViewHolder(@NonNull final UsersViewHolder holder, int position, @NonNull final Products model) {
                 holder.setDetails(HomeActivity.this, model.getProductName(), model.getProductImage(), model.getProductRatings(), model.getProductPrice(), model.getProductDeliveryTime(), model.getProductId(), model.getProductDiscount(), model.getProductCategory() , model.getProductDesciption());
 
+                holder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                        Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
+
+                        intent.putExtra("productId" , model.getProductId());
+                        startActivity(intent);
+                    }
+                });
 
             }
 
@@ -277,6 +286,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             mView = itemView;
 
 
+
+
         }
 
 
@@ -295,10 +306,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             price.setText(productPrice);
             deliveryTime.setText(productDeliveryTime);
             discount.setText(productDiscount);
-
-
-
-
 
 
         }

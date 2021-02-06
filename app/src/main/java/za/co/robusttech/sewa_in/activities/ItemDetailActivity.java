@@ -30,7 +30,6 @@ import za.co.robusttech.sewa_in.models.Products;
 
 public class ItemDetailActivity extends AppCompatActivity {
 
-    DatabaseReference mUserDatabase;
     ImageSlider mainSlider;
     TextView name , orPrice , price , dlTime , description , discount  , ratings;
     TextView detainCategory , detainName,detainSellers,detainAvailability,detaiId,detainPrice,detainOriginalPrice,detainDeliveryTime,detainRatings,detainDiscount;
@@ -50,7 +49,6 @@ public class ItemDetailActivity extends AppCompatActivity {
         String productDescription = getIntent().getStringExtra("productDescription");
         String productDiscount = getIntent().getStringExtra("productDiscount");
         String productId = getIntent().getStringExtra("productId");
-        String productCategory = getIntent().getStringExtra("productCategory");
         String productImage = getIntent().getStringExtra("productImage");
 
         name = findViewById(R.id.item_name);
@@ -81,6 +79,7 @@ public class ItemDetailActivity extends AppCompatActivity {
 
 
         assert productId != null;
+
         FirebaseDatabase.getInstance().getReference("Products").child(productId).child("images").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
