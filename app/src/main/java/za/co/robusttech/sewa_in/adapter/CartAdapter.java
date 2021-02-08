@@ -3,6 +3,7 @@ package za.co.robusttech.sewa_in.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -79,6 +80,110 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
             }
         });
 
+
+        if (holder.txtCart.getText().equals("1")){
+
+            holder.add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                   holder.txtCart.setText("2");
+                }
+            });
+
+        }
+
+        if (holder.txtCart.getText().equals("2")){
+
+            holder.add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.delete.setImageResource(R.drawable.ic_baseline_horizontal_rule_24);
+
+                    holder.txtCart.setText("3");
+                }
+            });
+
+        }
+        if (holder.txtCart.getText().equals("3")){
+
+            holder.add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    holder.txtCart.setText("4");
+                }
+            });
+
+        }
+        if (holder.txtCart.getText().equals("4")){
+
+            holder.add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    holder.txtCart.setText("5");
+                }
+            });
+
+        }
+        if (holder.txtCart.getText().equals("5")){
+
+            holder.add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    holder.txtCart.setText("6");
+                }
+            });
+
+        }
+        if (holder.txtCart.getText().equals("6")){
+
+            holder.add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    holder.txtCart.setText("7");
+                }
+            });
+
+        }
+        if (holder.txtCart.getText().equals("7")){
+
+            holder.add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    holder.txtCart.setText("8");
+                }
+            });
+
+        }
+        if (holder.txtCart.getText().equals("8")){
+
+            holder.add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    holder.txtCart.setText("9");
+                }
+            });
+
+        }
+
+
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseDatabase.getInstance().getReference().child("Cart").child(FirebaseAuth.
+                        getInstance().getCurrentUser().getUid())
+                        .child("inCart").child(products.getProductId()).removeValue();
+            }
+        });
+
     }
 
     @Override
@@ -98,7 +203,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
 
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
             View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
-        public ImageView product_image, delete, add;
+        public ImageView product_image, delete, add ;
+
         public TextView productName, productPrice, stock_r_not, shipping, txtCart;
 
         public ImageViewHolder(View itemView) {
@@ -110,6 +216,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
             stock_r_not = itemView.findViewById(R.id.stock_r_not);
             shipping = itemView.findViewById(R.id.shipping);
             delete = itemView.findViewById(R.id.delete);
+
             txtCart = itemView.findViewById(R.id.txtCart);
             add = itemView.findViewById(R.id.add);
 

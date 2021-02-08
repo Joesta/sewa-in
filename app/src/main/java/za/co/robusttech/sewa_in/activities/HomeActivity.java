@@ -189,7 +189,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 intent.putExtra("productCategory", product.get(position).getProductCategory());
                 intent.putExtra("productImage", product.get(position).getProductImage());
                 startActivity(intent);
-                Toast.makeText(HomeActivity.this, product.get(position).getProductId(), Toast.LENGTH_SHORT).show();
 
             }
         });

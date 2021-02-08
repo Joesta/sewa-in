@@ -116,16 +116,17 @@ public class ItemDetailActivity extends AppCompatActivity {
                 String productAvailability = products.getProductAvailability();
                 String productOriginalPrice = products.getProductOriginalPrice();
 
-                detainCategory.setText(productCategory);
-                detainName.setText(productName);
-                detainSellers.setText(productSeller);
-                detainAvailability.setText(productAvailability);
-                detaiId.setText(productId);
-                detainPrice.setText(productPrice);
-                detainOriginalPrice.setText(productOriginalPrice);
-                detainDeliveryTime.setText(productDeliveryTime);
-                detainRatings.setText(productRatings);
-                detainDiscount.setText(productDiscount);
+                detainCategory.setText("Category : "+ productCategory);
+                detainName.setText("Product Name : "+ productName);
+                detainSellers.setText("Seller : "+ productSeller);
+                detainAvailability.setText("Availability : "+productAvailability);
+                detaiId.setText("Id : "+productId);
+                detainPrice.setText("Price : "+productPrice);
+                detainOriginalPrice.setText("Original Price : "+productOriginalPrice);
+                detainDeliveryTime.setText("Delivery Time : "+productDeliveryTime);
+                detainRatings.setText("Ratings : "+productRatings);
+                detainDiscount.setText("Discount : "+productDiscount);
+
                 description.setText(productDescription);
                 name.setText(productName);
                 orPrice.setText(productOriginalPrice);
