@@ -160,9 +160,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     .size()) {
                 Products produc = products.get(i);
                 Glide.with(HomeActivity.this).load(produc.getProductImage()).into(viewHolder.image);
-                viewHolder.name.setText(produc.getProductName());
-                viewHolder.description.setText(produc.getProductDesciption());
-                viewHolder.price.setText(produc.getProductPrice());
+                viewHolder.name.setText(produc.getGridName());
+                viewHolder.description.setText(produc.getGridDescription());
+                viewHolder.price.setText(produc.getGridPrice());
 
             }
             return view1;
@@ -216,7 +216,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     String productAvailability = pro.getProductAvailability();
                     String productOriginalPrice = pro.getProductOriginalPrice();
 
-                    Products products = new Products(productImage , productName, productDesciption ,productPrice , productId, productCategory , productDiscount, productDeliveryTime , productRatings, productSeller ,productAvailability , productOriginalPrice);
+
+                    Products products = new Products(productImage , productName, productDesciption ,productPrice , productId, productCategory , productDiscount, productDeliveryTime , productRatings, productSeller ,productAvailability , productOriginalPrice );
                     product.add(products);
 
                     CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, product);

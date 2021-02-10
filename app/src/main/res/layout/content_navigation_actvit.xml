@@ -19,59 +19,66 @@
             android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/MenuStyle">
 
-
-            <EditText
-                android:id="@+id/search_field"
-                android:layout_width="254dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toStartOf="@+id/search_btn"
-                android:layout_toLeftOf="@+id/search_btn"
-                android:background="@drawable/search_layout"
-                android:ems="10"
-                android:hint="Search here"
-                android:inputType="textPersonName"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp"
-                android:textColor="#020202"
-                android:textColorHint="#000"
-                android:textSize="16sp" />
-
-            <ImageButton
-                android:id="@+id/search_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/search_field"
-                android:layout_alignBottom="@+id/search_field"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginBottom="1dp"
-                android:background="#fff"
-                app:srcCompat="@drawable/search_button1" />
-
-
         </androidx.appcompat.widget.Toolbar>
 
 
+
+
     </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <EditText
+            android:id="@+id/search_field"
+            android:layout_width="374dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="-3dp"
+            android:layout_marginRight="20dp"
+            android:layout_toStartOf="@+id/search_btn"
+            android:background="@drawable/search_layout"
+            android:ems="10"
+            android:hint="Search here"
+            android:inputType="textPersonName"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
+            android:textColor="#020202"
+            android:textColorHint="#000"
+            android:textSize="16sp"
+            android:layout_toLeftOf="@+id/search_btn" />
+
+        <ImageButton
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/search_field"
+            android:layout_alignBottom="@+id/search_field"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="1dp"
+            android:background="#fff"
+            app:srcCompat="@drawable/search_button1"
+            android:layout_alignParentRight="true"
+            tools:ignore="ObsoleteLayoutParam" />
+
+
+    </RelativeLayout>
+
+
 
 
     <include
         layout="@layout/home_product" />
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/result_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-       >
+        android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -71,6 +71,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
         holder.productName.setText(products.getProductName());
         holder.productPrice.setText(products.getProductPrice());
         Glide.with(mContext).load(products.getProductImage()).into(holder.product_image);
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,11 +89,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
                 @Override
                 public void onClick(View v) {
 
-
                    holder.txtCart.setText("2");
                 }
             });
-
         }
 
         if (holder.txtCart.getText().equals("2")){
@@ -99,13 +99,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
             holder.add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.delete.setImageResource(R.drawable.ic_baseline_horizontal_rule_24);
 
                     holder.txtCart.setText("3");
                 }
             });
-
         }
+
+
         if (holder.txtCart.getText().equals("3")){
 
             holder.add.setOnClickListener(new View.OnClickListener() {
@@ -115,8 +115,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
                     holder.txtCart.setText("4");
                 }
             });
-
         }
+
         if (holder.txtCart.getText().equals("4")){
 
             holder.add.setOnClickListener(new View.OnClickListener() {
@@ -126,8 +126,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
                     holder.txtCart.setText("5");
                 }
             });
-
         }
+
         if (holder.txtCart.getText().equals("5")){
 
             holder.add.setOnClickListener(new View.OnClickListener() {
@@ -137,8 +137,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
                     holder.txtCart.setText("6");
                 }
             });
-
         }
+
         if (holder.txtCart.getText().equals("6")){
 
             holder.add.setOnClickListener(new View.OnClickListener() {
@@ -148,8 +148,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
                     holder.txtCart.setText("7");
                 }
             });
-
         }
+
         if (holder.txtCart.getText().equals("7")){
 
             holder.add.setOnClickListener(new View.OnClickListener() {
@@ -159,8 +159,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
                     holder.txtCart.setText("8");
                 }
             });
-
         }
+
         if (holder.txtCart.getText().equals("8")){
 
             holder.add.setOnClickListener(new View.OnClickListener() {
@@ -170,9 +170,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
                     holder.txtCart.setText("9");
                 }
             });
-
         }
-
 
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
@@ -181,10 +179,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
                 FirebaseDatabase.getInstance().getReference().child("Cart").child(FirebaseAuth.
                         getInstance().getCurrentUser().getUid())
                         .child("inCart").child(products.getProductId()).removeValue();
+
+                Intent intent = new Intent(mContext, AddCartActivity.class);
+                mContext.startActivity(intent);
+
             }
         });
 
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -197,15 +201,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
         notifyItemRangeChanged(position, Products.size());
     }
 
+
     public void setOnItemClickListener(AddCartActivity onItemClickListener) {
 
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
             View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
-        public ImageView product_image, delete, add ;
+        public ImageView product_image, delete, add , minus ;
 
-        public TextView productName, productPrice, stock_r_not, shipping, txtCart;
+        public TextView productName, productPrice, stock_r_not, shipping, txtCart ;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -215,6 +220,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
             productPrice = itemView.findViewById(R.id.productPrice);
             stock_r_not = itemView.findViewById(R.id.stock_r_not);
             shipping = itemView.findViewById(R.id.shipping);
+            minus = itemView.findViewById(R.id.minus);
             delete = itemView.findViewById(R.id.delete);
 
             txtCart = itemView.findViewById(R.id.txtCart);
@@ -267,6 +273,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
 
         void onDeleteClick(int position);
     }
+
+
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;

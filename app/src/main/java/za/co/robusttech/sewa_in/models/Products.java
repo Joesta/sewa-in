@@ -17,6 +17,10 @@ public class Products {
     private String productAvailability;
     private String productOriginalPrice;
     private String mKey;
+    private String gridName;
+    private String gridDescription;
+    private String gridPrice;
+    private String cartNum;
 
 
 
@@ -24,9 +28,28 @@ public class Products {
 
     }
 
-    public Products(String productImage, String productName, String productDesciption, String productPrice, String productId, String productCategory, String productDiscount, String productDeliveryTime, String productRatings, String productSeller, String productAvailability, String productOriginalPrice) {
+    public Products(String productName, String productImage, String productRatings, String productPrice, String productDeliveryTime, String productDesciption, String productDiscount, String productCategory, String productId, String productSeller, String productAvailability, String productOriginalPrice, String mKey, String gridName, String gridDescription, String gridPrice, String cartNum) {
+        this.productName = productName;
+        this.productImage = productImage;
+        this.productRatings = productRatings;
+        this.productPrice = productPrice;
+        this.productDeliveryTime = productDeliveryTime;
+        this.productDesciption = productDesciption;
+        this.productDiscount = productDiscount;
+        this.productCategory = productCategory;
+        this.productId = productId;
+        this.productSeller = productSeller;
+        this.productAvailability = productAvailability;
+        this.productOriginalPrice = productOriginalPrice;
+        this.mKey = mKey;
+        this.gridName = gridName;
+        this.gridDescription = gridDescription;
+        this.gridPrice = gridPrice;
+        this.cartNum = cartNum;
+    }
 
-
+    public Products(String productImage, String productName, String productDesciption, String productPrice, String productId, String productCategory,
+                    String productDiscount, String productDeliveryTime, String productRatings, String productSeller, String productAvailability, String productOriginalPrice ) {
         this.productImage = productImage;
         this.productName = productName;
         this.productDesciption = productDesciption;
@@ -39,8 +62,6 @@ public class Products {
         this.productSeller = productSeller;
         this.productAvailability = productAvailability;
         this.productOriginalPrice = productOriginalPrice;
-
-
 
     }
 
@@ -140,6 +161,45 @@ public class Products {
         this.productOriginalPrice = productOriginalPrice;
     }
 
+    public String getmKey() {
+        return mKey;
+    }
+
+    public void setmKey(String mKey) {
+        this.mKey = mKey;
+    }
+
+    public String getGridName() {
+        return gridName;
+    }
+
+    public void setGridName(String gridName) {
+        this.gridName = gridName;
+    }
+
+    public String getGridDescription() {
+        return gridDescription;
+    }
+
+    public void setGridDescription(String gridDescription) {
+        this.gridDescription = gridDescription;
+    }
+
+    public String getGridPrice() {
+        return gridPrice;
+    }
+
+    public void setGridPrice(String gridPrice) {
+        this.gridPrice = gridPrice;
+    }
+
+    public String getCartNum() {
+        return cartNum;
+    }
+
+    public void setCartNum(String cartNum) {
+        this.cartNum = cartNum;
+    }
 
     @Exclude
     public String getKey() {

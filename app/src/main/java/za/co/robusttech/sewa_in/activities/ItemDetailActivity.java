@@ -146,7 +146,7 @@ public class ItemDetailActivity extends AppCompatActivity {
                                 .child("onCart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(true);
 
 
-                        Intent intent = new Intent(ItemDetailActivity.this, ItemDetailActivity.class);
+                        Intent intent = new Intent(ItemDetailActivity.this, AddCartActivity.class);
                         intent.putExtra("productId", productId);
                         startActivity(intent);
 
