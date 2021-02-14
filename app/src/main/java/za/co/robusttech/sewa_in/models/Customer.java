@@ -17,7 +17,7 @@ import za.co.robusttech.sewa_in.constants.ICustomerConstants;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer {
-    private String customerId;
+    private String id;
     private String firstName;
     private String lastName;
     private String cellphoneNumber;

@@ -2,7 +2,9 @@ package za.co.robusttech.sewa_in.models;
 
 import com.google.firebase.database.Exclude;
 
-public class Products {
+import java.io.Serializable;
+
+public class Products implements Serializable {
 
     private String productName;
     private String productImage;

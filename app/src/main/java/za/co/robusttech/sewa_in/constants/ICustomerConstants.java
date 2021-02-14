@@ -7,6 +7,7 @@ package za.co.robusttech.sewa_in.constants;
 
 public interface ICustomerConstants {
 
+    String ID = "id";
     String FIRST_NAME = "firstName";
     String LAST_NAME = "lastName";
     String CELLPHONE_NUMBER = "cellphoneNumber";
