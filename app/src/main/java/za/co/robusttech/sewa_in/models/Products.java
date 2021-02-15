@@ -2,9 +2,7 @@ package za.co.robusttech.sewa_in.models;
 
 import com.google.firebase.database.Exclude;
 
-import java.io.Serializable;
-
-public class Products implements Serializable {
+public class Products {
 
     private String productName;
     private String productImage;
@@ -19,18 +17,51 @@ public class Products implements Serializable {
     private String productAvailability;
     private String productOriginalPrice;
     private String mKey;
-    private String gridName;
-    private String gridDescription;
-    private String gridPrice;
     private String cartNum;
+    private String productNameFull;
+    private String productDescriptionFull;
 
 
+
+    public Products(String productImage, String productName, String productDesciption, String productPrice, String productId, String productCategory, String productDiscount, String productDeliveryTime, String productRatings, String productSeller, String productAvailability, String productOriginalPrice, String productNameFull, String productDescriptionFull) {
+        this.productImage = productImage;
+        this.productName = productName;
+        this.productDesciption = productDesciption;
+        this.productPrice = productPrice;
+        this.productId = productId;
+        this.productCategory = productCategory;
+        this.productDiscount = productDiscount;
+        this.productDeliveryTime = productDeliveryTime;
+        this.productRatings = productRatings;
+        this.productSeller = productSeller;
+        this.productAvailability = productAvailability;
+        this.productOriginalPrice = productOriginalPrice;
+        this.productNameFull = productNameFull;
+        this.productDescriptionFull = productDescriptionFull;
+
+    }
+
+    public String getProductNameFull() {
+        return productNameFull;
+    }
+
+    public void setProductNameFull(String productNameFull) {
+        this.productNameFull = productNameFull;
+    }
+
+    public String getProductDescriptionFull() {
+        return productDescriptionFull;
+    }
+
+    public void setProductDescriptionFull(String productDescriptionFull) {
+        this.productDescriptionFull = productDescriptionFull;
+    }
 
     public Products(){
 
     }
 
-    public Products(String productName, String productImage, String productRatings, String productPrice, String productDeliveryTime, String productDesciption, String productDiscount, String productCategory, String productId, String productSeller, String productAvailability, String productOriginalPrice, String mKey, String gridName, String gridDescription, String gridPrice, String cartNum) {
+    public Products(String productName, String productImage, String productRatings, String productPrice, String productDeliveryTime, String productDesciption, String productDiscount, String productCategory, String productId, String productSeller, String productAvailability, String productOriginalPrice, String mKey, int gridName, int gridDescription, int gridPrice, String cartNum) {
         this.productName = productName;
         this.productImage = productImage;
         this.productRatings = productRatings;
@@ -44,28 +75,11 @@ public class Products implements Serializable {
         this.productAvailability = productAvailability;
         this.productOriginalPrice = productOriginalPrice;
         this.mKey = mKey;
-        this.gridName = gridName;
-        this.gridDescription = gridDescription;
-        this.gridPrice = gridPrice;
+
         this.cartNum = cartNum;
     }
 
-    public Products(String productImage, String productName, String productDesciption, String productPrice, String productId, String productCategory,
-                    String productDiscount, String productDeliveryTime, String productRatings, String productSeller, String productAvailability, String productOriginalPrice ) {
-        this.productImage = productImage;
-        this.productName = productName;
-        this.productDesciption = productDesciption;
-        this.productPrice = productPrice;
-        this.productId = productId;
-        this.productCategory = productCategory;
-        this.productDiscount = productDiscount;
-        this.productDeliveryTime = productDeliveryTime;
-        this.productRatings = productRatings;
-        this.productSeller = productSeller;
-        this.productAvailability = productAvailability;
-        this.productOriginalPrice = productOriginalPrice;
 
-    }
 
     public String getProductName() {
         return productName;
@@ -171,29 +185,9 @@ public class Products implements Serializable {
         this.mKey = mKey;
     }
 
-    public String getGridName() {
-        return gridName;
-    }
 
-    public void setGridName(String gridName) {
-        this.gridName = gridName;
-    }
 
-    public String getGridDescription() {
-        return gridDescription;
-    }
 
-    public void setGridDescription(String gridDescription) {
-        this.gridDescription = gridDescription;
-    }
-
-    public String getGridPrice() {
-        return gridPrice;
-    }
-
-    public void setGridPrice(String gridPrice) {
-        this.gridPrice = gridPrice;
-    }
 
     public String getCartNum() {
         return cartNum;

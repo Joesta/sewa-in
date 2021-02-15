@@ -21,7 +21,7 @@
             android:layout_width="407dp"
             android:layout_height="wrap_content"
             android:id="@+id/price_txt"
-            android:text="Office chair"
+            android:text="2700rs"
             android:textColor="#000"
             android:textSize="24sp"
             android:padding="06dp"
@@ -32,15 +32,67 @@
             android:layout_height="wrap_content"
             android:id="@+id/original_price_txt"
             android:padding="06dp"
-            android:text="R500"
+            android:text="5500rs"
             android:layout_marginLeft="-408dp"
             android:layout_marginTop="25dp"
             android:textSize="20sp"
             android:textColor="#000"
             tools:ignore="MissingConstraints" />
 
+        <TextView
+            android:layout_width="407dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/discount"
+            android:padding="06dp"
+            android:text="20%"
+            android:layout_marginLeft="-338dp"
+            android:layout_marginTop="25dp"
+            android:textSize="20sp"
+            android:textColor="#E62D2D"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:layout_width="407dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/delivery_free"
+            android:text="Free Delivery"
+            android:layout_marginLeft="-478dp"
+            android:textSize="17sp"
+            android:layout_marginTop="45dp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:padding="06dp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:layout_width="407dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/delivery_expected"
+            android:text="Delivery by: Wednesday, Feb 3 "
+            android:layout_marginLeft="-408dp"
+            android:textSize="17sp"
+            android:layout_marginTop="65dp"
+            android:textStyle="bold"
+            android:padding="06dp"
+            android:textColor="#000"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/productRatings"
+            android:text="267 ratings"
+            android:layout_marginLeft="-178dp"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_marginTop="0dp"
+            android:textStyle="bold"
+            android:padding="06dp"
+            android:textColor="#000"
+            tools:ignore="MissingConstraints" />
 
     </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
