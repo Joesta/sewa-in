@@ -21,5 +21,5 @@ public class Order {
     private Date orderCollectionDate;
     private boolean isCollected;
     private List<Product> products;
-    private Customer customer;
+    private String customerId;
 }

@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import za.co.robusttech.sewa_in.R;
+import za.co.robusttech.sewa_in.models.Cart;
+import za.co.robusttech.sewa_in.models.Product;
 import za.co.robusttech.sewa_in.models.Products;
 
 public class ItemDetailActivity extends AppCompatActivity {
@@ -33,7 +35,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     ImageSlider mainSlider;
     TextView name , orPrice , price , dlTime , description , discount  , ratings;
     TextView detainCategory , detainName,detainSellers,detainAvailability,detaiId,detainPrice,detainOriginalPrice,detainDeliveryTime,detainRatings,detainDiscount;
-
+    private Cart cart = new Cart();
 
 
     @Override
@@ -104,19 +106,19 @@ public class ItemDetailActivity extends AppCompatActivity {
 
                 Products products = snapshot.getValue(Products.class);
 
-                String productName = products.getProductName();
-                String productRatings = products.getProductRatings();
-                String productPrice = products.getProductPrice();
+                final String productName = products.getProductName();
+                final String productRatings = products.getProductRatings();
+                final String productPrice = products.getProductPrice();
                 String productDeliveryTime = products.getProductDeliveryTime();
                 String productDescription = products.getProductDesciption();
-                String productDiscount = products.getProductDiscount();
+                final String productDiscount = products.getProductDiscount();
                 final String productId = products.getProductId();
                 String productCategory = products.getProductCategory();
                 String productSeller = products.getProductSeller();
                 String productAvailability = products.getProductAvailability();
                 String productOriginalPrice = products.getProductOriginalPrice();
                 String productNameFull = products.getProductNameFull();
-                String productDescriptionFull = products.getProductDescriptionFull();
+                final String productDescriptionFull = products.getProductDescriptionFull();
 
                 detainCategory.setText("Category : "+ productCategory);
                 detainName.setText("Product Name : "+ productNameFull);
@@ -140,6 +142,23 @@ public class ItemDetailActivity extends AppCompatActivity {
                 add_to_cart_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+
+                        Product prod = new Product();
+                        prod.setProductId(productId);
+                        prod.setProductName(productName);
+                        prod.setDescription(productDescriptionFull);
+                        prod.setPrice(Double.valueOf(productPrice));
+                        prod.setDiscount(100.0);
+                        prod.setRating(5.00);
+
+                        cart.add(prod);
+
+                        System.out.println("\n\n\n\nNumber of products in a cart is " + cart.getProducts().size() + " cart products " + cart + "\n\n\n\n\n");
+
+                        FirebaseDatabase.getInstance().getReference().child("CustomerCart").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .setValue(cart);
+
 
                         FirebaseDatabase.getInstance().getReference().child("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .child("inCart").child(productId).setValue(true);
