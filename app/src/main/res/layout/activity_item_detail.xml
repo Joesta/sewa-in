@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".activities.ProductDetailActivity">
 
         <LinearLayout
@@ -16,12 +17,7 @@
             android:orientation="vertical">
 
             <include layout="@layout/product_image_section_layout" />
-
             <include layout="@layout/product_details_section_layout" />
-
-<!--            <include layout="@layout/item_description" />-->
-
-<!--            <include layout="@layout/item_detail" />-->
         </LinearLayout>
 
     <LinearLayout
@@ -46,6 +42,7 @@
             android:layout_width="100dp"
             android:layout_height="70dp"
             android:gravity="center"
+            android:textColor="@color/colorPrimaryDark"
             android:text="1"
             android:textStyle="bold"
             android:textSize="50sp"
@@ -68,8 +65,9 @@
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:orientation="horizontal"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorSecondary"
         android:elevation="8dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

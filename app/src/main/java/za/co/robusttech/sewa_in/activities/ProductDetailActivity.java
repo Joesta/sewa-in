@@ -1,5 +1,6 @@
 package za.co.robusttech.sewa_in.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -41,7 +42,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private LinearLayout add_to_cart_btn;
     private String mUserId;
     private int mProductQty = 1;
-    private double mProductPrice = 0.0;
+    private double mProductNewPrice = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,6 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         mTvProductName = findViewById(R.id.tv_product_name);
         mTvProductPrice = findViewById(R.id.tv_product_price);
         mTvProductDescription = findViewById(R.id.tv_product_description);
-
         mTvProductQty = findViewById(R.id.tv_product_quantity_display);
         mBtnQuantityAdd = findViewById(R.id.btn_quantity_add);
         mBtnQuantityMinus = findViewById(R.id.btn_quantity_minus);
@@ -86,9 +86,14 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private void setProductDetails() {
 
         mTvProductName.setText(mProduct.getProductName());
+
+        // user click product from cart, price must reset to original
+        if (mProduct.getProductQuantity() > 1) {
+            double originalPrice = mProduct.getProductPrice() / mProduct.getProductQuantity();
+            mProduct.setProductPrice(originalPrice);
+        }
         mTvProductPrice.setText("R" + mProduct.getProductPrice());
         mTvProductDescription.setText(mProduct.getProductDescription());
-//        mTvProductQty.setText(mProduct.getProductQuantity());
     }
 
     @Override
@@ -100,11 +105,9 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                 break;
             case R.id.btn_quantity_add:
                 addProductQuantity();
-                showProductQuantity();
                 break;
             case R.id.btn_quantity_minus:
                 minusProductQuantity();
-                showProductQuantity();
                 break;
             default:
                 break;
@@ -115,26 +118,34 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         if (mProductQty == 1)
            return;
         mProductQty -= 1;
+        showProductQuantity();
     }
 
     private void addProductQuantity() {
         mProductQty += 1;
+        showProductQuantity();
     }
 
     private void showProductQuantity() {
         mTvProductQty.setText(String.valueOf(mProductQty));
     }
 
-    private void updateProductPriceAndQuantity() {
-        mProductPrice = mProduct.getProductPrice();
-        double newPrice = mProductPrice * mProductQty;
+    private void calcAmountDue() {
+        double productPrice = mProduct.getProductPrice();
+         mProductNewPrice = productPrice * mProductQty;
+    }
 
-        mProduct.setProductPrice(newPrice);
+    private void updateProduct() {
+        calcAmountDue();
+        mProduct.setProductPrice(mProductNewPrice);
         mProduct.setProductQuantity(mProductQty);
     }
 
+    private void resetPrice() {mProductNewPrice = 0.0;}
+
     private void addProductToCart() {
-        updateProductPriceAndQuantity();
+        updateProduct();
+        resetPrice();
         cart.setProduct(mProduct);
         cart.setCustomerId(mUserId);
         mRef
@@ -149,6 +160,8 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                         Toast.makeText(this, "Failed to add product to cart", Toast.LENGTH_LONG).show();
                     }
                 });
+
+        startActivity(new Intent(this, HomeActivity.class));
 
     }
 }

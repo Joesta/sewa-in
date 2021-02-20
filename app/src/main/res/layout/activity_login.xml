@@ -57,7 +57,7 @@
             android:id="@+id/btn_login"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:background="@drawable/button_bg"
+            android:background="@color/colorPrimary"
             android:layout_marginTop="30dp"
             android:textColor="#fff"/>
 
@@ -69,7 +69,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:text="Forgot Password"
-            android:textColor="#0099ff"
+            android:textColor="@color/colorPrimaryLight"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +84,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:text="Register Now"
-            android:textColor="#0099ff"
+            android:textColor="@color/colorPrimaryLight"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,20 +93,6 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="98dp"
-        android:layout_height="115dp"
-        android:layout_alignBottom="@+id/toolbar"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="289dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="1dp"
-        app:srcCompat="@drawable/ic_person"
-        tools:ignore="VectorDrawableCompat" />
 
     <TextView
         android:id="@+id/login_txt"
@@ -118,7 +104,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="36dp"
         android:layout_marginBottom="8dp"
-        android:text="Already Have An Account ?"
+        android:text="SewaIn"
         android:textColor="#fff"
         android:textSize="35dp"
         android:textStyle="bold" />

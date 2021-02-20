@@ -2,12 +2,15 @@ package za.co.robusttech.sewa_in.activities;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,13 +29,14 @@ import za.co.robusttech.sewa_in.adapter.CartAdapter;
 import za.co.robusttech.sewa_in.models.Cart;
 import za.co.robusttech.sewa_in.models.Product;
 
-public class AddCartActivity extends AppCompatActivity {
+public class AddCartActivity extends AppCompatActivity implements View.OnClickListener{
 
     RecyclerView recyclerView;
     private CartAdapter mAdapter;
     private List<Product> mProducts;
     private TextView mTvAmountDue;
     private double mAmountDue = 0.0;
+    private TextView mTvCheckoutDue;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -42,11 +46,16 @@ public class AddCartActivity extends AppCompatActivity {
 
         mProducts = new ArrayList<>();
 
+        Button btnCheckout = findViewById(R.id.btn_checkout);
+        btnCheckout.setOnClickListener(this);
+
+        mTvCheckoutDue = findViewById(R.id.tv_checkout_due);
+
         mTvAmountDue = findViewById(R.id.tv_amount_due);
         recyclerView = findViewById(R.id.recycler_view22);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setHasFixedSize(true);
-
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         mAdapter = new CartAdapter(AddCartActivity.this, mProducts);
         mAdapter.setOnItemClickListener(AddCartActivity.this);
         recyclerView.setAdapter(mAdapter);
@@ -78,8 +87,7 @@ public class AddCartActivity extends AppCompatActivity {
                             mProducts.add(product);
                         }
 
-                        String due = "Amt due: R" + mAmountDue;
-                        mTvAmountDue.setText(due);
+                        mTvCheckoutDue.setText("R" + mAmountDue);
                         mAdapter = new CartAdapter(AddCartActivity.this, mProducts);
                         mAdapter.setOnItemClickListener(AddCartActivity.this);
                         recyclerView.setAdapter(mAdapter);
@@ -119,4 +127,10 @@ public class AddCartActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_checkout) {
+            Toast.makeText(this, "clicked", Toast.LENGTH_LONG).show();
+        }
+    }
 }

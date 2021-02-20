@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
+        android:background="@color/colorPrimaryLight"
         android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/MenuStyle">
 
@@ -19,11 +19,12 @@
             android:id="@+id/tv_amount_due"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Amt due: "
+            android:text="Cart"
+            android:gravity="center"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:textColor="#E91E63"/>
+            android:textColor="#FFF"/>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -40,5 +41,42 @@
             android:id="@+id/recycler_view22" />
 
     </RelativeLayout>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@color/colorPrimary"
+       android:layout_marginBottom="5dp"
+       android:layout_alignParentBottom="true">
+
+       <TextView
+           android:id="@+id/tv_checkout_due"
+           android:layout_width="110dp"
+           android:layout_height="wrap_content"
+           android:textColor="#fff"
+           android:gravity="center"
+           android:layout_marginLeft="15dp"
+           android:layout_marginRight="10dp"
+           android:textStyle="bold"
+           android:textSize="20sp"
+           android:text=""/>
+
+       <View
+           android:layout_width="2dp"
+           android:layout_height="match_parent"
+           android:background="#fff"
+           />
+       <Button
+           android:id="@+id/btn_checkout"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center"
+           android:text="Checkout"
+           android:textSize="20sp"
+           android:textColor="#000"
+           android:background="@color/colorSecondary"
+           />
+
+   </LinearLayout>
 
 </RelativeLayout>

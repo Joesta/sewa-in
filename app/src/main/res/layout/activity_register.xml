@@ -66,7 +66,7 @@
             android:id="@+id/btn_register"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:background="@drawable/button_bg"
+            android:background="@color/colorPrimary"
             android:layout_marginTop="30dp"
             android:textColor="#fff"/>
 
@@ -77,8 +77,8 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
-            android:text="Already Have An Account ? "
-            android:textColor="#0099ff"
+            android:text="Already have an account? SignIn"
+            android:textColor="@color/colorPrimaryLight"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -95,30 +95,12 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="289dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginStart="146dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="167dp"
+        android:layout_marginBottom="-7dp"
         app:srcCompat="@drawable/ic_person"
         tools:ignore="VectorDrawableCompat" />
-
-    <TextView
-        android:id="@+id/login_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="-4dp"
-        android:layout_marginTop="58dp"
-        android:layout_marginBottom="-13dp"
-        android:text="Create An Account"
-        android:textColor="#fff"
-        android:textSize="33dp"
-        android:textStyle="bold" />
-
-
-
 
 
 </RelativeLayout>

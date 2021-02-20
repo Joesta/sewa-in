@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.UiThread;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -29,14 +30,14 @@ import za.co.robusttech.sewa_in.models.Product;
 
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolder> {
-    private final List<za.co.robusttech.sewa_in.models.Product> Product;
+    private List<Product> products;
     private Context mContext;
     private OnItemClickListener mListener;
     private double mAmountDue = 0.0;
 
     public CartAdapter(Context context, List<Product> products) {
         mContext = context;
-        Product = products;
+        this.products = products;
     }
 
 
@@ -49,7 +50,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
     @Override
     public void onBindViewHolder(final ImageViewHolder holder, final int position) {
 
-        final Product product = Product.get(position);
+        final Product product = products.get(position);
 
         double currentProductPrice = product.getProductPrice();
         mAmountDue += currentProductPrice;
@@ -57,6 +58,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
 
         holder.productName.setText(product.getProductName());
         holder.productPrice.setText(String.valueOf(product.getProductPrice()));
+        holder.tvProductQty.setText(" Qty: " + product.getProductQuantity());
         Glide.with(mContext).load(product.getProductImageUrl()).into(holder.product_image);
 
         holder.itemView.setOnClickListener(view -> {
@@ -66,18 +68,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
         });
 
 
-        holder.delete.setOnClickListener(v -> removeProductFromCart(product.getProductId()));
-
+        holder.delete.setOnClickListener(v -> {
+            Product remove = products.remove(position);
+            dataSetChanged();
+            removeAt(remove);
+        });
     }
 
-    private void removeProductFromCart(String productId) {
+    private void removeAt(Product product) {
         String userId = getUserId();
 
         FirebaseDatabase
                 .getInstance()
                 .getReference("Cart")
                 .child(userId)
-                .child(productId)
+                .child(product.getProductId())
                 .removeValue()
                 .addOnCompleteListener((Activity) mContext, task -> {
                     if (task.isComplete()) {
@@ -86,19 +91,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
                         Toast.makeText(mContext.getApplicationContext(), "Failed to delete product", Toast.LENGTH_LONG).show();
                     }
                 });
+    }
 
+    @UiThread
+    protected void dataSetChanged() {
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return Product.size();
-    }
-
-    public void removeAt(int position) {
-        Product.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, Product.size());
+        return products.size();
     }
 
 
@@ -129,7 +131,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
             View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         public ImageView product_image, delete, add, minus;
 
-        public TextView productName, productPrice, stock_r_not, shipping, txtCart;
+        public TextView productName, productPrice, stock_r_not, shipping, txtCart, tvProductQty;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -139,6 +141,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
             productPrice = itemView.findViewById(R.id.productPrice);
             stock_r_not = itemView.findViewById(R.id.stock_r_not);
             shipping = itemView.findViewById(R.id.shipping);
+            tvProductQty = itemView.findViewById(R.id.cart_product_quantity);
 
             delete = itemView.findViewById(R.id.delete);
             add = itemView.findViewById(R.id.add);

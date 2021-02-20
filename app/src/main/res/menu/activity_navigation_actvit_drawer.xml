@@ -17,7 +17,6 @@
             android:id="@+id/nav_My_Orders"
             android:title="My Orders" />
 
-
         <item
             android:id="@+id/nav_My_Cart"
             android:title="My Cart" />
