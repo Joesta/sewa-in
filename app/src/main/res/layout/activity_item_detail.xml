@@ -4,50 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ItemDetailActivity">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#9EC5E4"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-        </androidx.appcompat.widget.Toolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2">
+    tools:context=".activities.ProductDetailActivity">
 
         <LinearLayout
+            android:id="@+id/product_details_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:orientation="vertical">
 
-            <include layout="@layout/item_images_layout" />
+            <include layout="@layout/product_image_section_layout" />
 
-            <include layout="@layout/item_image" />
+            <include layout="@layout/product_details_section_layout" />
 
 <!--            <include layout="@layout/item_description" />-->
 
 <!--            <include layout="@layout/item_detail" />-->
-
-
         </LinearLayout>
-    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/product_details_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4">
+
+        <ImageButton
+            android:id="@+id/btn_quantity_minus"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="#fff"
+            app:srcCompat="@drawable/ic_remove_circle_black_24dp"
+            android:clickable="true"/>
+
+        <TextView
+            android:id="@+id/tv_product_quantity_display"
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:text="1"
+            android:textStyle="bold"
+            android:textSize="50sp"
+            />
+
+        <ImageButton
+            android:id="@+id/btn_quantity_add"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="#fff"
+            app:srcCompat="@drawable/ic_add_circle_black_24dp"
+            android:clickable="true"/>
+
+    </LinearLayout>
+
 
 
     <LinearLayout
@@ -55,7 +68,7 @@
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:orientation="horizontal"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimary"
         android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +79,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:background="#4CAF50"
             android:layout_weight="1">
 
             <TextView

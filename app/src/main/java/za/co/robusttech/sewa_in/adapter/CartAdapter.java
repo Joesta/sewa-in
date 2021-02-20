@@ -24,7 +24,7 @@ import java.util.Objects;
 import za.co.robusttech.sewa_in.R;
 import za.co.robusttech.sewa_in.activities.AddCartActivity;
 import za.co.robusttech.sewa_in.activities.HomeActivity;
-import za.co.robusttech.sewa_in.activities.ItemDetailActivity;
+import za.co.robusttech.sewa_in.activities.ProductDetailActivity;
 import za.co.robusttech.sewa_in.models.Product;
 
 
@@ -60,7 +60,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
         Glide.with(mContext).load(product.getProductImageUrl()).into(holder.product_image);
 
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(mContext, ItemDetailActivity.class);
+            Intent intent = new Intent(mContext, ProductDetailActivity.class);
             intent.putExtra(HomeActivity.PRODUCT, product);
             mContext.startActivity(intent);
         });
@@ -87,7 +87,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
                     }
                 });
 
-
+        notifyDataSetChanged();
     }
 
     @Override

@@ -10,17 +10,16 @@
 
     <com.denzcoskun.imageslider.ImageSlider
         android:id="@+id/image_slider"
-        android:layout_width="405dp"
-        android:layout_height="265dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
         app:iss_auto_cycle="true"
         app:iss_delay="0"
         app:iss_period="1000"
         android:background="#fff"
-        android:layout_marginTop="80dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
-
 
     </com.denzcoskun.imageslider.ImageSlider>
 

@@ -116,7 +116,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent intent = new Intent(HomeActivity.this, ItemDetailActivity.class);
+                Intent intent = new Intent(HomeActivity.this, ProductDetailActivity.class);
                 intent.putExtra(PRODUCT, products.get(position));
                 startActivity(intent);
             }
@@ -167,7 +167,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onClick(View v) {
 
-                        Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), ProductDetailActivity.class);
 
                         intent.putExtra("product", product);
                         startActivity(intent);

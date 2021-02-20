@@ -16,7 +16,7 @@
         tools:ignore="MissingClass">
         <activity android:name=".activities.AddCartActivity"></activity>
         <activity android:name=".activities.UploadDataActivity" />
-        <activity android:name=".activities.ItemDetailActivity" />
+        <activity android:name=".activities.ProductDetailActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.ForgotPasswordActivity" />

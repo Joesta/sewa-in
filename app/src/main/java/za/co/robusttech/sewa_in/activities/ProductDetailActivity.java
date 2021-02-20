@@ -2,6 +2,7 @@ package za.co.robusttech.sewa_in.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,17 +18,14 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import za.co.robusttech.sewa_in.R;
 import za.co.robusttech.sewa_in.models.Cart;
 import za.co.robusttech.sewa_in.models.Product;
 
-public class ItemDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProductDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-//    TextView name , orPrice , price , dlTime , description , discount  , ratings;
-//    TextView detainCategory , detainName,detainSellers,detainAvailability,detaiId,detainPrice,detainOriginalPrice,detainDeliveryTime,detainRatings,detainDiscount;
     DatabaseReference mRef;
     private ImageSlider mainSlider;
     private TextView mTvProductPrice;
@@ -35,10 +33,15 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
     private TextView mTvProductDiscount;
     private TextView mTvProductName;
     private TextView mTvProductCategory;
+    private TextView mTvProductQty;
+    private ImageButton mBtnQuantityAdd;
+    private ImageButton mBtnQuantityMinus;
     private Cart cart = new Cart();
     private Product mProduct;
     private LinearLayout add_to_cart_btn;
     private String mUserId;
+    private int mProductQty = 1;
+    private double mProductPrice = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,21 +70,25 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         mainSlider = findViewById(R.id.image_slider);
         mTvProductPrice = findViewById(R.id.tv_product_price);
         add_to_cart_btn = findViewById(R.id.add_to_cart_btn);
+        mTvProductName = findViewById(R.id.tv_product_name);
+        mTvProductPrice = findViewById(R.id.tv_product_price);
+        mTvProductDescription = findViewById(R.id.tv_product_description);
+
+        mTvProductQty = findViewById(R.id.tv_product_quantity_display);
+        mBtnQuantityAdd = findViewById(R.id.btn_quantity_add);
+        mBtnQuantityMinus = findViewById(R.id.btn_quantity_minus);
+
+        mBtnQuantityAdd.setOnClickListener(this);
+        mBtnQuantityMinus.setOnClickListener(this);
 
     }
 
     private void setProductDetails() {
-        String productDescription = "Description \t: " + mProduct.getProductDescription();
-        String productCategory = "Category \t: " + mProduct.getProductCategory();
-        String productPrice = "Price \t: " + mProduct.getProductPrice();
-        String productName = "Name \t: " + mProduct.getProductName();
-        String productDiscount = "Discount \t:" + mProduct.getProductDiscount();
 
-//        mTvProductCategory.setText(productCategory);
-//        mTvProductDescription.setText(productDescription);
-//        mTvProductDiscount.setText(productDiscount);
-//        mTvProductName.setText(productName);
-//        mTvProductPrice.setText(productPrice);
+        mTvProductName.setText(mProduct.getProductName());
+        mTvProductPrice.setText("R" + mProduct.getProductPrice());
+        mTvProductDescription.setText(mProduct.getProductDescription());
+//        mTvProductQty.setText(mProduct.getProductQuantity());
     }
 
     @Override
@@ -91,13 +98,43 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             case R.id.add_to_cart_btn:
                 addProductToCart();
                 break;
+            case R.id.btn_quantity_add:
+                addProductQuantity();
+                showProductQuantity();
+                break;
+            case R.id.btn_quantity_minus:
+                minusProductQuantity();
+                showProductQuantity();
+                break;
             default:
                 break;
         }
     }
 
-    private void addProductToCart() {
+    private void minusProductQuantity() {
+        if (mProductQty == 1)
+           return;
+        mProductQty -= 1;
+    }
 
+    private void addProductQuantity() {
+        mProductQty += 1;
+    }
+
+    private void showProductQuantity() {
+        mTvProductQty.setText(String.valueOf(mProductQty));
+    }
+
+    private void updateProductPriceAndQuantity() {
+        mProductPrice = mProduct.getProductPrice();
+        double newPrice = mProductPrice * mProductQty;
+
+        mProduct.setProductPrice(newPrice);
+        mProduct.setProductQuantity(mProductQty);
+    }
+
+    private void addProductToCart() {
+        updateProductPriceAndQuantity();
         cart.setProduct(mProduct);
         cart.setCustomerId(mUserId);
         mRef
@@ -112,24 +149,6 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                         Toast.makeText(this, "Failed to add product to cart", Toast.LENGTH_LONG).show();
                     }
                 });
-
-        //        cart.add(mProduct);
-//
-//
-//        FirebaseDatabase.getInstance().getReference().child("CustomerCart").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                .setValue(cart);
-//
-//
-//        FirebaseDatabase.getInstance().getReference().child("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                .child("inCart").child(productId).setValue(true);
-//
-//        FirebaseDatabase.getInstance().getReference().child("Cart").child(productId)
-//                .child("onCart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(true);
-//
-//
-//        Intent intent = new Intent(ItemDetailActivity.this, AddCartActivity.class);
-//        intent.putExtra("productId", productId);
-//        startActivity(intent);
 
     }
 }
