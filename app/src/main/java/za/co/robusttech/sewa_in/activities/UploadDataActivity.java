@@ -45,6 +45,7 @@ import java.util.Objects;
 import java.util.jar.Attributes;
 
 import za.co.robusttech.sewa_in.R;
+import za.co.robusttech.sewa_in.constants.IProductConstants;
 
 public class UploadDataActivity extends AppCompatActivity  {
 
@@ -55,7 +56,7 @@ public class UploadDataActivity extends AppCompatActivity  {
     private Button mButtonChooseImage;
     private Button mButtonUpload;
     private TextView mTextViewShowUploads;
-    private EditText   productAvailability , productCategory ,productDeliveryTime , productDesciption , productDiscount , productName , productOriginalPrice , productPrice , productRatings;
+    private EditText  productAvailability , productCategory ,productDeliveryTime , productDesciption , productDiscount , productName , productOriginalPrice , productPrice , productRatings;
     private ImageView mImageView;
     String name;
     private ProgressBar mProgressBar;
@@ -163,24 +164,21 @@ public class UploadDataActivity extends AppCompatActivity  {
 
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Products");
 
-
                         String productId = reference.push().getKey();
 
-                        HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("productId", productId);
-                        hashMap.put("productImage", miUrlOk);
-                        hashMap.put("productCategory", productCategory.getText().toString());
-                        hashMap.put("productAvailability", productAvailability.getText().toString());
-                        hashMap.put("productDeliveryTime", productDeliveryTime.getText().toString());
-                        hashMap.put("productDesciption", productDesciption.getText().toString());
-                        hashMap.put("productDiscount", productDiscount.getText().toString());
-                        hashMap.put("productName", productName.getText().toString());
-                        hashMap.put("productOriginalPrice", productOriginalPrice.getText().toString());
-                        hashMap.put("productPrice", productPrice.getText().toString());
-                        hashMap.put("productRatings", productRatings.getText().toString());
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put(IProductConstants.PRODUCT_ID, productId);
+                        map.put(IProductConstants.PRODUCT_IMAGE_URL, miUrlOk);
+                        map.put(IProductConstants.PRODUCT_CATEGORY, productCategory.getText().toString());
+//                        map.put(IProductConstants.PRODUCT_AVAILABILITY, productAvailability.getText().toString());
+                        map.put(IProductConstants.PRODUCT_DESCRIPTION, productDesciption.getText().toString());
+                        map.put(IProductConstants.PRODUCT_DISCOUNT, productDiscount.getText().toString());
+                        map.put(IProductConstants.PRODUCT_NAME, productName.getText().toString());
+                        map.put(IProductConstants.PRODUCT_PRICE, productPrice.getText().toString());
+                        map.put(IProductConstants.PRODUCT_RATING, productRatings.getText().toString());
 
 
-                        reference.child(productId).setValue(hashMap);
+                        reference.child(productId).setValue(map);
 
                         pd.dismiss();
 

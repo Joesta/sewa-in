@@ -1,61 +1,42 @@
 package za.co.robusttech.sewa_in.adapter;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-
-import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import za.co.robusttech.sewa_in.R;
 import za.co.robusttech.sewa_in.activities.AddCartActivity;
+import za.co.robusttech.sewa_in.activities.HomeActivity;
 import za.co.robusttech.sewa_in.activities.ItemDetailActivity;
-import za.co.robusttech.sewa_in.models.Products;
+import za.co.robusttech.sewa_in.models.Product;
 
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolder> {
+    private final List<za.co.robusttech.sewa_in.models.Product> Product;
     private Context mContext;
-    private final List<Products> Products;
     private OnItemClickListener mListener;
+    private double mAmountDue = 0.0;
 
-
-
-    public CartAdapter(Context context, List<Products> products) {
+    public CartAdapter(Context context, List<Product> products) {
         mContext = context;
-        Products = products;
+        Product = products;
     }
 
 
@@ -68,138 +49,56 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
     @Override
     public void onBindViewHolder(final ImageViewHolder holder, final int position) {
 
-        final Products products = Products.get(position);
-        holder.productName.setText(products.getProductName());
-        holder.productPrice.setText(products.getProductPrice());
-        Glide.with(mContext).load(products.getProductImage()).into(holder.product_image);
+        final Product product = Product.get(position);
 
+        double currentProductPrice = product.getProductPrice();
+        mAmountDue += currentProductPrice;
+        System.out.println("\n\n\n\n\n\t\tProducts total price is " + mAmountDue + "\n\n\n\n\n");
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, ItemDetailActivity.class);
-                intent.putExtra("productId" , products.getProductId());
-                mContext.startActivity(intent);
-            }
+        holder.productName.setText(product.getProductName());
+        holder.productPrice.setText(String.valueOf(product.getProductPrice()));
+        Glide.with(mContext).load(product.getProductImageUrl()).into(holder.product_image);
+
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, ItemDetailActivity.class);
+            intent.putExtra(HomeActivity.PRODUCT, product);
+            mContext.startActivity(intent);
         });
 
 
-        if (holder.txtCart.getText().equals("1")){
-
-            holder.add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                   holder.txtCart.setText("2");
-                }
-            });
-        }
-
-        if (holder.txtCart.getText().equals("2")){
-
-            holder.add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    holder.txtCart.setText("3");
-                }
-            });
-        }
-
-
-        if (holder.txtCart.getText().equals("3")){
-
-            holder.add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    holder.txtCart.setText("4");
-                }
-            });
-        }
-
-        if (holder.txtCart.getText().equals("4")){
-
-            holder.add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    holder.txtCart.setText("5");
-                }
-            });
-        }
-
-        if (holder.txtCart.getText().equals("5")){
-
-            holder.add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    holder.txtCart.setText("6");
-                }
-            });
-        }
-
-        if (holder.txtCart.getText().equals("6")){
-
-            holder.add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    holder.txtCart.setText("7");
-                }
-            });
-        }
-
-        if (holder.txtCart.getText().equals("7")){
-
-            holder.add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    holder.txtCart.setText("8");
-                }
-            });
-        }
-
-        if (holder.txtCart.getText().equals("8")){
-
-            holder.add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    holder.txtCart.setText("9");
-                }
-            });
-        }
-
-
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseDatabase.getInstance().getReference().child("Cart").child(FirebaseAuth.
-                        getInstance().getCurrentUser().getUid())
-                        .child("inCart").child(products.getProductId()).removeValue();
-
-                Intent intent = new Intent(mContext, AddCartActivity.class);
-                mContext.startActivity(intent);
-
-            }
-        });
+        holder.delete.setOnClickListener(v -> removeProductFromCart(product.getProductId()));
 
     }
 
+    private void removeProductFromCart(String productId) {
+        String userId = getUserId();
 
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Cart")
+                .child(userId)
+                .child(productId)
+                .removeValue()
+                .addOnCompleteListener((Activity) mContext, task -> {
+                    if (task.isComplete()) {
+                        Toast.makeText(mContext.getApplicationContext(), "Product deleted", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(mContext.getApplicationContext(), "Failed to delete product", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+    }
 
     @Override
     public int getItemCount() {
-        return Products.size();
+        return Product.size();
     }
 
-    public void removeAt(int position){
-        Products.remove(position);
+    public void removeAt(int position) {
+        Product.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, Products.size());
+        notifyItemRangeChanged(position, Product.size());
     }
 
 
@@ -207,11 +106,30 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
 
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    private String getUserId() {
+        return Objects.requireNonNull(FirebaseAuth
+                .getInstance()
+                .getCurrentUser())
+                .getUid();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+
+        void onWhatEverClick(int position);
+
+        void onDeleteClick(int position);
+    }
+
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
             View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
-        public ImageView product_image, delete, add , minus ;
+        public ImageView product_image, delete, add, minus;
 
-        public TextView productName, productPrice, stock_r_not, shipping, txtCart ;
+        public TextView productName, productPrice, stock_r_not, shipping, txtCart;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -221,10 +139,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
             productPrice = itemView.findViewById(R.id.productPrice);
             stock_r_not = itemView.findViewById(R.id.stock_r_not);
             shipping = itemView.findViewById(R.id.shipping);
-            minus = itemView.findViewById(R.id.minus);
-            delete = itemView.findViewById(R.id.delete);
 
-            txtCart = itemView.findViewById(R.id.txtCart);
+            delete = itemView.findViewById(R.id.delete);
             add = itemView.findViewById(R.id.add);
 
             itemView.setOnClickListener(this);
@@ -265,19 +181,5 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-
-        void onWhatEverClick(int position);
-
-        void onDeleteClick(int position);
-    }
-
-
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        mListener = listener;
     }
 }

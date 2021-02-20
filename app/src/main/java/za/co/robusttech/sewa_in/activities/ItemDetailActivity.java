@@ -1,188 +1,135 @@
 package za.co.robusttech.sewa_in.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import za.co.robusttech.sewa_in.R;
 import za.co.robusttech.sewa_in.models.Cart;
 import za.co.robusttech.sewa_in.models.Product;
-import za.co.robusttech.sewa_in.models.Products;
 
-public class ItemDetailActivity extends AppCompatActivity {
+public class ItemDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ImageSlider mainSlider;
-    TextView name , orPrice , price , dlTime , description , discount  , ratings;
-    TextView detainCategory , detainName,detainSellers,detainAvailability,detaiId,detainPrice,detainOriginalPrice,detainDeliveryTime,detainRatings,detainDiscount;
+    FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+//    TextView name , orPrice , price , dlTime , description , discount  , ratings;
+//    TextView detainCategory , detainName,detainSellers,detainAvailability,detaiId,detainPrice,detainOriginalPrice,detainDeliveryTime,detainRatings,detainDiscount;
+    DatabaseReference mRef;
+    private ImageSlider mainSlider;
+    private TextView mTvProductPrice;
+    private TextView mTvProductDescription;
+    private TextView mTvProductDiscount;
+    private TextView mTvProductName;
+    private TextView mTvProductCategory;
     private Cart cart = new Cart();
-
+    private Product mProduct;
+    private LinearLayout add_to_cart_btn;
+    private String mUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
 
+        mRef = mDatabase.getReference();
+        mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        String productName = getIntent().getStringExtra("productName");
-        String productRatings = getIntent().getStringExtra("productRatings");
-        String productPrice = getIntent().getStringExtra("productPrice");
-        String productDeliveryTime = getIntent().getStringExtra("productDeliveryTime");
-        String productDescription = getIntent().getStringExtra("productDescription");
-        String productDiscount = getIntent().getStringExtra("productDiscount");
-        String productId = getIntent().getStringExtra("productId");
-        String productImage = getIntent().getStringExtra("productImage");
+        mProduct = (Product) getIntent().getSerializableExtra(HomeActivity.PRODUCT);
+        assert mProduct != null;
 
-        name = findViewById(R.id.item_name);
-        orPrice = findViewById(R.id.original_price_txt);
-        price = findViewById(R.id.price_txt);
-        dlTime = findViewById(R.id.delivery_expected);
-        discount = findViewById(R.id.discount);
-        mainSlider = findViewById(R.id.image_slider);
-        ratings = findViewById(R.id.productRatings);
+        initUI();
+        setProductDetails();
+        add_to_cart_btn.setOnClickListener(this);
+
+        final List<SlideModel> productImages = new ArrayList<>();
 
 
-        detainCategory = findViewById(R.id.product_details_category);
-        detainName = findViewById(R.id.product_details_name);
-        detainSellers = findViewById(R.id.product_details_Sellers);
-        detainAvailability = findViewById(R.id.product_details_availability);
-
-        detaiId = findViewById(R.id.product_details_id);
-        detainPrice = findViewById(R.id.product_details_price);
-        detainOriginalPrice = findViewById(R.id.product_details_or_price);
-        detainDeliveryTime = findViewById(R.id.product_details_deliveryTime);
-        detainRatings = findViewById(R.id.product_details_ratings);
-        description = findViewById(R.id.product_details_body);
-        final LinearLayout add_to_cart_btn = findViewById(R.id.add_to_cart_btn);
-        detainDiscount = findViewById(R.id.product_details_discount);
-
-
-        final List<SlideModel> remoteimages = new ArrayList<>();
-
-
-        assert productId != null;
-
-        FirebaseDatabase.getInstance().getReference("Products").child(productId).child("images").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    remoteimages.add(new SlideModel(dataSnapshot.child("url").getValue().toString(), ScaleTypes.FIT));
-                    mainSlider.setImageList(remoteimages, ScaleTypes.FIT);
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        FirebaseDatabase.getInstance().getReference("Products").child(productId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                Products products = snapshot.getValue(Products.class);
-
-                final String productName = products.getProductName();
-                final String productRatings = products.getProductRatings();
-                final String productPrice = products.getProductPrice();
-                String productDeliveryTime = products.getProductDeliveryTime();
-                String productDescription = products.getProductDesciption();
-                final String productDiscount = products.getProductDiscount();
-                final String productId = products.getProductId();
-                String productCategory = products.getProductCategory();
-                String productSeller = products.getProductSeller();
-                String productAvailability = products.getProductAvailability();
-                String productOriginalPrice = products.getProductOriginalPrice();
-                String productNameFull = products.getProductNameFull();
-                final String productDescriptionFull = products.getProductDescriptionFull();
-
-                detainCategory.setText("Category : "+ productCategory);
-                detainName.setText("Product Name : "+ productNameFull);
-                detainSellers.setText("Seller : "+ productSeller);
-                detainAvailability.setText("Availability : "+productAvailability);
-                detaiId.setText("Id : "+productId);
-                detainPrice.setText("Price : "+productPrice);
-                detainOriginalPrice.setText("Original Price : "+productOriginalPrice);
-                detainDeliveryTime.setText("Delivery Time : "+productDeliveryTime);
-                detainRatings.setText("Ratings : "+productRatings);
-                detainDiscount.setText("Discount : "+productDiscount);
-
-                description.setText(productDescriptionFull);
-                name.setText(productNameFull);
-                orPrice.setText(productOriginalPrice);
-                price.setText(productPrice);
-                dlTime.setText(productDeliveryTime);
-                discount.setText(productDiscount);
-                ratings.setText(productRatings);
-
-                add_to_cart_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                        Product prod = new Product();
-                        prod.setProductId(productId);
-                        prod.setProductName(productName);
-                        prod.setDescription(productDescriptionFull);
-                        prod.setPrice(Double.valueOf(productPrice));
-                        prod.setDiscount(100.0);
-                        prod.setRating(5.00);
-
-                        cart.add(prod);
-
-                        System.out.println("\n\n\n\nNumber of products in a cart is " + cart.getProducts().size() + " cart products " + cart + "\n\n\n\n\n");
-
-                        FirebaseDatabase.getInstance().getReference().child("CustomerCart").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .setValue(cart);
-
-
-                        FirebaseDatabase.getInstance().getReference().child("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .child("inCart").child(productId).setValue(true);
-
-                        FirebaseDatabase.getInstance().getReference().child("Cart").child(productId)
-                                .child("onCart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(true);
-
-
-                        Intent intent = new Intent(ItemDetailActivity.this, AddCartActivity.class);
-                        intent.putExtra("productId", productId);
-                        startActivity(intent);
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        productImages.add(new SlideModel(mProduct.getProductImageUrl(), ScaleTypes.FIT));
+        mainSlider.setImageList(productImages, ScaleTypes.FIT);
 
     }
 
+    private void initUI() {
+        mainSlider = findViewById(R.id.image_slider);
+        mTvProductPrice = findViewById(R.id.tv_product_price);
+        add_to_cart_btn = findViewById(R.id.add_to_cart_btn);
 
+    }
+
+    private void setProductDetails() {
+        String productDescription = "Description \t: " + mProduct.getProductDescription();
+        String productCategory = "Category \t: " + mProduct.getProductCategory();
+        String productPrice = "Price \t: " + mProduct.getProductPrice();
+        String productName = "Name \t: " + mProduct.getProductName();
+        String productDiscount = "Discount \t:" + mProduct.getProductDiscount();
+
+//        mTvProductCategory.setText(productCategory);
+//        mTvProductDescription.setText(productDescription);
+//        mTvProductDiscount.setText(productDiscount);
+//        mTvProductName.setText(productName);
+//        mTvProductPrice.setText(productPrice);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.add_to_cart_btn:
+                addProductToCart();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void addProductToCart() {
+
+        cart.setProduct(mProduct);
+        cart.setCustomerId(mUserId);
+        mRef
+                .child("Cart")
+                .child(mUserId)
+                .child(mProduct.getProductId())
+                .setValue(cart)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isComplete()) {
+                        Toast.makeText(this, "Product added", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Failed to add product to cart", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        //        cart.add(mProduct);
+//
+//
+//        FirebaseDatabase.getInstance().getReference().child("CustomerCart").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                .setValue(cart);
+//
+//
+//        FirebaseDatabase.getInstance().getReference().child("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                .child("inCart").child(productId).setValue(true);
+//
+//        FirebaseDatabase.getInstance().getReference().child("Cart").child(productId)
+//                .child("onCart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(true);
+//
+//
+//        Intent intent = new Intent(ItemDetailActivity.this, AddCartActivity.class);
+//        intent.putExtra("productId", productId);
+//        startActivity(intent);
+
+    }
 }

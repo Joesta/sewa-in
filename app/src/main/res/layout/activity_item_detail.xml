@@ -41,9 +41,9 @@
 
             <include layout="@layout/item_image" />
 
-            <include layout="@layout/item_description" />
+<!--            <include layout="@layout/item_description" />-->
 
-            <include layout="@layout/item_detail" />
+<!--            <include layout="@layout/item_detail" />-->
 
 
         </LinearLayout>
@@ -81,18 +81,6 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-
-        <Button
-            android:id="@+id/buy_now_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Buy/Rent Now"
-            android:stateListAnimator="@null"
-            android:background="#F6C83D"
-            android:textColor="#000"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_weight="1"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

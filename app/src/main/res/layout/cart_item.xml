@@ -99,30 +99,30 @@
             app:srcCompat="@drawable/ic_delete" />
 
 
-        <ImageView
-            android:id="@+id/minus"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="30dp"
-            app:srcCompat="@drawable/ic_baseline_horizontal_rule_24" />
+<!--        <ImageView-->
+<!--            android:id="@+id/minus"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_marginLeft="30dp"-->
+<!--            app:srcCompat="@drawable/ic_baseline_horizontal_rule_24" />-->
 
-        <TextView
-            android:id="@+id/txtCart"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="70dp"
-            android:gravity="center"
-            android:text="1"
-            android:textColor="#000"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:id="@+id/txtCart"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_marginLeft="70dp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="1"-->
+<!--            android:textColor="#000"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textStyle="bold" />-->
 
-        <ImageView
-            android:id="@+id/add"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="110dp"
-            app:srcCompat="@drawable/ic_add" />
+<!--        <ImageView-->
+<!--            android:id="@+id/add"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_marginLeft="110dp"-->
+<!--            app:srcCompat="@drawable/ic_add" />-->
 
     </RelativeLayout>
 

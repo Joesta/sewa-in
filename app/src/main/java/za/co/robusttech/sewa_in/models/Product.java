@@ -7,7 +7,8 @@ import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import za.co.robusttech.sewa_in.enums.ItemAvailability;
+import za.co.robusttech.sewa_in.constants.IProductConstants;
+import za.co.robusttech.sewa_in.enums.ProductAvailability;
 
 /**
  * Project Name - sewa-in
@@ -17,29 +18,29 @@ import za.co.robusttech.sewa_in.enums.ItemAvailability;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product implements Serializable {
+public class Product implements Serializable, IProductConstants{
     private String productId;
-    private String imageUrl;
-    private String description;
+    private String productImageUrl;
+    private String productDescription;
     private String productName;
-    private int quantity;
-    private double price;
-    private double rating;
-    private double discount;
-    private ItemAvailability itemAvailability;
+    private int productQuantity;
+    private double productPrice;
+    private double productRating;
+    private double productDiscount;
+    private String productCategory;
+    //private ProductAvailability productAvailability;
 
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
-        map.put("productId", productId);
-        map.put("imageUrl", imageUrl);
-        map.put("description", description);
-        map.put("productName", productName);
-        map.put("quantity", quantity);
-        map.put("rating", rating);
-        map.put("discount", discount);
-        map.put("itemAvailability", itemAvailability);
+        map.put(PRODUCT_ID, productId);
+        map.put(PRODUCT_IMAGE_URL, productImageUrl);
+        map.put(PRODUCT_DESCRIPTION, productDescription);
+        map.put(PRODUCT_NAME, productName);
+        map.put(PRODUCT_QUANTITY, productQuantity);
+        map.put(PRODUCT_RATING, productRating);
+        map.put(PRODUCT_DISCOUNT, productDiscount);
+        //map.put(PRODUCT_AVAILABILITY, productAvailability);
 
         return map;
-
     }
 }

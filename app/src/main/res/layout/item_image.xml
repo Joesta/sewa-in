@@ -20,24 +20,13 @@
         <TextView
             android:layout_width="407dp"
             android:layout_height="wrap_content"
-            android:id="@+id/price_txt"
-            android:text="2700rs"
+            android:id="@+id/tv_product_price"
+            android:text="R2700"
             android:textColor="#000"
             android:textSize="24sp"
             android:padding="06dp"
             tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:layout_width="407dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/original_price_txt"
-            android:padding="06dp"
-            android:text="5500rs"
-            android:layout_marginLeft="-408dp"
-            android:layout_marginTop="25dp"
-            android:textSize="20sp"
-            android:textColor="#000"
-            tools:ignore="MissingConstraints" />
 
         <TextView
             android:layout_width="407dp"
@@ -90,6 +79,7 @@
             android:padding="06dp"
             android:textColor="#000"
             tools:ignore="MissingConstraints" />
+
 
     </LinearLayout>
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,13 +31,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,18 +48,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import za.co.robusttech.sewa_in.R;
-
-import za.co.robusttech.sewa_in.models.Products;
+import za.co.robusttech.sewa_in.models.Product;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    GridView gridView;
     private EditText mSearchField;
-
     private RecyclerView mResultList;
     private DatabaseReference mUserDatabase;
-    GridView gridView;
-    private List<Products> product;
+    private List<Product> products;
     private DatabaseReference mDatabaseRef;
+
+    public static final String PRODUCT = "product";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +78,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         View headerView = navigationView.getHeaderView(0);
-        TextView navUsername = (TextView) headerView.findViewById(R.id.authText);
-        LinearLayout linearLayout = (LinearLayout) headerView.findViewById(R.id.authLaout);
+        TextView navUsername = headerView.findViewById(R.id.authText);
+        LinearLayout linearLayout = headerView.findViewById(R.id.authLaout);
         //  navUsername.setText("Your Text Here");
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -113,127 +110,36 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-
-    private class CustomAdapter extends BaseAdapter {
-        private Context mContext;
-        private List<Products> products;
-        int total;
-
-        class ViewHolder {
-            ImageView image;
-            TextView name , description , price;
-        }
-
-        public CustomAdapter(Context context, List<Products> products) {
-            mContext = context;
-            this.products = products;
-        }
-
-        @Override
-        public int getCount() {
-
-            //  return
-            total = products.size();
-
-            return total;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.N)
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            View view1 = getLayoutInflater().inflate(R.layout.horizontal_product_item, null);
-            CustomAdapter.ViewHolder viewHolder = new CustomAdapter.ViewHolder();
-            viewHolder.image = (ImageView) view1.findViewById(R.id.h_s_product_image);
-            viewHolder.name = (TextView) view1.findViewById(R.id.h_s_product_title);
-            viewHolder.description = (TextView) view1.findViewById(R.id.h_s_product_description);
-            viewHolder.price = (TextView) view1.findViewById(R.id.h_s_product_price);
-
-
-            if (i <= products
-                    .size()) {
-                Products produc = products.get(i);
-                Glide.with(HomeActivity.this).load(produc.getProductImage()).into(viewHolder.image);
-
-                viewHolder.name.setText(produc.getProductName());
-                viewHolder.description.setText(produc.getProductDesciption());
-                viewHolder.price.setText(produc.getProductPrice());
-
-            }
-            return view1;
-
-        }
-
-
-    }
-
-
     private void gridLoad() {
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(HomeActivity.this, ItemDetailActivity.class);
-                intent.putExtra("productName", product.get(position).getProductName());
-                intent.putExtra("productRatings", product.get(position).getProductRatings());
-                intent.putExtra("productPrice", product.get(position).getProductPrice());
-                intent.putExtra("productDeliveryTime", product.get(position).getProductDeliveryTime());
-                intent.putExtra("productDescription", product.get(position).getProductDesciption());
-                intent.putExtra("productDiscount", product.get(position).getProductDiscount());
-                intent.putExtra("productId", product.get(position).getProductId());
-                intent.putExtra("productCategory", product.get(position).getProductCategory());
-                intent.putExtra("productImage", product.get(position).getProductImage());
-                startActivity(intent);
 
+                Intent intent = new Intent(HomeActivity.this, ItemDetailActivity.class);
+                intent.putExtra(PRODUCT, products.get(position));
+                startActivity(intent);
             }
         });
 
 
-        product = new ArrayList<>();
+        products = new ArrayList<>();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Products");
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot data:snapshot.getChildren()){
+                for (DataSnapshot data : snapshot.getChildren()) {
 
-                    Products pro = data.getValue(Products.class);
-                    String productImage = pro.getProductImage();
-                    String productName = pro.getProductName();
-                    String productDesciption = pro.getProductDesciption();
-                    String productPrice = pro.getProductPrice();
-                    String productId = pro.getProductId();
-                    String productCategory = pro.getProductCategory();
-                    String productDiscount = pro.getProductDiscount();
-                    String productDeliveryTime = pro.getProductDeliveryTime();
-                    String productRatings = pro.getProductRatings();
-                    String productSeller = pro.getProductSeller();
-                    String productAvailability = pro.getProductAvailability();
-                    String productOriginalPrice = pro.getProductOriginalPrice();
-                    String productNameFull = pro.getProductNameFull();
-                    String productDesciptionFull = pro.getProductDescriptionFull();
+                    Product product = data.getValue(Product.class);
 
+                    products.add(product);
 
-                    Products products = new Products(productImage , productName, productDesciption ,productPrice , productId, productCategory , productDiscount, productDeliveryTime , productRatings, productSeller ,productAvailability , productOriginalPrice , productNameFull , productDesciptionFull);
-                    product.add(products);
-
-                    CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, product);
+                    CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                     gridView.setVisibility(View.VISIBLE);
                     gridView.setAdapter(customAdapter);
 
                 }
-
-
-
             }
 
             @Override
@@ -241,8 +147,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
-
-
 
 
     }
@@ -253,11 +157,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         Query firebaseSearchQuery = mUserDatabase.orderByChild("productName").startAt(searchText).endAt(searchText + "\uf8ff");
 
-        FirebaseRecyclerOptions<Products> options = new FirebaseRecyclerOptions.Builder<Products>().setQuery(firebaseSearchQuery,Products.class).build();
-        FirebaseRecyclerAdapter<Products, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Products, UsersViewHolder>(options) {
+        FirebaseRecyclerOptions<Product> options = new FirebaseRecyclerOptions.Builder<Product>().setQuery(firebaseSearchQuery, Product.class).build();
+        FirebaseRecyclerAdapter<Product, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Product, UsersViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull final UsersViewHolder holder, int position, @NonNull final Products model) {
-                holder.setDetails(HomeActivity.this, model.getProductName(), model.getProductImage(), model.getProductRatings(), model.getProductPrice(), model.getProductDeliveryTime(), model.getProductId(), model.getProductDiscount(), model.getProductCategory() , model.getProductDesciption());
+            protected void onBindViewHolder(@NonNull final UsersViewHolder holder, int position, @NonNull final Product product) {
+                holder.setProductDetails(HomeActivity.this, product);
 
                 holder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -265,7 +169,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                         Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
 
-                        intent.putExtra("productId" , model.getProductId());
+                        intent.putExtra("product", product);
                         startActivity(intent);
                     }
                 });
@@ -275,86 +179,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @NonNull
             @Override
             public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item,parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item, parent, false);
                 return new UsersViewHolder(view);
             }
         };
         firebaseRecyclerAdapter.startListening();
         mResultList.setAdapter(firebaseRecyclerAdapter);
     }
-
-    public static class UsersViewHolder extends RecyclerView.ViewHolder {
-
-        View mView;
-        UsersViewHolder(View itemView) {
-            super(itemView);
-
-            mView = itemView;
-
-
-
-
-        }
-
-
-        public void setDetails(Context context, String productName, String productImage, String productRatings, String productPrice, String productDeliveryTime, String productId, String productDiscount, String productCategory, String productDesciption) {
-
-            TextView name = mView.findViewById(R.id.productName);
-            ImageView image = mView.findViewById(R.id.product_image);
-            TextView ratings = mView.findViewById(R.id.productRatings);
-            TextView price = mView.findViewById(R.id.productPrice);
-            TextView deliveryTime = mView.findViewById(R.id.productDeliveryTime);
-            TextView discount = mView.findViewById(R.id.productDiscount);
-
-            name.setText(productName);
-            Glide.with(context).load(productImage).into(image);
-            ratings.setText(productRatings);
-            price.setText(productPrice);
-            deliveryTime.setText(productDeliveryTime);
-            discount.setText(productDiscount);
-
-
-        }
-    }
-
-
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-
-        private ArrayList<Fragment> fragments;
-        private ArrayList<String> titles;
-
-        ViewPagerAdapter(FragmentManager fm) {
-            super(fm);
-            this.fragments = new ArrayList<>();
-            this.titles = new ArrayList<>();
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            fragments.add(fragment);
-            titles.add(title);
-        }
-
-        // Ctrl + O
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles.get(position);
-        }
-    }
-
-
 
     @Override
     public void onBackPressed() {
@@ -402,7 +233,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_sign_out:
 
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(HomeActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(HomeActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 return true;
 
         }
@@ -411,7 +242,141 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return true;
 
 
+    }
+
+    public static class UsersViewHolder extends RecyclerView.ViewHolder {
+
+        View mView;
+
+        UsersViewHolder(View itemView) {
+            super(itemView);
+
+            mView = itemView;
 
 
+        }
+
+
+        public void setProductDetails(Context context, Product product) {
+
+            TextView name = mView.findViewById(R.id.productName);
+            ImageView image = mView.findViewById(R.id.product_image);
+            TextView ratings = mView.findViewById(R.id.productRatings);
+            TextView price = mView.findViewById(R.id.productPrice);
+            TextView deliveryTime = mView.findViewById(R.id.productDeliveryTime);
+            TextView discount = mView.findViewById(R.id.productDiscount);
+
+            String productName = product.getProductName();
+            String productImageUrl = product.getProductImageUrl();
+            String productRating = String.valueOf(product.getProductRating());
+            String productPrice = String.valueOf(product.getProductPrice());
+            String productDiscount = String.valueOf(product.getProductDiscount());
+
+            name.setText(productName);
+            Glide.with(context).load(productImageUrl).into(image);
+            ratings.setText(productRating);
+            price.setText(productPrice);
+            deliveryTime.setText("No delivery time");
+            discount.setText(productDiscount);
+
+
+        }
+    }
+
+    private class CustomAdapter extends BaseAdapter {
+        int total;
+        private Context mContext;
+        private List<Product> products;
+
+        public CustomAdapter(Context context, List<Product> products) {
+            mContext = context;
+            this.products = products;
+        }
+
+        @Override
+        public int getCount() {
+
+            //  return
+            total = products.size();
+
+            return total;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            View view1 = getLayoutInflater().inflate(R.layout.horizontal_product_item, null);
+            CustomAdapter.ViewHolder viewHolder = new CustomAdapter.ViewHolder();
+            viewHolder.image = view1.findViewById(R.id.h_s_product_image);
+            viewHolder.name = view1.findViewById(R.id.h_s_product_title);
+            viewHolder.description = view1.findViewById(R.id.h_s_product_description);
+            viewHolder.price = view1.findViewById(R.id.h_s_product_price);
+
+
+            if (i <= products
+                    .size()) {
+                Product product = products.get(i);
+                Glide.with(HomeActivity.this).load(product.getProductImageUrl()).into(viewHolder.image);
+
+                viewHolder.name.setText(product.getProductName());
+                viewHolder.description.setText(product.getProductDescription());
+                viewHolder.price.setText(String.valueOf(product.getProductPrice()));
+
+            }
+            return view1;
+
+        }
+
+        class ViewHolder {
+            ImageView image;
+            TextView name, description, price;
+        }
+
+
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+
+        private ArrayList<Fragment> fragments;
+        private ArrayList<String> titles;
+
+        ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+            this.fragments = new ArrayList<>();
+            this.titles = new ArrayList<>();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            fragments.add(fragment);
+            titles.add(title);
+        }
+
+        // Ctrl + O
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles.get(position);
+        }
     }
 }

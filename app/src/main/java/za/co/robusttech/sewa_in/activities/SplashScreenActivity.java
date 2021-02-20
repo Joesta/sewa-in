@@ -8,7 +8,7 @@ import android.os.Handler;
 
 import za.co.robusttech.sewa_in.R;
 
-public class MainActivity extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
 
     private static int SPLASH_TIME_OUT = 750;
 
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intro = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intro = new Intent(SplashScreenActivity.this, LoginActivity.class);
                 startActivity(intro);
                 finish();
             }

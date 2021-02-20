@@ -12,5 +12,5 @@ public interface ICustomerConstants {
     String LAST_NAME = "lastName";
     String CELLPHONE_NUMBER = "cellphoneNumber";
     String EMAIL_ADDRESS = "emailAddress";
-    String IMAGE_URL = "imageUrl";
+    String IMAGE_URL = "productImageUrl";
 }
