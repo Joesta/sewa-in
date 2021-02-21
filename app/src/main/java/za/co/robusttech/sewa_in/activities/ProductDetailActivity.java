@@ -3,10 +3,12 @@ package za.co.robusttech.sewa_in.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +25,7 @@ import java.util.List;
 import za.co.robusttech.sewa_in.R;
 import za.co.robusttech.sewa_in.models.Cart;
 import za.co.robusttech.sewa_in.models.Product;
+import za.co.robusttech.sewa_in.models.WishList;
 
 public class ProductDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,9 +38,12 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private TextView mTvProductName;
     private TextView mTvProductCategory;
     private TextView mTvProductQty;
+    private ToggleButton heart;
     private ImageButton mBtnQuantityAdd;
     private ImageButton mBtnQuantityMinus;
     private Cart cart = new Cart();
+    private WishList wishList = new WishList();
+
     private Product mProduct;
     private LinearLayout add_to_cart_btn;
     private String mUserId;
@@ -65,6 +71,35 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         productImages.add(new SlideModel(mProduct.getProductImageUrl(), ScaleTypes.FIT));
         mainSlider.setImageList(productImages, ScaleTypes.FIT);
 
+        heart = findViewById(R.id.heart_Item);
+        heart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    wishList.setProduct(mProduct);
+                    wishList.setCustomerId(mUserId);
+                    mRef
+                            .child("WishList")
+                            .child(mUserId)
+                            .child(mProduct.getProductId())
+                            .setValue(wishList);
+                    Toast.makeText(ProductDetailActivity.this, "Added To WishList", Toast.LENGTH_SHORT).show();
+
+                }else{
+
+
+                    mRef
+                            .child("WishList")
+                            .child(mUserId)
+                            .child(mProduct.getProductId())
+                            .removeValue();
+                    Toast.makeText(ProductDetailActivity.this, "Removed To WishList", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
+
     }
 
     private void initUI() {
@@ -77,7 +112,6 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         mTvProductQty = findViewById(R.id.tv_product_quantity_display);
         mBtnQuantityAdd = findViewById(R.id.btn_quantity_add);
         mBtnQuantityMinus = findViewById(R.id.btn_quantity_minus);
-
         mBtnQuantityAdd.setOnClickListener(this);
         mBtnQuantityMinus.setOnClickListener(this);
 

@@ -26,16 +26,17 @@ import za.co.robusttech.sewa_in.R;
 import za.co.robusttech.sewa_in.activities.AddCartActivity;
 import za.co.robusttech.sewa_in.activities.HomeActivity;
 import za.co.robusttech.sewa_in.activities.ProductDetailActivity;
+import za.co.robusttech.sewa_in.activities.WishListActivity;
 import za.co.robusttech.sewa_in.models.Product;
 
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolder> {
+public class Cart_WishListAdapter extends RecyclerView.Adapter<Cart_WishListAdapter.ImageViewHolder> {
     private List<Product> products;
     private Context mContext;
     private OnItemClickListener mListener;
     private double mAmountDue = 0.0;
 
-    public CartAdapter(Context context, List<Product> products) {
+    public Cart_WishListAdapter(Context context, List<Product> products) {
         mContext = context;
         this.products = products;
     }
@@ -105,6 +106,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ImageViewHolde
 
 
     public void setOnItemClickListener(AddCartActivity onItemClickListener) {
+
+    }
+    public void setOnItemClickListener(WishListActivity onItemClickListener) {
 
     }
 

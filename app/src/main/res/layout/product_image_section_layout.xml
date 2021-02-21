@@ -36,4 +36,19 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
+    <ToggleButton
+        android:id="@+id/heart_Item"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="302dp"
+        android:background="@drawable/heart"
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintEnd_toEndOf="@+id/image_slider"
+        app:layout_constraintHorizontal_bias="0.043"
+        app:layout_constraintStart_toStartOf="@+id/image_slider"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

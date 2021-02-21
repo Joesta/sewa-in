@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="MissingClass">
-        <activity android:name=".activities.AddCartActivity"></activity>
+        <activity android:name=".activities.WishListActivity"></activity>
+        <activity android:name=".activities.AddCartActivity" />
         <activity android:name=".activities.UploadDataActivity" />
         <activity android:name=".activities.ProductDetailActivity" />
         <activity android:name=".activities.ProfileActivity" />

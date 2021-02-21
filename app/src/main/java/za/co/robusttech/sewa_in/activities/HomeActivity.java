@@ -95,7 +95,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
-        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorblack));
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorWhite));
 
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
@@ -217,7 +217,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_My_Orders:
                 Toast.makeText(this, "My Orders", Toast.LENGTH_SHORT).show();
-
                 return true;
 
             case R.id.nav_My_Rewards:
@@ -231,7 +230,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 return true;
 
             case R.id.nav_My_Wishlist:
-                Toast.makeText(this, "My Wishlist", Toast.LENGTH_SHORT).show();
+                Intent wishList = new Intent(HomeActivity.this, WishListActivity.class);
+                startActivity(wishList);
                 return true;
 
             case R.id.nav_My_account:

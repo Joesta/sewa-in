@@ -29,35 +29,29 @@ import za.co.robusttech.sewa_in.adapter.Cart_WishListAdapter;
 import za.co.robusttech.sewa_in.models.Cart;
 import za.co.robusttech.sewa_in.models.Product;
 
-public class AddCartActivity extends AppCompatActivity implements View.OnClickListener{
+public class WishListActivity extends AppCompatActivity implements View.OnClickListener{
 
     RecyclerView recyclerView;
     private Cart_WishListAdapter mAdapter;
     private List<Product> mProducts;
-    private TextView mTvAmountDue;
-    private double mAmountDue = 0.0;
-    private TextView mTvCheckoutDue;
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_cart);
+        setContentView(R.layout.activity_wish_list);
 
         mProducts = new ArrayList<>();
 
-        Button btnCheckout = findViewById(R.id.btn_checkout);
-        btnCheckout.setOnClickListener(this);
 
-        mTvCheckoutDue = findViewById(R.id.tv_checkout_due);
 
-        mTvAmountDue = findViewById(R.id.tv_amount_due);
-        recyclerView = findViewById(R.id.recycler_view22);
+        recyclerView = findViewById(R.id.recycler_view42);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        mAdapter = new Cart_WishListAdapter(AddCartActivity.this, mProducts);
-        mAdapter.setOnItemClickListener(AddCartActivity.this);
+        mAdapter = new Cart_WishListAdapter(WishListActivity.this, mProducts);
+        mAdapter.setOnItemClickListener(WishListActivity.this);
         recyclerView.setAdapter(mAdapter);
 
         fetchCartProducts();
@@ -69,7 +63,7 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
 
         FirebaseDatabase
                 .getInstance()
-                .getReference("Cart")
+                .getReference("WishList")
                 .child(userId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -77,19 +71,15 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
                         if (!snapshot.exists()) return;
 
                         for (DataSnapshot currentSnapshot : snapshot.getChildren()) {
-                           Cart cart = currentSnapshot.getValue(Cart.class);
+                            Cart cart = currentSnapshot.getValue(Cart.class);
                             assert cart != null;
                             Product product = cart.getProduct();
-
-                            double currentProductPrice = product.getProductPrice();
-                            calcAmountDue(currentProductPrice);
 
                             mProducts.add(product);
                         }
 
-                        mTvCheckoutDue.setText("R" + mAmountDue);
-                        mAdapter = new Cart_WishListAdapter(AddCartActivity.this, mProducts);
-                        mAdapter.setOnItemClickListener(AddCartActivity.this);
+                        mAdapter = new Cart_WishListAdapter(WishListActivity.this, mProducts);
+                        mAdapter.setOnItemClickListener(WishListActivity.this);
                         recyclerView.setAdapter(mAdapter);
                         mAdapter.notifyDataSetChanged();
 
@@ -102,9 +92,6 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
                 });
     }
 
-    private void calcAmountDue(double productPrice) {
-        mAmountDue += productPrice;
-    }
 
     private String getUserId() {
         return Objects.requireNonNull(FirebaseAuth
