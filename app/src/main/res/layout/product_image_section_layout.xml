@@ -41,7 +41,7 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginTop="302dp"
-        android:background="@drawable/heart"
+        android:background="@drawable/ic_like"
         android:textOff=""
         android:textOn=""
         app:layout_constraintEnd_toEndOf="@+id/image_slider"

@@ -10,14 +10,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,10 +77,33 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         mainSlider.setImageList(productImages, ScaleTypes.FIT);
 
         heart = findViewById(R.id.heart_Item);
+        heart.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_like));
+
+        DatabaseReference productRef = FirebaseDatabase.getInstance().getReference().child("Products Likes")
+                .child(mProduct.getProductId())
+                .child("Likers");
+
+        productRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).exists()){
+                    heart.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_liked));
+                }else{
+                    heart.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_like));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         heart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
+                    heart.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_liked));
                     wishList.setProduct(mProduct);
                     wishList.setCustomerId(mUserId);
                     mRef
@@ -83,16 +111,26 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                             .child(mUserId)
                             .child(mProduct.getProductId())
                             .setValue(wishList);
+
+                    FirebaseDatabase.getInstance().getReference().child("Products Likes")
+                            .child(mProduct.getProductId())
+                            .child("Likers")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(true);
                     Toast.makeText(ProductDetailActivity.this, "Added To WishList", Toast.LENGTH_SHORT).show();
 
                 }else{
 
-
+                    heart.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_like));
                     mRef
                             .child("WishList")
                             .child(mUserId)
                             .child(mProduct.getProductId())
                             .removeValue();
+
+                    FirebaseDatabase.getInstance().getReference().child("Products Likes")
+                            .child(mProduct.getProductId())
+                            .child("Likers")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
                     Toast.makeText(ProductDetailActivity.this, "Removed To WishList", Toast.LENGTH_SHORT).show();
 
                 }

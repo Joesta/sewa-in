@@ -52,14 +52,18 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import za.co.robusttech.sewa_in.R;
 import za.co.robusttech.sewa_in.models.Product;
+import za.co.robusttech.sewa_in.models.profile;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     GridView gridView;
     private EditText mSearchField;
     private RecyclerView mResultList;
+
+
     private DatabaseReference mUserDatabase;
     private List<Product> products;
     private DatabaseReference mDatabaseRef;
@@ -87,7 +91,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         View headerView = navigationView.getHeaderView(0);
-        TextView navUsername = headerView.findViewById(R.id.authText);
         LinearLayout linearLayout = headerView.findViewById(R.id.authLaout);
         //  navUsername.setText("Your Text Here");
 
@@ -106,6 +109,31 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mResultList = findViewById(R.id.result_list);
         mResultList.setHasFixedSize(true);
         mResultList.setLayoutManager(new LinearLayoutManager(this));
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                CircleImageView navImage =  headerView.findViewById(R.id.profileimagena);
+                TextView navName = headerView.findViewById(R.id.authTextn);
+                profile user = snapshot.getValue(profile.class);
+                navName.setText(user.getName());
+                if (user.getImageURL().equals("default")){
+                    navImage.setImageResource(R.drawable.profile);
+                } else {
+                    Glide.with(getApplicationContext()).load(user.getImageURL()).into(navImage);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
 
         mSearchBtn.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +240,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         int id = menuItem.getItemId();
         switch (menuItem.getItemId()) {
             case R.id.nav_My_store:
-                Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
+                Intent home = new Intent(HomeActivity.this, HomeActivity.class);
+                startActivity(home);
                 return true;
 
             case R.id.nav_My_Orders:
