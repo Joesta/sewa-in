@@ -1,5 +1,7 @@
 package za.co.robusttech.sewa_in.activities;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import za.co.robusttech.sewa_in.DeliveryAdressActivity;
 import za.co.robusttech.sewa_in.R;
 import za.co.robusttech.sewa_in.adapter.Cart_WishListAdapter;
 import za.co.robusttech.sewa_in.models.Cart;
@@ -35,9 +38,11 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
     private Cart_WishListAdapter mAdapter;
     private List<Product> mProducts;
     private TextView mTvAmountDue;
+    private Button checkout;
     private double mAmountDue = 0.0;
     private TextView mTvCheckoutDue;
 
+    @SuppressLint("CutPasteId")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,7 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
         mTvCheckoutDue = findViewById(R.id.tv_checkout_due);
 
         mTvAmountDue = findViewById(R.id.tv_amount_due);
+        checkout = findViewById(R.id.btn_checkout);
         recyclerView = findViewById(R.id.recycler_view22);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setHasFixedSize(true);
@@ -61,6 +67,17 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
         recyclerView.setAdapter(mAdapter);
 
         fetchCartProducts();
+
+        checkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent deliverAddrss = new Intent(AddCartActivity.this , DeliveryAdressActivity.class);
+                startActivity(deliverAddrss);
+
+
+            }
+        });
 
     }
 
