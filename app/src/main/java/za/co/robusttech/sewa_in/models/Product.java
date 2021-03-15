@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import za.co.robusttech.sewa_in.constants.IProductConstants;
-import za.co.robusttech.sewa_in.enums.ProductAvailability;
 
 /**
  * Project Name - sewa-in
@@ -18,7 +17,7 @@ import za.co.robusttech.sewa_in.enums.ProductAvailability;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product implements Serializable, IProductConstants{
+public class Product implements Serializable, IProductConstants {
     private String productId;
     private String productImageUrl;
     private String productDescription;
@@ -33,7 +32,7 @@ public class Product implements Serializable, IProductConstants{
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         map.put(PRODUCT_ID, productId);
-        map.put(PRODUCT_IMAGE_URL, productImageUrl);
+        //map.put(PRODUCT_IMAGE_URL, productImageUrl);
         map.put(PRODUCT_DESCRIPTION, productDescription);
         map.put(PRODUCT_NAME, productName);
         map.put(PRODUCT_QUANTITY, productQuantity);
