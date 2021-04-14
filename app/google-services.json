@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "945806825853",
+    "project_id": "sewa-in-3c7e9",
+    "storage_bucket": "sewa-in-3c7e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945806825853:android:164f7309f3c2843e64d414",
+        "android_client_info": {
+          "package_name": "za.co.robusttech.sewa_in"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "945806825853-ui99lo9lvuv45fim097m9ufji1geab2f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "za.co.robusttech.sewa_in",
+            "certificate_hash": "abf3d10a352163a4842711762b43ffacb24f3b91"
+          }
+        },
+        {
+          "client_id": "945806825853-s53mqj9eg0tngg22fb9dus7uf5eemlt6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrTACXHWoEHGEFhSSRg7r7mQhjvmTnZZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "945806825853-s53mqj9eg0tngg22fb9dus7uf5eemlt6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
