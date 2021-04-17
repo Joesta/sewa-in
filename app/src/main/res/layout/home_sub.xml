@@ -16,16 +16,6 @@
         android:layout_marginTop="5dp"
         android:id="@+id/sub_topic_bg"/>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:civ_border_color="#afafaf"
-        app:civ_border_width="2dp"
-        android:visibility="gone"
-        android:layout_gravity="center"
-        android:src="@drawable/placeholder"
-        android:layout_marginTop="5dp"
-        android:id="@+id/sub_topic_img"/>
 
     <TextView
         android:layout_width="wrap_content"

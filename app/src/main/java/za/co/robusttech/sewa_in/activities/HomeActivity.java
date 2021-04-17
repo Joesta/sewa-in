@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,7 +63,7 @@ import za.co.robusttech.sewa_in.models.profile;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    GridView gridView;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        GridView gridView;
     private EditText mSearchField;
     private RecyclerView mResultList;
 
@@ -92,6 +93,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         subRecyclerView.setLayoutManager(horizontalLayoutManager);
         subRecyclerView.setAdapter(subAdapter);
         populateSubList();
+        
 
         gridView = findViewById(R.id.grid_layout);
         gridLoad();
@@ -102,7 +104,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         View headerView = navigationView.getHeaderView(0);
         LinearLayout linearLayout = headerView.findViewById(R.id.authLaout);
@@ -138,8 +139,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     Glide.with(getApplicationContext()).load(user.getImageURL()).into(navImage);
                 }
-
-
             }
 
             @Override
@@ -163,10 +162,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void populateSubList() {
 
-        home_sub topic1 = new home_sub("Mobiles", R.drawable.cod_icon);
-        home_sub topic2 = new home_sub("Grocery", R.drawable.cod_icon);
-        home_sub topic3 = new home_sub("Keyboard", R.drawable.cod_icon);
-        home_sub topic4 = new home_sub("All", R.drawable.cod_icon);
+        home_sub topic1 = new home_sub("All", R.drawable.cod_icon);
+        home_sub topic2 = new home_sub("Mobiles", R.drawable.cod_icon);
+        home_sub topic3 = new home_sub("Grocery", R.drawable.cod_icon);
+        home_sub topic4 = new home_sub("Keyboard", R.drawable.cod_icon);
         homeSub.add(topic1);
         homeSub.add(topic2);
         homeSub.add(topic3);
@@ -185,6 +184,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
+
 
 
         products = new ArrayList<>();
@@ -211,7 +211,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
-
 
     }
 
@@ -444,4 +443,5 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             return titles.get(position);
         }
     }
+    
 }
