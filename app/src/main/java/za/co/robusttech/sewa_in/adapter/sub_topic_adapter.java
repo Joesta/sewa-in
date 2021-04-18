@@ -40,11 +40,15 @@ public class sub_topic_adapter extends RecyclerView.Adapter<sub_topic_adapter.Gr
         holder.imageView.setImageResource(subTopic.get(position).getTopic_img());
         holder.txtview.setText(subTopic.get(position).getTopic());
 
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String productName = subTopic.get(position).getTopic().toString();
-                Toast.makeText(context, productName, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, HomeActivity.class);
+                intent.putExtra("productName", productName);
+                context.startActivity(intent);
+
             }
         });
     }
