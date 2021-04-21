@@ -162,13 +162,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void populateSubList() {
 
         home_sub topic1 = new home_sub("All", R.drawable.cod_icon);
-        home_sub topic2 = new home_sub("Mobiles", R.drawable.cod_icon);
-        home_sub topic3 = new home_sub("Grocery", R.drawable.cod_icon);
-        home_sub topic4 = new home_sub("Keyboard", R.drawable.cod_icon);
+        home_sub topic2 = new home_sub("Pantry", R.drawable.cod_icon);
+        home_sub topic3 = new home_sub("Mobiles", R.drawable.cod_icon);
+        home_sub topic4 = new home_sub("Fashion", R.drawable.cod_icon);
+        home_sub topic5 = new home_sub("Appliances", R.drawable.cod_icon);
+        home_sub topic6 = new home_sub("Watches", R.drawable.cod_icon);
+        home_sub topic7 = new home_sub("Health & Beauty", R.drawable.cod_icon);
+        home_sub topic8 = new home_sub("Pc Components", R.drawable.cod_icon);
+        home_sub topic9 = new home_sub("Fragrances", R.drawable.cod_icon);
+
         homeSub.add(topic1);
         homeSub.add(topic2);
         homeSub.add(topic3);
         homeSub.add(topic4);
+        homeSub.add(topic5);
+        homeSub.add(topic6);
+        homeSub.add(topic7);
+        homeSub.add(topic8);
+        homeSub.add(topic9);
+
+
         subAdapter.notifyDataSetChanged();
     }
 
@@ -235,7 +248,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
             }
-            if (productName.equals("Grocery")){
+            if (productName.equals("Pantry")){
 
                 products = new ArrayList<>();
                 mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Products");
@@ -247,7 +260,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                             Product product = data.getValue(Product.class);
                             assert product != null;
-                            if (product.getProductCategory().equals("Grocery")){
+                            if (product.getProductCategory().equals("Pantry")){
 
                                 products.add(product);
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
@@ -265,7 +278,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             }
 
-            if (productName.equals("Keyboard")){
+            if (productName.equals("Pc Components")){
 
                 products = new ArrayList<>();
                 mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Products");
@@ -277,7 +290,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                             Product product = data.getValue(Product.class);
                             assert product != null;
-                            if (product.getProductCategory().equals("Keyboard")){
+                            if (product.getProductCategory().equals("Pc Components")){
 
                                 products.add(product);
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
@@ -294,6 +307,157 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 });
 
             }
+
+            if (productName.equals("Fashion")){
+
+                products = new ArrayList<>();
+                mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Products");
+                mDatabaseRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for (DataSnapshot data : snapshot.getChildren()) {
+
+                            Product product = data.getValue(Product.class);
+                            assert product != null;
+                            if (product.getProductCategory().equals("Fashion")){
+
+                                products.add(product);
+                                CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
+                                gridView.setVisibility(View.VISIBLE);
+                                gridView.setAdapter(customAdapter);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            if (productName.equals("Appliances")){
+
+                products = new ArrayList<>();
+                mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Products");
+                mDatabaseRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for (DataSnapshot data : snapshot.getChildren()) {
+
+                            Product product = data.getValue(Product.class);
+                            assert product != null;
+                            if (product.getProductCategory().equals("Appliances")){
+
+                                products.add(product);
+                                CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
+                                gridView.setVisibility(View.VISIBLE);
+                                gridView.setAdapter(customAdapter);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            if (productName.equals("Watches")){
+
+                products = new ArrayList<>();
+                mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Products");
+                mDatabaseRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for (DataSnapshot data : snapshot.getChildren()) {
+
+                            Product product = data.getValue(Product.class);
+                            assert product != null;
+                            if (product.getProductCategory().equals("Watches")){
+
+                                products.add(product);
+                                CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
+                                gridView.setVisibility(View.VISIBLE);
+                                gridView.setAdapter(customAdapter);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            if (productName.equals("Health & Beauty")){
+
+                products = new ArrayList<>();
+                mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Products");
+                mDatabaseRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for (DataSnapshot data : snapshot.getChildren()) {
+
+                            Product product = data.getValue(Product.class);
+                            assert product != null;
+                            if (product.getProductCategory().equals("Health & Beauty")){
+
+                                products.add(product);
+                                CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
+                                gridView.setVisibility(View.VISIBLE);
+                                gridView.setAdapter(customAdapter);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            if (productName.equals("Fragrances")){
+
+                products = new ArrayList<>();
+                mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Products");
+                mDatabaseRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for (DataSnapshot data : snapshot.getChildren()) {
+
+                            Product product = data.getValue(Product.class);
+                            assert product != null;
+                            if (product.getProductCategory().equals("Fragrances")){
+
+                                products.add(product);
+                                CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
+                                gridView.setVisibility(View.VISIBLE);
+                                gridView.setAdapter(customAdapter);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
 
 
         }else{

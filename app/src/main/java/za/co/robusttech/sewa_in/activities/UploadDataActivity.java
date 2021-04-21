@@ -56,7 +56,7 @@ public class UploadDataActivity extends AppCompatActivity  {
     private Button mButtonChooseImage;
     private Button mButtonUpload;
     private TextView mTextViewShowUploads;
-    private EditText  productAvailability , productCategory ,productDeliveryTime , productDesciption , productDiscount , productName , productOriginalPrice , productPrice , productRatings;
+    private EditText   productCategory  , productDesciption , productDiscount , productName  , productPrice , productRatings , productQuantity;
     private ImageView mImageView;
     String name;
     private ProgressBar mProgressBar;
@@ -77,13 +77,11 @@ public class UploadDataActivity extends AppCompatActivity  {
         mButtonUpload = findViewById(R.id.button_upload);
         mImageView = findViewById(R.id.image_view);
 
-        productAvailability = findViewById(R.id.productAvailability);
+        productQuantity = findViewById(R.id.productQuantity);
         productCategory = findViewById(R.id.productCategory);
-        productDeliveryTime = findViewById(R.id.productDeliveryTime);
-        productDesciption = findViewById(R.id.productDesciption);
+        productDesciption = findViewById(R.id.productDescription);
         productDiscount = findViewById(R.id.productDiscount);
         productName = findViewById(R.id.productName);
-        productOriginalPrice = findViewById(R.id.productOriginalPrice);
         productPrice = findViewById(R.id.productPrice);
         productRatings = findViewById(R.id.productRatings);
 
@@ -170,13 +168,12 @@ public class UploadDataActivity extends AppCompatActivity  {
                         map.put(IProductConstants.PRODUCT_ID, productId);
                         map.put(IProductConstants.PRODUCT_IMAGE_URL, miUrlOk);
                         map.put(IProductConstants.PRODUCT_CATEGORY, productCategory.getText().toString());
-//                        map.put(IProductConstants.PRODUCT_AVAILABILITY, productAvailability.getText().toString());
                         map.put(IProductConstants.PRODUCT_DESCRIPTION, productDesciption.getText().toString());
                         map.put(IProductConstants.PRODUCT_DISCOUNT, productDiscount.getText().toString());
                         map.put(IProductConstants.PRODUCT_NAME, productName.getText().toString());
                         map.put(IProductConstants.PRODUCT_PRICE, productPrice.getText().toString());
                         map.put(IProductConstants.PRODUCT_RATING, productRatings.getText().toString());
-
+                        map.put(IProductConstants.PRODUCT_QUANTITY, productQuantity.getText().toString());
 
                         reference.child(productId).setValue(map);
 

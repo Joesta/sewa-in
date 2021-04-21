@@ -24,15 +24,6 @@
         android:layout_toRightOf="@+id/button_choose_image" />
 
 
-    <EditText
-        android:id="@+id/productSeller"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/productRatings"
-        android:hint="productSeller" />
-
-
-
     <Button
         android:id="@+id/button_upload"
         android:layout_width="wrap_content"
@@ -46,18 +37,9 @@
         android:id="@+id/productPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/productSeller"
-        android:hint="productPrice" />
-
-    <EditText
-        android:id="@+id/productOriginalPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:hint="productOriginalPrice"
-        android:layout_below="@+id/productPrice"
-        android:layout_marginLeft="16dp"
-      />
+        android:layout_below="@+id/productRatings"
+        android:hint="productPrice" />
 
     <EditText
         android:id="@+id/productName"
@@ -65,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:hint="productName"
-        android:layout_below="@+id/productOriginalPrice"
+        android:layout_below="@+id/productPrice"
         android:layout_marginLeft="16dp" />
 
     <EditText
@@ -78,48 +60,39 @@
         android:layout_marginLeft="16dp" />
 
     <EditText
-        android:id="@+id/productDesciption"
+        android:id="@+id/productDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_below="@+id/productDiscount"
-        android:hint="productDesciption"
-        android:layout_marginLeft="16dp" />
-
-    <EditText
-        android:id="@+id/productDeliveryTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/productDesciption"
-        android:layout_marginStart="16dp"
-        android:hint="productDeliveryTime"
+        android:hint="productDescription"
         android:layout_marginLeft="16dp" />
 
 
     <EditText
         android:id="@+id/productCategory"
         android:layout_width="match_parent"
-        android:layout_below="@+id/productDeliveryTime"
+        android:layout_below="@+id/productDescription"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:hint="productCategory"
         android:layout_marginLeft="16dp" />
 
     <EditText
-    android:id="@+id/productAvailability"
-    android:layout_width="match_parent"
+        android:id="@+id/productQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_below="@+id/productCategory"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:hint="productAvailability"
-    android:layout_marginLeft="16dp" />
+        android:hint="productQuantity"
+        android:layout_marginLeft="16dp" />
 
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="128dp"
         android:layout_height="129dp"
         android:layout_marginTop="16dp"
-        android:layout_below="@+id/productAvailability"
+        android:layout_below="@+id/productQuantity"
         android:layout_marginBottom="78dp" />
 
 
