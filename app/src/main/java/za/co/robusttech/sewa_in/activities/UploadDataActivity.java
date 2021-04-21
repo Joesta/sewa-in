@@ -50,21 +50,16 @@ import za.co.robusttech.sewa_in.constants.IProductConstants;
 public class UploadDataActivity extends AppCompatActivity  {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-    private static final String TAG = "MainAct";
     String miUrlOk = "";
 
     private Button mButtonChooseImage;
     private Button mButtonUpload;
-    private TextView mTextViewShowUploads;
     private EditText   productCategory  , productDesciption , productDiscount , productName  , productPrice , productRatings , productQuantity;
     private ImageView mImageView;
-    String name;
-    private ProgressBar mProgressBar;
 
     private Uri mImageUri;
 
     private StorageReference mStorageRef;
-    private DatabaseReference mDatabaseRef, mDatabaseRef1;
 
     private StorageTask mUploadTask;
 

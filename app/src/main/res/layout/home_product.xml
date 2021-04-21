@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
+    android:layout_margin="8dp"
+    android:elevation="3dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
 
     <GridView
         android:id="@+id/grid_layout"
@@ -16,8 +17,6 @@
         android:horizontalSpacing="3dp"
         android:numColumns="2"
         android:verticalSpacing="3dp"
-        tools:ignore="MissingConstraints">
-
-    </GridView>
+        tools:ignore="MissingConstraints"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
