@@ -70,6 +70,9 @@
         layout="@layout/home_sub_topic" />
 
     <include
+        layout="@layout/home_2product" />
+
+    <include
         layout="@layout/home_product" />
 
 

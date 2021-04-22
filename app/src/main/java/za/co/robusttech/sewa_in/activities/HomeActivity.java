@@ -52,6 +52,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -67,6 +70,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private EditText mSearchField;
     private RecyclerView mResultList;
 
+    ImageView hg_img , hg_img2;
+    TextView hg_title1 ,hg_title2 , hg_desc1 , hg_desc2 , hg_price1 , hg_prce2;
+
     private DatabaseReference mUserDatabase;
     private List<Product> products;
     private DatabaseReference mDatabaseRef;
@@ -81,6 +87,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        hg_img = findViewById(R.id.h_g_product_image);
+        hg_img2 = findViewById(R.id.h_g_product_image2);
+        hg_title1 = findViewById(R.id.h_g_product_title);
+        hg_title2 = findViewById(R.id.h_g_product_title2);
+        hg_desc1 = findViewById(R.id.h_g_product_description);
+        hg_desc2 = findViewById(R.id.h_g_product_description2);
+        hg_price1 = findViewById(R.id.h_g_product_price);
+        hg_prce2 = findViewById(R.id.h_g_product_price2);
+
+
+
 
         findViewById(R.id.floating_action_button).setOnClickListener(v -> {
             startActivity(new Intent(this, AddCartActivity.class));
@@ -470,13 +488,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                     for (DataSnapshot data : snapshot.getChildren()) {
 
-                        Product product = data.getValue(Product.class);
 
+                        Product product = data.getValue(Product.class);
                         products.add(product);
                         CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                         gridView.setVisibility(View.VISIBLE);
                         gridView.setAdapter(customAdapter);
-
                     }
                 }
 
@@ -672,17 +689,35 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             viewHolder.description = view1.findViewById(R.id.h_s_product_description);
             viewHolder.price = view1.findViewById(R.id.h_s_product_price);
 
+            if (i == 0){
 
-            if (i <= products
-                    .size()) {
+                Product product = products.get(i);
+                Glide.with(HomeActivity.this).load(product.getProductImageUrl()).into(hg_img);
+                hg_title1.setText(product.getProductName());
+                hg_desc1.setText(product.getProductDescription());
+                hg_price1.setText(String.valueOf(product.getProductPrice()));
+
+            }
+            if (i == 1){
+
+                Product product = products.get(i);
+                Glide.with(HomeActivity.this).load(product.getProductImageUrl()).into(hg_img2);
+                hg_title2.setText(product.getProductName());
+                hg_desc2.setText(product.getProductDescription());
+                hg_prce2.setText(String.valueOf(product.getProductPrice()));
+
+            }
+
+            if (i >= 2){
+
                 Product product = products.get(i);
                 Glide.with(HomeActivity.this).load(product.getProductImageUrl()).into(viewHolder.image);
-
                 viewHolder.name.setText(product.getProductName());
                 viewHolder.description.setText(product.getProductDescription());
                 viewHolder.price.setText(String.valueOf(product.getProductPrice()));
-
             }
+
+
             return view1;
 
         }
