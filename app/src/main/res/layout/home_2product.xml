@@ -15,6 +15,7 @@
         android:alignmentMode="alignMargins"
         android:horizontalSpacing="3dp"
         android:verticalSpacing="3dp"
+        android:id="@+id/gridLayoutId"
         android:columnCount="2"
         android:rowCount="1"
         android:columnOrderPreserved="false">

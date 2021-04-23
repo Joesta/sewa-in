@@ -66,23 +66,42 @@
 
     </RelativeLayout>
 
-    <include
-        layout="@layout/home_sub_topic" />
-
-    <include
-        layout="@layout/home_2product" />
-
-    <include
-        layout="@layout/home_product" />
-
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/result_list"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/result_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        <include
+            layout="@layout/home_sub_topic" />
+
+        <include
+            layout="@layout/home_2product" />
+
+            <include
+                layout="@layout/home_slideshow"
+                android:layout_width="match_parent"
+                android:layout_height="255dp"/>
+
+            <include
+                layout="@layout/home_product"
+                android:layout_width="match_parent"
+                android:layout_height="2280dp"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

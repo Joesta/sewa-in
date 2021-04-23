@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -39,6 +40,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -69,6 +74,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         GridView gridView;
     private EditText mSearchField;
     private RecyclerView mResultList;
+    private GridLayout gridLayout;
+    ImageSlider mainslider;
+
 
     ImageView hg_img , hg_img2;
     TextView hg_title1 ,hg_title2 , hg_desc1 , hg_desc2 , hg_price1 , hg_prce2;
@@ -94,15 +102,40 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         hg_title2 = findViewById(R.id.h_g_product_title2);
         hg_desc1 = findViewById(R.id.h_g_product_description);
         hg_desc2 = findViewById(R.id.h_g_product_description2);
+        gridLayout = findViewById(R.id.gridLayoutId);
         hg_price1 = findViewById(R.id.h_g_product_price);
         hg_prce2 = findViewById(R.id.h_g_product_price2);
-
-
-
 
         findViewById(R.id.floating_action_button).setOnClickListener(v -> {
             startActivity(new Intent(this, AddCartActivity.class));
         });
+
+        mainslider=(ImageSlider)findViewById(R.id.image_slider);
+        final List<SlideModel> remoteimages=new ArrayList<>();
+
+        FirebaseDatabase.getInstance().getReference().child("product bannner")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot data:dataSnapshot.getChildren())
+                            remoteimages.add(new SlideModel(data.child("url").getValue().toString(), ScaleTypes.FIT));
+
+                        mainslider.setImageList(remoteimages, ScaleTypes.FIT);
+
+                        mainslider.setItemClickListener(new ItemClickListener() {
+                            @Override
+                            public void onItemSelected(int i) {
+                                Toast.makeText(getApplicationContext(),remoteimages.get(i).getImageUrl().toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
         subRecyclerView = findViewById(R.id.rc_for_sub);
         subRecyclerView.addItemDecoration(new DividerItemDecoration(HomeActivity.this, LinearLayoutManager.HORIZONTAL));
@@ -172,6 +205,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 String searchText = mSearchField.getText().toString();
                 firebaseUserSearch(searchText);
                 gridView.setVisibility(View.GONE);
+                gridLayout.setVisibility(View.GONE);
+                subRecyclerView.setVisibility(View.GONE);
             }
         });
 
@@ -224,6 +259,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             products.add(product);
                             CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                             gridView.setVisibility(View.VISIBLE);
+                            gridLayout.setVisibility(View.VISIBLE);
+                            subRecyclerView.setVisibility(View.VISIBLE);
                             gridView.setAdapter(customAdapter);
 
                         }
@@ -255,6 +292,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 products.add(product);
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
+                                gridLayout.setVisibility(View.GONE);
+                                subRecyclerView.setVisibility(View.VISIBLE);
                                 gridView.setAdapter(customAdapter);
                             }
                         }
@@ -283,6 +322,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 products.add(product);
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
+                                gridLayout.setVisibility(View.GONE);
+                                subRecyclerView.setVisibility(View.VISIBLE);
                                 gridView.setAdapter(customAdapter);
                             }
                         }
@@ -313,6 +354,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 products.add(product);
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
+                                gridLayout.setVisibility(View.GONE);
+                                subRecyclerView.setVisibility(View.VISIBLE);
                                 gridView.setAdapter(customAdapter);
                             }
                         }
@@ -343,6 +386,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 products.add(product);
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
+                                gridLayout.setVisibility(View.GONE);
+                                subRecyclerView.setVisibility(View.VISIBLE);
                                 gridView.setAdapter(customAdapter);
                             }
                         }
@@ -373,6 +418,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 products.add(product);
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
+                                gridLayout.setVisibility(View.GONE);
+                                subRecyclerView.setVisibility(View.VISIBLE);
                                 gridView.setAdapter(customAdapter);
                             }
                         }
@@ -403,6 +450,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 products.add(product);
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
+                                gridLayout.setVisibility(View.GONE);
+                                subRecyclerView.setVisibility(View.VISIBLE);
                                 gridView.setAdapter(customAdapter);
                             }
                         }
@@ -433,6 +482,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 products.add(product);
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
+                                gridLayout.setVisibility(View.GONE);
+                                subRecyclerView.setVisibility(View.VISIBLE);
                                 gridView.setAdapter(customAdapter);
                             }
                         }
@@ -463,6 +514,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 products.add(product);
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
+                                gridLayout.setVisibility(View.GONE);
+                                subRecyclerView.setVisibility(View.VISIBLE);
                                 gridView.setAdapter(customAdapter);
                             }
                         }
@@ -475,8 +528,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 });
 
             }
-
-
 
         }else{
 
@@ -493,6 +544,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         products.add(product);
                         CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                         gridView.setVisibility(View.VISIBLE);
+                        gridLayout.setVisibility(View.VISIBLE);
+                        subRecyclerView.setVisibility(View.VISIBLE);
                         gridView.setAdapter(customAdapter);
                     }
                 }
@@ -689,7 +742,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             viewHolder.description = view1.findViewById(R.id.h_s_product_description);
             viewHolder.price = view1.findViewById(R.id.h_s_product_price);
 
-            if (i == 0){
+            if (i == 18){
 
                 Product product = products.get(i);
                 Glide.with(HomeActivity.this).load(product.getProductImageUrl()).into(hg_img);
@@ -698,7 +751,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 hg_price1.setText(String.valueOf(product.getProductPrice()));
 
             }
-            if (i == 1){
+            if (i == 19){
 
                 Product product = products.get(i);
                 Glide.with(HomeActivity.this).load(product.getProductImageUrl()).into(hg_img2);
@@ -708,7 +761,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             }
 
-            if (i >= 2){
+            if (i <= 17){
 
                 Product product = products.get(i);
                 Glide.with(HomeActivity.this).load(product.getProductImageUrl()).into(viewHolder.image);
