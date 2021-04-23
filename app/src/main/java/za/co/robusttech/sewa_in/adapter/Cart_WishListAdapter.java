@@ -92,6 +92,20 @@ public class Cart_WishListAdapter extends RecyclerView.Adapter<Cart_WishListAdap
                         Toast.makeText(mContext.getApplicationContext(), "Failed to delete product", Toast.LENGTH_LONG).show();
                     }
                 });
+
+        FirebaseDatabase
+                .getInstance()
+                .getReference("WishList")
+                .child(userId)
+                .child(product.getProductId())
+                .removeValue()
+                .addOnCompleteListener((Activity) mContext, task -> {
+                    if (task.isComplete()) {
+                        Toast.makeText(mContext.getApplicationContext(), "Product deleted", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(mContext.getApplicationContext(), "Failed to delete product", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     @UiThread
