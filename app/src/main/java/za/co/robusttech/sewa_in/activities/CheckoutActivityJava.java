@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -66,6 +68,8 @@ public class CheckoutActivityJava extends AppCompatActivity {
     private String paymentIntentClientSecret;
     private Stripe stripe;
     private List<Product> checkoutProducts;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,13 @@ public class CheckoutActivityJava extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
         // Configure the SDK with your Stripe publishable key so it can make requests to Stripe
         // pk_test_TYooMQauvdEDq54NiTphI7jx
+
+        radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
+
+        int selectedId=radioGroup.getCheckedRadioButtonId();
+        radioButton=(RadioButton)findViewById(selectedId);
+
+
         stripe = new Stripe(
                 getApplicationContext(),
                 Objects.requireNonNull(getString(R.string.stripe_publishable_key))

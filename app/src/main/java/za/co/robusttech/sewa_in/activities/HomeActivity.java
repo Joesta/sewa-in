@@ -215,14 +215,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void populateSubList() {
 
         home_sub topic1 = new home_sub("All", R.drawable.cod_icon);
-        home_sub topic2 = new home_sub("Pantry", R.drawable.cod_icon);
-        home_sub topic3 = new home_sub("Mobiles", R.drawable.cod_icon);
-        home_sub topic4 = new home_sub("Fashion", R.drawable.cod_icon);
-        home_sub topic5 = new home_sub("Appliances", R.drawable.cod_icon);
-        home_sub topic6 = new home_sub("Watches", R.drawable.cod_icon);
-        home_sub topic7 = new home_sub("Health & Beauty", R.drawable.cod_icon);
-        home_sub topic8 = new home_sub("Pc Components", R.drawable.cod_icon);
-        home_sub topic9 = new home_sub("Fragrances", R.drawable.cod_icon);
+        home_sub topic2 = new home_sub("Pantry", R.drawable.pantry);
+        home_sub topic3 = new home_sub("Mobiles", R.drawable.mobiles);
+        home_sub topic4 = new home_sub("Fashion", R.drawable.fashion);
+        home_sub topic5 = new home_sub("Appliances", R.drawable.appliances);
+        home_sub topic6 = new home_sub("Watches", R.drawable.watches);
+        home_sub topic7 = new home_sub("Health & Beauty", R.drawable.health_beauty);
+        home_sub topic8 = new home_sub("Pc Components", R.drawable.pc_components);
+        home_sub topic9 = new home_sub("Fragrances", R.drawable.fragrances);
 
         homeSub.add(topic1);
         homeSub.add(topic2);
@@ -558,6 +558,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -769,6 +770,98 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 viewHolder.description.setText(product.getProductDescription());
                 viewHolder.price.setText(String.valueOf(product.getProductPrice()));
             }
+
+            hg_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(HomeActivity.this, ProductDetailActivity.class);
+                    intent.putExtra(PRODUCT, products.get(18));
+                    startActivity(intent);
+
+                }
+            });
+
+            hg_img2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(HomeActivity.this, ProductDetailActivity.class);
+                    intent.putExtra(PRODUCT, products.get(19));
+                    startActivity(intent);
+
+                }
+            });
+
+
+
+            hg_title1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(HomeActivity.this, ProductDetailActivity.class);
+                    intent.putExtra(PRODUCT, products.get(18));
+                    startActivity(intent);
+
+                }
+            });
+
+            hg_desc1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(HomeActivity.this, ProductDetailActivity.class);
+                    intent.putExtra(PRODUCT, products.get(18));
+                    startActivity(intent);
+
+                }
+            });
+
+            hg_price1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(HomeActivity.this, ProductDetailActivity.class);
+                    intent.putExtra(PRODUCT, products.get(18));
+                    startActivity(intent);
+
+                }
+            });
+
+            hg_title2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(HomeActivity.this, ProductDetailActivity.class);
+                    intent.putExtra(PRODUCT, products.get(19));
+                    startActivity(intent);
+
+                }
+            });
+
+            hg_desc2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(HomeActivity.this, ProductDetailActivity.class);
+                    intent.putExtra(PRODUCT, products.get(19));
+                    startActivity(intent);
+
+                }
+            });
+
+            hg_prce2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(HomeActivity.this, ProductDetailActivity.class);
+                    intent.putExtra(PRODUCT, products.get(19));
+                    startActivity(intent);
+
+                }
+            });
+
+
 
 
             return view1;
