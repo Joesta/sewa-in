@@ -56,6 +56,26 @@
             android:paddingLeft="6dp"
             tools:ignore="MissingConstraints" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_product_review"
+            android:text="product review dhbvhjdv shabdjabhdb hdbahvsdjvajdvjvd djsajvdjavdjvjdvvvdjvdv"
+            android:textColor="#000"
+            android:textSize="15sp"
+            android:paddingStart="6dp"
+            android:paddingLeft="6dp"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_see_all"
+            android:text="See All"
+            android:layout_marginLeft="290dp"
+            android:background="#fff"
+            android:textColor="#D3205D"/>
+
 <!--        <TextView-->
 <!--            android:layout_width="407dp"-->
 <!--            android:layout_height="wrap_content"-->

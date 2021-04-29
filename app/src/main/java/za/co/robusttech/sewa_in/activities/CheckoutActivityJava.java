@@ -70,6 +70,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
     private List<Product> checkoutProducts;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
+    private Button paymentContinue;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,8 +81,28 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
         radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
 
-        int selectedId=radioGroup.getCheckedRadioButtonId();
-        radioButton=(RadioButton)findViewById(selectedId);
+
+        paymentContinue = findViewById(R.id.payment_continue);
+
+        paymentContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int selectedId=radioGroup.getCheckedRadioButtonId();
+                radioButton=(RadioButton)findViewById(selectedId);
+
+                if (radioButton.getText() != null){
+
+                    if (radioButton.getText().toString().equals("Google Pay")){
+                        Intent googlePay =  new Intent(CheckoutActivityJava.this , GooglePayActivity.class);
+                        startActivity(googlePay);
+                    }
+                    if (radioButton.getText().toString().equals("PayPal")){
+                        Intent paypal =  new Intent(CheckoutActivityJava.this , GooglePayActivity.class);
+                        startActivity(paypal);
+                    }
+                }
+            }
+        });
 
 
         stripe = new Stripe(

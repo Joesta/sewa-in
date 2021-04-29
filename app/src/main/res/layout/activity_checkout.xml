@@ -50,7 +50,7 @@
                 android:layout_height="55dp"
                 android:text="PayPal"
                 android:id="@+id/radioButton"
-                android:checked="false"
+                android:checked="true"
                 android:textSize="20dp" />
 
             <RadioButton
@@ -61,7 +61,23 @@
                 android:checked="false"
                 android:textSize="20dp"
                 android:layout_weight="0.13" />
+
         </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="-400dp"
+        android:layout_height="match_parent">
+
+        <Button
+            android:text="continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/payment_continue"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@android:color/holo_orange_light"/>
 
     </LinearLayout>
 

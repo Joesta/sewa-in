@@ -3,6 +3,7 @@ package za.co.robusttech.sewa_in.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -44,6 +45,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private TextView mTvProductCategory;
     private TextView mTvProductQty;
     private ToggleButton heart;
+    private Button see_all;
     private ImageButton mBtnQuantityAdd;
     private ImageButton mBtnQuantityMinus;
     private Cart cart = new Cart();
@@ -60,11 +62,24 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
 
+        see_all = findViewById(R.id.btn_see_all);
+
+
+
         mRef = mDatabase.getReference();
         mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         mProduct = (Product) getIntent().getSerializableExtra(HomeActivity.PRODUCT);
         assert mProduct != null;
+
+        see_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductDetailActivity.this , CommentsActivity.class);
+                intent.putExtra("productId", mProduct.getProductId());
+                startActivity(intent);
+            }
+        });
 
         initUI();
         setProductDetails();
