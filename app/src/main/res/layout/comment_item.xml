@@ -25,6 +25,15 @@
             android:textColor="#000"
             android:id="@+id/username_c"/>
 
+        <RatingBar
+            android:id="@+id/rating_bar_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:numStars="5"
+            android:rating="2"
+            style="@style/RatingBarSmall" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,6 +43,12 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:maxLines="5"/>
+
+        <ImageView
+            android:id="@+id/image_view_comment"
+            android:layout_width="128dp"
+            android:layout_height="129dp"
+            android:layout_marginStart="30dp"/>
 
         <TextView
             android:layout_width="wrap_content"

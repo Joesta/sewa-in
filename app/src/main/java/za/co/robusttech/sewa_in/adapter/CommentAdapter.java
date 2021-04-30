@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +63,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
 
         holder.comment.setText(comment.getComment());
         holder.title.setText(comment.getCommentTitle());
+        holder.ratingBar.setRating(comment.getCommentRatings());
+        Glide.with(mContext).load(comment.getProductImageUrl()).into(holder.imageView);
+
+
+
         getUserInfo(holder.image_profile, holder.username, comment.getPublisher());
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -110,6 +116,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
 
         public CircleImageView image_profile;
         public TextView username, comment , title;
+        public RatingBar ratingBar;
+        public ImageView imageView;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -118,6 +126,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
             username = itemView.findViewById(R.id.username_c);
             comment = itemView.findViewById(R.id.comment_c);
             title = itemView.findViewById(R.id.comment_title_c);
+            ratingBar = itemView.findViewById(R.id.rating_bar_review);
+            imageView = itemView.findViewById(R.id.image_view_comment);
 
         }
     }
