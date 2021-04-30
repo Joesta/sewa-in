@@ -30,8 +30,10 @@ import java.util.List;
 
 import za.co.robusttech.sewa_in.R;
 import za.co.robusttech.sewa_in.models.Cart;
+import za.co.robusttech.sewa_in.models.Comment;
 import za.co.robusttech.sewa_in.models.Product;
 import za.co.robusttech.sewa_in.models.WishList;
+import za.co.robusttech.sewa_in.models.profile;
 
 public class ProductDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,8 +44,11 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private TextView mTvProductDescription;
     private TextView mTvProductDiscount;
     private TextView mTvProductName;
-    private TextView mTvProductCategory;
+    private TextView tv_product_review;
     private TextView mTvProductQty;
+    private TextView tv_product_review_title;
+    private TextView username_review;
+
     private ToggleButton heart;
     private Button see_all;
     private ImageButton mBtnQuantityAdd;
@@ -56,6 +61,8 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private String mUserId;
     private int mProductQty = 1;
     private double mProductNewPrice = 0.0;
+    DatabaseReference commentsRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +70,58 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_item_detail);
 
         see_all = findViewById(R.id.btn_see_all);
-
-
+        tv_product_review = findViewById(R.id.tv_product_review);
+        tv_product_review_title = findViewById(R.id.tv_product_review_title);
+        username_review = findViewById(R.id.username_review);
 
         mRef = mDatabase.getReference();
         mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        commentsRef = FirebaseDatabase.getInstance().getReference().child("Comments");
 
         mProduct = (Product) getIntent().getSerializableExtra(HomeActivity.PRODUCT);
         assert mProduct != null;
+
+        commentsRef.child(mProduct.getProductId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Comment comment = dataSnapshot.getValue(Comment.class);
+                    if (comment.getComment() != null){
+                        tv_product_review.setText(comment.getComment());
+                        tv_product_review_title.setText(comment.getCommentTitle());
+
+                        FirebaseDatabase.getInstance().getReference().child("Users").child(comment.getPublisher())
+                                .addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                        profile user = snapshot.getValue(profile.class);
+                                        username_review.setText(user.getName());
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+                    }else{
+                        tv_product_review.setText("No Review for this product");
+                        tv_product_review_title.setText("");
+                        username_review.setText("");
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         see_all.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CommentUpdateActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom"
+        android:background="#fff"
+        android:padding="4dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Title For Your Review "
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:layout_marginStart="10dp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:hint="Add a Title"
+            android:id="@+id/add_comment_title"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:paddingBottom="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@android:color/transparent"
+            tools:ignore="RtlSymmetry" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Write Your Review "
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="90dp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:hint="Add a comment..."
+            android:id="@+id/add_comment_c"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:paddingBottom="50dp"
+            android:layout_marginTop="244dp"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="Update Your Review"
+            android:textColor="#000"
+            android:id="@+id/btn_update_review"
+            android:backgroundTint="@android:color/holo_orange_light"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="220dp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -20,17 +20,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="assish"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="#000"
             android:id="@+id/username_c"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/comment_c"
-            android:text=""
+            android:id="@+id/comment_title_c"
+            android:text="title title title title title title "
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:maxLines="5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/comment_c"
+            android:text=" commentcommentcommentcommentcommentcommentcommentcommentcommentcommentcomment"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:maxLines="50"/>
 
     </LinearLayout>
 

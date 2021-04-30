@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,9 +42,7 @@ public class CommentsActivity extends AppCompatActivity {
     private CommentAdapter commentAdapter;
     private List<Comment> commentList;
 
-    EditText addcomment;
-    ImageView image_profile;
-    TextView post;
+    Button addcomment;
 
     String productId;
     String publisherid;
@@ -76,24 +77,17 @@ public class CommentsActivity extends AppCompatActivity {
         commentAdapter = new CommentAdapter(this, commentList, productId);
         recyclerView.setAdapter(commentAdapter);
 
-        post = findViewById(R.id.post);
-        addcomment = findViewById(R.id.add_comment);
-        image_profile = findViewById(R.id.image_profile);
-
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        post.setOnClickListener(new View.OnClickListener() {
+        addcomment = findViewById(R.id.write_review_ac);
+        addcomment.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (addcomment.getText().toString().equals("")){
-                    Toast.makeText(CommentsActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
-                } else {
-                    addComment();
-                }
+            public void onClick(View v) {
+                Intent intent = new Intent(CommentsActivity.this , CommentUpdateActivity.class);
+                intent.putExtra("productId", productId);
+                startActivity(intent);
             }
         });
 
-        getImage();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         readComments();
 
     }
@@ -112,24 +106,6 @@ public class CommentsActivity extends AppCompatActivity {
         reference.child(commentid).setValue(hashMap);
         addcomment.setText("");
 
-    }
-
-
-
-    private void getImage(){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                profile user = dataSnapshot.getValue(profile.class);
-                Glide.with(getApplicationContext()).load(user.getImageURL()).into(image_profile);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     private void readComments(){

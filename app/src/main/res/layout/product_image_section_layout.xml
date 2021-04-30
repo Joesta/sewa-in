@@ -10,7 +10,7 @@
     <com.denzcoskun.imageslider.ImageSlider
         android:id="@+id/image_slider"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:layout_marginTop="50dp"
         app:iss_auto_cycle="true"
         app:iss_delay="0"
@@ -24,8 +24,8 @@
 
     <ToggleButton
         android:id="@+id/share_item"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:background="@drawable/ic_share"
         android:textOff=""
         android:textOn=""
@@ -38,8 +38,8 @@
 
     <ToggleButton
         android:id="@+id/heart_Item"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginTop="302dp"
         android:background="@drawable/ic_like"
         android:textOff=""

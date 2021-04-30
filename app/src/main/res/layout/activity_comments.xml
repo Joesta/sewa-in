@@ -27,32 +27,21 @@
         android:padding="4dp"
         android:layout_alignParentBottom="true">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/image_profile"/>
-
-        <EditText
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/image_profile"
-            android:hint="Add a comment..."
-            android:id="@+id/add_comment"
+            android:text="Write Your Review"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#222121"
+            android:paddingStart="50dp"
+            android:id="@+id/write_review_ac"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:background="@android:color/transparent"
-            android:layout_toLeftOf="@id/post"/>
+            android:backgroundTint="@android:color/holo_orange_light"
+            />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="POST"
-            android:id="@+id/post"
-            android:layout_marginEnd="5dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:textColor="@color/colorPrimary"/>
 
     </RelativeLayout>
 

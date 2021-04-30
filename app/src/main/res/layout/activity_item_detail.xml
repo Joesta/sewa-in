@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    tools:context=".activities.ProductDetailActivity">
+    tools:context=".activities.ProductDetailActivity"
+    tools:ignore="ScrollViewCount">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/product_details_layout"
@@ -20,77 +25,82 @@
             <include layout="@layout/product_details_section_layout" />
         </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_details_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4">
-
-        <ImageButton
-            android:id="@+id/btn_quantity_minus"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="#fff"
-            app:srcCompat="@drawable/ic_remove_circle_black_24dp"
-            android:clickable="true"/>
-
-        <TextView
-            android:id="@+id/tv_product_quantity_display"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:gravity="center"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="1"
-            android:textStyle="bold"
-            android:textSize="50sp"
-            />
-
-        <ImageButton
-            android:id="@+id/btn_quantity_add"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="#fff"
-            app:srcCompat="@drawable/ic_add_circle_black_24dp"
-            android:clickable="true"/>
-
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:background="@color/colorSecondary"
-        android:elevation="8dp"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
         <LinearLayout
-            android:id="@+id/add_to_cart_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="1">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/product_details_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout4">
+
+            <ImageButton
+                android:id="@+id/btn_quantity_minus"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="#fff"
+                app:srcCompat="@drawable/ic_remove_circle_black_24dp"
+                android:clickable="true"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:drawablePadding="8dp"
-                android:drawableTint="#485F70"
+                android:id="@+id/tv_product_quantity_display"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
                 android:gravity="center"
-                android:text="ADD TO CART"
-                android:textColor="#000"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textColor="@color/colorPrimaryDark"
+                android:text="1"
+                android:textStyle="bold"
+                android:textSize="50sp"
+                />
+
+            <ImageButton
+                android:id="@+id/btn_quantity_add"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="#fff"
+                app:srcCompat="@drawable/ic_add_circle_black_24dp"
+                android:clickable="true"/>
+
         </LinearLayout>
 
-    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:background="@color/colorSecondary"
+            android:elevation="8dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:id="@+id/add_to_cart_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="#485F70"
+                    android:gravity="center"
+                    android:text="ADD TO CART"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>

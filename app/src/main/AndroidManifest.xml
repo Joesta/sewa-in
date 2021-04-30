@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="MissingClass">
-        <activity android:name=".activities.CommentsActivity"></activity>
+        <activity android:name=".activities.CommentUpdateActivity"></activity>
+        <activity android:name=".activities.CommentsActivity" />
         <activity android:name=".activities.GooglePayActivity" />
         <activity android:name=".activities.PayPalActivity" />
         <activity android:name=".DeliveryAdressActivity" />

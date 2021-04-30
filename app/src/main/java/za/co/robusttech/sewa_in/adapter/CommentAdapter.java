@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import za.co.robusttech.sewa_in.R;
 import za.co.robusttech.sewa_in.models.Comment;
 import za.co.robusttech.sewa_in.models.profile;
@@ -60,6 +61,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
         final Comment comment = mComment.get(position);
 
         holder.comment.setText(comment.getComment());
+        holder.title.setText(comment.getCommentTitle());
         getUserInfo(holder.image_profile, holder.username, comment.getPublisher());
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -106,8 +108,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView image_profile;
-        public TextView username, comment;
+        public CircleImageView image_profile;
+        public TextView username, comment , title;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -115,6 +117,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
             image_profile = itemView.findViewById(R.id.image_profile_c);
             username = itemView.findViewById(R.id.username_c);
             comment = itemView.findViewById(R.id.comment_c);
+            title = itemView.findViewById(R.id.comment_title_c);
+
         }
     }
 
@@ -126,7 +130,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 profile user = dataSnapshot.getValue(profile.class);
-                Glide.with(mContext).load(user.getImageURL()).into(imageView);
+                if (user.getImageURL().equals("default")){
+                    imageView.setImageResource(R.drawable.profile);
+                } else {
+                    Glide.with(mContext).load(user.getImageURL()).into(imageView);
+                }
                 username.setText(user.getName());
             }
 

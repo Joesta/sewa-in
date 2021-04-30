@@ -77,7 +77,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private GridLayout gridLayout;
     ImageSlider mainslider;
 
-
     ImageView hg_img , hg_img2;
     TextView hg_title1 ,hg_title2 , hg_desc1 , hg_desc2 , hg_price1 , hg_prce2;
 
@@ -196,8 +195,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
-
-
 
         mSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -555,9 +552,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                 }
             });
-
         }
-
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -568,7 +563,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
-
 
     }
 
