@@ -61,6 +61,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import za.co.robusttech.sewa_in.R;
@@ -254,6 +255,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             Product product = data.getValue(Product.class);
 
                             products.add(product);
+                            Collections.shuffle(products, new Random());
+
                             CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                             gridView.setVisibility(View.VISIBLE);
                             gridLayout.setVisibility(View.VISIBLE);
@@ -287,6 +290,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             if (product.getProductCategory().equals("Mobiles")){
 
                                 products.add(product);
+                                Collections.shuffle(products, new Random());
+
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
                                 gridLayout.setVisibility(View.GONE);
@@ -317,6 +322,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             if (product.getProductCategory().equals("Pantry")){
 
                                 products.add(product);
+                                Collections.shuffle(products, new Random());
+
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
                                 gridLayout.setVisibility(View.GONE);
@@ -349,6 +356,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             if (product.getProductCategory().equals("Pc Components")){
 
                                 products.add(product);
+                                Collections.shuffle(products, new Random());
+
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
                                 gridLayout.setVisibility(View.GONE);
@@ -381,6 +390,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             if (product.getProductCategory().equals("Fashion")){
 
                                 products.add(product);
+                                Collections.shuffle(products, new Random());
+
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
                                 gridLayout.setVisibility(View.GONE);
@@ -413,6 +424,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             if (product.getProductCategory().equals("Appliances")){
 
                                 products.add(product);
+                                Collections.shuffle(products, new Random());
+
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
                                 gridLayout.setVisibility(View.GONE);
@@ -445,6 +458,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             if (product.getProductCategory().equals("Watches")){
 
                                 products.add(product);
+                                Collections.shuffle(products, new Random());
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
                                 gridLayout.setVisibility(View.GONE);
@@ -477,6 +491,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             if (product.getProductCategory().equals("Health & Beauty")){
 
                                 products.add(product);
+                                Collections.shuffle(products, new Random());
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
                                 gridLayout.setVisibility(View.GONE);
@@ -509,6 +524,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             if (product.getProductCategory().equals("Fragrances")){
 
                                 products.add(product);
+                                Collections.shuffle(products, new Random());
                                 CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                                 gridView.setVisibility(View.VISIBLE);
                                 gridLayout.setVisibility(View.GONE);
@@ -539,6 +555,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                         Product product = data.getValue(Product.class);
                         products.add(product);
+                        Collections.shuffle(products, new Random());
                         CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this, products);
                         gridView.setVisibility(View.VISIBLE);
                         gridLayout.setVisibility(View.VISIBLE);
