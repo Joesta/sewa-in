@@ -79,27 +79,24 @@ public class CheckoutActivityJava extends AppCompatActivity {
         // Configure the SDK with your Stripe publishable key so it can make requests to Stripe
         // pk_test_TYooMQauvdEDq54NiTphI7jx
 
-        radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
+        radioGroup= findViewById(R.id.radioGroup);
 
 
         paymentContinue = findViewById(R.id.payment_continue);
 
-        paymentContinue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectedId=radioGroup.getCheckedRadioButtonId();
-                radioButton=(RadioButton)findViewById(selectedId);
+        paymentContinue.setOnClickListener(v -> {
+            int selectedId=radioGroup.getCheckedRadioButtonId();
+            radioButton = findViewById(selectedId);
 
-                if (radioButton.getText() != null){
+            if (radioButton.getText() != null){
 
-                    if (radioButton.getText().toString().equals("Google Pay")){
-                        Intent googlePay =  new Intent(CheckoutActivityJava.this , GooglePayActivity.class);
-                        startActivity(googlePay);
-                    }
-                    if (radioButton.getText().toString().equals("PayPal")){
-                        Intent paypal =  new Intent(CheckoutActivityJava.this , GooglePayActivity.class);
-                        startActivity(paypal);
-                    }
+                if (radioButton.getText().toString().equals("Google Pay")){
+                    Intent googlePay =  new Intent(CheckoutActivityJava.this , GooglePayActivity.class);
+                    startActivity(googlePay);
+                }
+                if (radioButton.getText().toString().equals("PayPal")){
+                    Intent paypal =  new Intent(CheckoutActivityJava.this , PayPalActivity.class);
+                    startActivity(paypal);
                 }
             }
         });
@@ -142,7 +139,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
         RequestBody body = RequestBody.create(json, mediaType);
         Request request = new Request.Builder()
-                .url(BACKEND_URL + "/create-payment-intent")
+                .url(BACKEND_URL + "create-payment-intent")
                 .post(body)
                 .build();
         httpClient.newCall(request)

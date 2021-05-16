@@ -20,6 +20,7 @@ android {
         debug {
             buildConfigField('String', "BRAINTREE_PAYMENT_SERVER_URL", BRAINTREE_PAYMENT_SERVER_URL)
             buildConfigField('String', "STRIPE_PAYMENT_SERVER_URL", STRIPE_PAYMENT_SERVER_URL)
+            buildConfigField('String', "PAYPAL_CLIENT_ID", PAYPAL_CLIENT_ID)
         }
 
         release {
@@ -27,6 +28,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField('String', "BRAINTREE_PAYMENT_SERVER_URL", BRAINTREE_PAYMENT_SERVER_URL)
             buildConfigField('String', "STRIPE_PAYMENT_SERVER_URL", STRIPE_PAYMENT_SERVER_URL)
+            buildConfigField('String', "PAYPAL_CLIENT_ID", PAYPAL_CLIENT_ID)
         }
     }
     compileOptions {
@@ -72,6 +74,9 @@ dependencies {
     // braintree payment
     // implementation 'com.braintreepayments.api:drop-in:4.6.0'
     implementation 'com.braintreepayments.api:drop-in:4.5.0'
+
+    // PayPal
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
 
     // retrofit & rxjava
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
