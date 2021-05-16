@@ -1,23 +1,24 @@
 {
   "project_info": {
     "project_number": "945806825853",
+    "firebase_url": "https://sewa-in-3c7e9-default-rtdb.firebaseio.com",
     "project_id": "sewa-in-3c7e9",
     "storage_bucket": "sewa-in-3c7e9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:945806825853:android:164f7309f3c2843e64d414",
+        "mobilesdk_app_id": "1:945806825853:android:0b8eb5f3c7b77c6564d414",
         "android_client_info": {
-          "package_name": "za.co.robusttech.sewa_in"
+          "package_name": "za.co.robusttech.sewain"
         }
       },
       "oauth_client": [
         {
-          "client_id": "945806825853-ui99lo9lvuv45fim097m9ufji1geab2f.apps.googleusercontent.com",
+          "client_id": "945806825853-sedk4eugj37an1br90sjp7320rdscsjr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "za.co.robusttech.sewa_in",
+            "package_name": "za.co.robusttech.sewain",
             "certificate_hash": "abf3d10a352163a4842711762b43ffacb24f3b91"
           }
         },

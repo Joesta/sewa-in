@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
-    package="za.co.robusttech.sewa_in">
+    package="za.co.robusttech.sewain">
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <dist:module dist:instant="true" />
 
@@ -15,26 +17,35 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="MissingClass">
-        <activity android:name=".activities.CommentUpdateActivity"></activity>
-        <activity android:name=".activities.CommentsActivity" />
-        <activity android:name=".activities.GooglePayActivity" />
-        <activity android:name=".activities.PayPalActivity" />
-        <activity android:name=".DeliveryAdressActivity" />
-        <activity android:name=".activities.WishListActivity" />
-        <activity android:name=".activities.AddCartActivity" />
-        <activity android:name=".activities.UploadDataActivity" />
-        <activity android:name=".activities.ProductDetailActivity" />
-        <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.HomeActivity" />
-        <activity android:name=".activities.ForgotPasswordActivity" />
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.CheckoutActivityJava" />
-        <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.SplashScreenActivity">
+        <activity android:name="za.co.robusttech.sewain.activities.CommentUpdateActivity"></activity>
+        <activity android:name="za.co.robusttech.sewain.activities.CommentsActivity" />
+        <activity android:name="za.co.robusttech.sewain.activities.GooglePayActivity" />
+        <activity android:name="za.co.robusttech.sewain.activities.PayPalActivity" />
+        <activity android:name="za.co.robusttech.sewain.DeliveryAdressActivity" />
+        <activity android:name="za.co.robusttech.sewain.activities.WishListActivity" />
+        <activity android:name="za.co.robusttech.sewain.activities.AddCartActivity" />
+        <activity android:name="za.co.robusttech.sewain.activities.UploadDataActivity" />
+        <activity android:name="za.co.robusttech.sewain.activities.ProductDetailActivity" />
+        <activity android:name="za.co.robusttech.sewain.activities.ProfileActivity" />
+        <activity android:name="za.co.robusttech.sewain.activities.HomeActivity" />
+        <activity android:name="za.co.robusttech.sewain.activities.ForgotPasswordActivity" />
+        <activity android:name="za.co.robusttech.sewain.activities.LoginActivity" />
+        <activity android:name="za.co.robusttech.sewain.activities.CheckoutActivityJava" />
+        <activity android:name="za.co.robusttech.sewain.activities.RegisterActivity" />
+        <activity android:name="za.co.robusttech.sewain.activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="${applicationId}.braintree" />
             </intent-filter>
         </activity>
     </application>
