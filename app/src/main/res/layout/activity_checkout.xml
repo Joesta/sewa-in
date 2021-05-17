@@ -25,47 +25,6 @@
         android:layout_marginTop="20dp"
         android:backgroundTint="@android:color/holo_orange_light"/>
 
-<!--    <ProgressBar-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="100dp"-->
-<!--        android:layout_gravity="center_vertical|center_horizontal"-->
-
-<!--        />-->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/slider_backround"
-        android:orientation="horizontal">
-
-        <RadioGroup
-            android:layout_width="fill_parent"
-            android:layout_height="90dp"
-            android:weightSum="1"
-            android:id="@+id/radioGroup">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:text="PayPal"
-                android:id="@+id/radioButton"
-                android:checked="true"
-                android:textSize="20dp" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Google Pay"
-                android:id="@+id/radioButton2"
-                android:checked="false"
-                android:textSize="20dp"
-                android:layout_weight="0.13" />
-
-        </RadioGroup>
-
-    </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_marginTop="-400dp"

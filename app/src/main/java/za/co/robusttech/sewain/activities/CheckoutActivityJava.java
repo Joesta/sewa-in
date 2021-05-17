@@ -79,38 +79,12 @@ public class CheckoutActivityJava extends AppCompatActivity {
         // Configure the SDK with your Stripe publishable key so it can make requests to Stripe
         // pk_test_TYooMQauvdEDq54NiTphI7jx
 
-        radioGroup= findViewById(R.id.radioGroup);
-
-
-        paymentContinue = findViewById(R.id.payment_continue);
-
-        paymentContinue.setOnClickListener(v -> {
-            int selectedId=radioGroup.getCheckedRadioButtonId();
-            radioButton = findViewById(selectedId);
-
-            if (radioButton.getText() != null){
-
-                if (radioButton.getText().toString().equals("Google Pay")){
-                    Intent googlePay =  new Intent(CheckoutActivityJava.this , GooglePayActivity.class);
-                    startActivity(googlePay);
-                }
-                if (radioButton.getText().toString().equals("PayPal")){
-                    Intent paypal =  new Intent(CheckoutActivityJava.this , PayPalActivity.class);
-                    startActivity(paypal);
-                }
-            }
-        });
-
-
         stripe = new Stripe(
                 getApplicationContext(),
                 Objects.requireNonNull(getString(R.string.stripe_publishable_key))
         );
 
         Bundle bundle = getIntent().getExtras();
-
-
-
         checkoutProducts = (List<Product>) bundle.getSerializable(AddCartActivity.CHECKOUT_PRODUCTS);
 
         System.out.println(checkoutProducts.toString());

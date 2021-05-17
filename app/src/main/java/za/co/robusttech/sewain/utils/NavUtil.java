@@ -16,11 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 public final class NavUtil {
     public static void moveTo(@NonNull Activity fromContext, @NonNull Class<? extends AppCompatActivity> toContext, @Nullable Bundle bundleExtra) {
         Intent intent = new Intent(fromContext, toContext);
-        if (bundleExtra == null)
+        if (bundleExtra == null) {
             fromContext.startActivity(intent);
-
-        assert bundleExtra != null;
-        intent.putExtras(bundleExtra);
-        fromContext.startActivity(intent);
+        } else {
+            assert bundleExtra != null;
+            intent.putExtras(bundleExtra);
+            fromContext.startActivity(intent);
+        }
     }
 }

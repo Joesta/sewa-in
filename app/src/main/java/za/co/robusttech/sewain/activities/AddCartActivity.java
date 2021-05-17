@@ -4,8 +4,10 @@ package za.co.robusttech.sewain.activities;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +38,7 @@ import za.co.robusttech.sewain.utils.NavUtil;
 
 public class AddCartActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String CHECKOUT_PRODUCTS = "productList";
     RecyclerView recyclerView;
     List cardList;
     private Cart_WishListAdapter mAdapter;
@@ -44,7 +47,6 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
     //private Button checkout;
     private double mAmountDue = 0.0;
     private TextView mTvCheckoutDue;
-    public static final String CHECKOUT_PRODUCTS = "productList";
 
     @SuppressLint("CutPasteId")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -157,23 +159,35 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
 
     private void showDialog() {
 
+        View paymentOptions = this.getLayoutInflater().inflate(R.layout.checkout_payment_options, null);
+        paymentOptions.findViewById(R.id.card_payment).setOnClickListener(this::cardPayment);
+        paymentOptions.findViewById(R.id.paypal_payment).setOnClickListener(this::paypayPayment);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Payment method");
-        builder.setPositiveButton("Cash", (dialog, which) -> {
-            toast("cash payment");
-        }).setNegativeButton("Card", (dialog, which) -> {
-            toast("card payment");
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(CHECKOUT_PRODUCTS, (Serializable)mProducts);
-            NavUtil.moveTo(this, CheckoutActivityJava.class, bundle);
-        });
+        builder.setView(paymentOptions);
+
         builder
                 .setCancelable(true)
                 .create()
                 .show();
     }
 
+    private void cardPayment(View view) {
+        toast("card payment");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CHECKOUT_PRODUCTS, (Serializable) mProducts);
+        NavUtil.moveTo(this, CheckoutActivityJava.class, bundle);
+    }
+
+    private void paypayPayment(View view) {
+        toast("paypal payment");
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CHECKOUT_PRODUCTS, (Serializable) mProducts);
+        NavUtil.moveTo(this, PayPalActivity.class, bundle);
+
+    }
 
     private void toast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
