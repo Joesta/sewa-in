@@ -50,7 +50,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private TextView username_review;
 
     private ToggleButton heart;
-    private Button see_all;
+    private Button see_all, btn_add_direct_review;
     private ImageButton mBtnQuantityAdd;
     private ImageButton mBtnQuantityMinus;
     private Cart cart = new Cart();
@@ -70,6 +70,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_item_detail);
 
         see_all = findViewById(R.id.btn_see_all);
+        btn_add_direct_review = findViewById(R.id.btn_add_direct_review);
         tv_product_review = findViewById(R.id.tv_product_review);
         tv_product_review_title = findViewById(R.id.tv_product_review_title);
         username_review = findViewById(R.id.username_review);
@@ -80,6 +81,17 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
 
         mProduct = (Product) getIntent().getSerializableExtra(HomeActivity.PRODUCT);
         assert mProduct != null;
+
+        btn_add_direct_review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductDetailActivity.this , CommentUpdateActivity.class);
+                intent.putExtra("productId", mProduct.getProductId());
+                startActivity(intent);
+
+
+            }
+        });
 
         commentsRef.child(mProduct.getProductId()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -224,12 +236,6 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private void setProductDetails() {
 
         mTvProductName.setText(mProduct.getProductName());
-
-        // user click product from cart, price must reset to original
-        if (mProduct.getProductQuantity() > 1) {
-            double originalPrice = mProduct.getProductPrice() / mProduct.getProductQuantity();
-            mProduct.setProductPrice(originalPrice);
-        }
         mTvProductPrice.setText("R" + mProduct.getProductPrice());
         mTvProductDescription.setText(mProduct.getProductDescription());
     }
