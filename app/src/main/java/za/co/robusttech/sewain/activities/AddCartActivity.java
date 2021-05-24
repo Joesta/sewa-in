@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,6 +48,7 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
     //private Button checkout;
     private double mAmountDue = 0.0;
     private TextView mTvCheckoutDue;
+    private DecimalFormat df = new DecimalFormat("#.##");
 
     @SuppressLint("CutPasteId")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -111,7 +113,7 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
                             mProducts.add(product);
                         }
 
-                        mTvCheckoutDue.setText("R" + mAmountDue);
+                        mTvCheckoutDue.setText("R" + df.format(mAmountDue));
                         mAdapter = new Cart_WishListAdapter(AddCartActivity.this, mProducts);
                         mAdapter.setOnItemClickListener(AddCartActivity.this);
                         recyclerView.setAdapter(mAdapter);
@@ -162,6 +164,7 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
         View paymentOptions = this.getLayoutInflater().inflate(R.layout.checkout_payment_options, null);
         paymentOptions.findViewById(R.id.card_payment).setOnClickListener(this::cardPayment);
         paymentOptions.findViewById(R.id.paypal_payment).setOnClickListener(this::paypayPayment);
+        paymentOptions.findViewById(R.id.google_payment).setOnClickListener(this::googlePayment);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Payment method");
@@ -187,6 +190,10 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
         bundle.putSerializable(CHECKOUT_PRODUCTS, (Serializable) mProducts);
         NavUtil.moveTo(this, PayPalActivity.class, bundle);
 
+    }
+
+    private void googlePayment(View view) {
+        NavUtil.moveTo(this, GooglePayActivity.class, null);
     }
 
     private void toast(String msg) {
