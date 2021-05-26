@@ -101,22 +101,25 @@
             android:paddingLeft="6dp"
             tools:ignore="MissingConstraints" />
 
-        <Button
+        <TextView
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/btn_see_all"
             android:text="See All Reviews"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="270dp"
             android:background="#fff"
             android:textColor="#D3205D"/>
 
-        <Button
-            android:layout_width="100dp"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btn_add_direct_review"
             android:text="Add a Review"
-            android:background="#FFC107"
-            android:textColor="#000"/>
+            android:layout_marginTop="-20dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:textColor="#FFC107"/>
 
 <!--        <TextView-->
 <!--            android:layout_width="407dp"-->

@@ -9,7 +9,7 @@
 
     <com.denzcoskun.imageslider.ImageSlider
         android:id="@+id/image_slider"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="300dp"
         android:layout_marginTop="50dp"
         app:iss_auto_cycle="true"
@@ -29,7 +29,7 @@
         android:background="@drawable/ic_share"
         android:textOff=""
         android:textOn=""
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="@+id/image_slider"
         app:layout_constraintHorizontal_bias="0.886"
         app:layout_constraintStart_toStartOf="@+id/image_slider"
@@ -40,7 +40,7 @@
         android:id="@+id/heart_Item"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginTop="302dp"
+        android:layout_marginTop="352dp"
         android:background="@drawable/ic_like"
         android:textOff=""
         android:textOn=""

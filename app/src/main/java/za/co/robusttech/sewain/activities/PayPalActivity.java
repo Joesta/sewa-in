@@ -1,5 +1,6 @@
 package za.co.robusttech.sewain.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -9,6 +10,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -18,10 +26,12 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 import org.json.JSONException;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 import za.co.robusttech.sewain.BuildConfig;
 import za.co.robusttech.sewain.R;
+import za.co.robusttech.sewain.models.Cart;
 import za.co.robusttech.sewain.models.Product;
 import za.co.robusttech.sewain.utils.NavUtil;
 
@@ -97,6 +107,42 @@ public class PayPalActivity extends AppCompatActivity {
                     // see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
                     // for more details.
                     Toast.makeText(this, "Order was paid successfully", Toast.LENGTH_LONG).show();
+
+                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    String userId = firebaseUser.getUid();
+
+                    FirebaseDatabase
+                            .getInstance()
+                            .getReference("Cart")
+                            .child(userId)
+                            .addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (!snapshot.exists()) return;
+
+                                    for (DataSnapshot currentSnapshot : snapshot.getChildren()) {
+                                        Cart cart = currentSnapshot.getValue(Cart.class);
+                                        assert cart != null;
+                                        Product product = cart.getProduct();
+
+                                        double currentProductPrice = product.getProductPrice();
+                                        String productPrice = String.valueOf(currentProductPrice);
+                                        DatabaseReference buyRef = FirebaseDatabase.getInstance().getReference("Buyed").child(product.getProductId()).child(userId);
+                                        HashMap<String, String> hashMap = new HashMap<>();
+                                        hashMap.put("id", userId);
+                                        hashMap.put("productId", product.getProductId());
+                                        hashMap.put("productPrice", productPrice);
+                                        buyRef.setValue(hashMap);
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Toast.makeText(PayPalActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
                     NavUtil.moveTo(this, HomeActivity.class, null);
 
                 } catch (JSONException e) {

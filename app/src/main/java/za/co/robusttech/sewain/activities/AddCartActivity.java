@@ -2,6 +2,8 @@ package za.co.robusttech.sewain.activities;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,21 +22,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import za.co.robusttech.sewain.DeliveryAdressActivity;
 import za.co.robusttech.sewain.R;
 import za.co.robusttech.sewain.adapter.Cart_WishListAdapter;
 import za.co.robusttech.sewain.models.Cart;
 import za.co.robusttech.sewain.models.Product;
+import za.co.robusttech.sewain.models.address;
+import za.co.robusttech.sewain.models.profile;
 import za.co.robusttech.sewain.utils.NavUtil;
 
 public class AddCartActivity extends AppCompatActivity implements View.OnClickListener {
@@ -50,6 +58,7 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
     private TextView mTvCheckoutDue;
     private DecimalFormat df = new DecimalFormat("#.##");
 
+
     @SuppressLint("CutPasteId")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -59,8 +68,6 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
 
         mProducts = new ArrayList<>();
 
-        Button btnCheckout = findViewById(R.id.btn_checkout);
-        btnCheckout.setOnClickListener(this);
 
         mTvCheckoutDue = findViewById(R.id.tv_checkout_due);
 
@@ -76,6 +83,39 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
         recyclerView.setAdapter(mAdapter);
 
         fetchCartProducts();
+
+        FirebaseUser fuser;
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference addressRef =  FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid()).child("Address");
+
+        addressRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                address userAddress = snapshot.getValue(address.class);
+
+                if (!snapshot.exists()){
+
+                    Intent deliverAddrss = new Intent(AddCartActivity.this , DeliveryAdressActivity.class);
+                    startActivity(deliverAddrss);
+
+                    Toast.makeText(AddCartActivity.this, "Add Address To Continue", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    Button btnCheckout = findViewById(R.id.btn_checkout);
+                    btnCheckout.setOnClickListener(AddCartActivity.this);
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 //        checkout.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -161,13 +201,12 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
 
     private void showDialog() {
 
-        View paymentOptions = this.getLayoutInflater().inflate(R.layout.checkout_payment_options, null);
-        paymentOptions.findViewById(R.id.card_payment).setOnClickListener(this::cardPayment);
-        paymentOptions.findViewById(R.id.paypal_payment).setOnClickListener(this::paypayPayment);
-        paymentOptions.findViewById(R.id.google_payment).setOnClickListener(this::googlePayment);
+        View paymentOptions = this.getLayoutInflater().inflate(R.layout.checkout_options, null);
+        paymentOptions.findViewById(R.id.checkout_buy).setOnClickListener(this::checkout_buy);
+        paymentOptions.findViewById(R.id.checkout_rent).setOnClickListener(this::checkout_rent);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Payment method");
+        builder.setTitle("Choose Option");
         builder.setView(paymentOptions);
 
         builder
@@ -176,19 +215,83 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
                 .show();
     }
 
+    private void checkout_buy(View view) {
+
+        showDialogBuy();
+
+    }
+
+    private void checkout_rent(View view) {
+
+        showDialogRent();
+
+    }
+
+    private void showDialogBuy() {
+
+        View paymentOptions = this.getLayoutInflater().inflate(R.layout.checkout_payment_options, null);
+        paymentOptions.findViewById(R.id.card_payment).setOnClickListener(this::cardPayment);
+        paymentOptions.findViewById(R.id.paypal_payment).setOnClickListener(this::paypayPayment);
+        paymentOptions.findViewById(R.id.google_payment).setOnClickListener(this::googlePayment);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Payment method to buy");
+        builder.setView(paymentOptions);
+
+
+        builder
+                .setCancelable(true)
+                .create()
+                .show();
+    }
+
+    private void showDialogRent() {
+
+        View paymentOptions = this.getLayoutInflater().inflate(R.layout.checkout_payment_options, null);
+        paymentOptions.findViewById(R.id.card_payment).setOnClickListener(this::cardPaymentRent);
+        paymentOptions.findViewById(R.id.paypal_payment).setOnClickListener(this::paypayPaymentRent);
+        paymentOptions.findViewById(R.id.google_payment).setOnClickListener(this::googlePayment);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Payment method to rent");
+        builder.setView(paymentOptions);
+
+        builder
+                .setCancelable(true)
+                .create()
+                .show();
+    }
+
+
     private void cardPayment(View view) {
         toast("card payment");
         Bundle bundle = new Bundle();
         bundle.putSerializable(CHECKOUT_PRODUCTS, (Serializable) mProducts);
         NavUtil.moveTo(this, CheckoutActivityJava.class, bundle);
+
     }
 
     private void paypayPayment(View view) {
         toast("paypal payment");
-
         Bundle bundle = new Bundle();
         bundle.putSerializable(CHECKOUT_PRODUCTS, (Serializable) mProducts);
         NavUtil.moveTo(this, PayPalActivity.class, bundle);
+
+    }
+
+    private void cardPaymentRent(View view) {
+        toast("card payment");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CHECKOUT_PRODUCTS, (Serializable) mProducts);
+        NavUtil.moveTo(this, CheckoutActivityRentJava.class, bundle);
+
+    }
+
+    private void paypayPaymentRent(View view) {
+        toast("paypal payment");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CHECKOUT_PRODUCTS, (Serializable) mProducts);
+        NavUtil.moveTo(this, PayPalRentActivity.class, bundle);
 
     }
 

@@ -1,7 +1,12 @@
 package za.co.robusttech.sewain.activities;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.PendingIntent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +31,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -43,6 +50,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,8 +58,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -59,6 +71,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import za.co.robusttech.sewain.R;
 import za.co.robusttech.sewain.adapter.sub_topic_adapter;
 import za.co.robusttech.sewain.models.Product;
+import za.co.robusttech.sewain.models.Rent;
 import za.co.robusttech.sewain.models.home_sub;
 import za.co.robusttech.sewain.models.profile;
 
@@ -128,6 +141,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                     }
                 });
+
+
+
 
         subRecyclerView = findViewById(R.id.rc_for_sub);
         subRecyclerView.addItemDecoration(new DividerItemDecoration(HomeActivity.this, LinearLayoutManager.HORIZONTAL));
@@ -200,6 +216,121 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        DatabaseReference rentRef = FirebaseDatabase.getInstance().getReference("Rented");
+
+        rentRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    FirebaseUser auth;
+                    auth = FirebaseAuth.getInstance().getCurrentUser();
+                    String userId = auth.getUid();
+
+                    String rentID = dataSnapshot.getKey();
+
+                    DatabaseReference rentIdRef = FirebaseDatabase.getInstance().getReference("Rented").child(rentID).child(userId);
+
+                    rentIdRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            Rent rent = snapshot.getValue(Rent.class);
+
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                            String currentDate = simpleDateFormat.format(new Date());
+
+                            if (!snapshot.exists()){
+
+                            }else{
+                                if (rent.getSecondRentTime().equals(currentDate)){
+
+                                    addNotification();
+
+                                }else if (rent.getThirdRentTime().equals(currentDate)){
+
+                                    addNotification();
+
+
+                                }else if (rent.getFourthRentTime().equals(currentDate)){
+
+                                    addNotification();
+
+                                }else if (rent.getFifthRentTime().equals(currentDate)){
+
+                                    addNotification();
+
+                                }else if (rent.getSixthRentTime().equals(currentDate)){
+
+                                    addNotification();
+
+                                }else if (rent.getSeventhRentTime().equals(currentDate)){
+
+                                    addNotification();
+
+                                }else if (rent.getEighthRentTime().equals(currentDate)){
+
+                                    addNotification();
+
+                                }else if (rent.getNinthRentTime().equals(currentDate)){
+
+                                    addNotification();
+
+                                }else if (rent.getTenthRentTime().equals(currentDate)){
+
+                                    addNotification();
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+
+                }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void addNotification() {
+
+        Intent intent = new Intent(HomeActivity.this, NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("Notification", "Text");
+        PendingIntent pendingIntent = PendingIntent.getActivity(HomeActivity.this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        NotificationManager notificationManager = (NotificationManager) HomeActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(getResources().getString(R.string.app_name),
+                    getResources().getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH);
+            mChannel.enableLights(true);
+            mChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+        NotificationCompat.Builder notificationBuilder;
+        notificationBuilder = new NotificationCompat.Builder(HomeActivity.this, getResources().getString(R.string.app_name))
+                .setAutoCancel(true)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setColor(getResources().getColor(R.color.colorblack))
+                .setLargeIcon(BitmapFactory.decodeResource(HomeActivity.this.getResources(),
+                        R.mipmap.ic_launcher_round))
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentTitle("Rent Balance")
+                .setContentText("You Have To Pay Rent Money For The Product")
+                .setChannelId(getResources().getString(R.string.app_name))
+                .setFullScreenIntent(pendingIntent, true);
+        notificationManager.notify(1, notificationBuilder.build());
     }
 
     private void populateSubList() {

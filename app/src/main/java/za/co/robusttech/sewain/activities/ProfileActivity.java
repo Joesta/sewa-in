@@ -38,7 +38,9 @@ import java.util.HashMap;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import za.co.robusttech.sewain.DeliveryAdressActivity;
 import za.co.robusttech.sewain.R;
+import za.co.robusttech.sewain.models.address;
 import za.co.robusttech.sewain.models.profile;
 
 
@@ -90,6 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 profile user = dataSnapshot.getValue(profile.class);
+
                 username.setText(user.getName());
                 if (user.getImageURL().equals("default")){
                     imageview.setImageResource(R.drawable.profile);
@@ -127,17 +130,46 @@ public class ProfileActivity extends AppCompatActivity {
                 }
 
 
-                if (user.getAddress().equals("default")){
-                    addressName.setVisibility(View.GONE);
-                    addressPin.setVisibility(View.GONE);
-                    address.setText("Add Address");
-                } else {
-                    addressName.setVisibility(View.VISIBLE);
-                    addressPin.setVisibility(View.VISIBLE);
-                    addressName.setText(user.getAddressName());
-                    addressPin.setText(user.getAddressPin());
-                    address.setText(user.getAddress());
-                }
+                FirebaseUser fuser;
+                fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+                DatabaseReference addressRef =  FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid()).child("Address");
+
+                addressRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        address userAddress = snapshot.getValue(address.class);
+
+
+                        if (!snapshot.exists()) {
+
+                            addressName.setVisibility(View.GONE);
+                            addressPin.setVisibility(View.GONE);
+                            address.setText("Add Address");
+                            address.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent deliverAddrss = new Intent(ProfileActivity.this, DeliveryAdressActivity.class);
+                                    startActivity(deliverAddrss);
+                                }
+                            });
+
+                        } else {
+
+                            addressName.setVisibility(View.VISIBLE);
+                            addressPin.setVisibility(View.VISIBLE);
+                            addressName.setText(userAddress.getFullName());
+                            addressPin.setText(userAddress.getPinCode());
+                            address.setText(userAddress.getAreaColony());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
                 email.setText(user.getEmail());
             }

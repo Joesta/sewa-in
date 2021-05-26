@@ -78,6 +78,7 @@ public class DeliveryAdressActivity extends AppCompatActivity {
                 hashMap.put("areaColony", txt_delivery_area_colony);
                 hashMap.put("landMark", txt_delivery_landmark);
                 hashMap.put("townCity", txt_delivery_town_city);
+
                 reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -90,12 +91,7 @@ public class DeliveryAdressActivity extends AppCompatActivity {
                     }
                 });
 
-          //      DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference("Users").child(userid);
-                //HashMap<String, String> hashMap2 = new HashMap<>();
-               // hashMap2.put("address", txt_delivery_flat_house + txt_delivery_area_colony + txt_delivery_landmark + txt_delivery_town_city);
-             //   hashMap2.put("addressName", txt_delivery_full_name);
-           //     hashMap2.put("addressPin", txt_delivery_pincode);
-          //      reference2.setValue(hashMap2);
+
             }
         });
 

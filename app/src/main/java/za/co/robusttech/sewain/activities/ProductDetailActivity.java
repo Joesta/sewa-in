@@ -50,7 +50,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private TextView username_review;
 
     private ToggleButton heart;
-    private Button see_all, btn_add_direct_review;
+    private TextView  btn_add_direct_review;
     private ImageButton mBtnQuantityAdd;
     private ImageButton mBtnQuantityMinus;
     private Cart cart = new Cart();
@@ -69,7 +69,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
 
-        see_all = findViewById(R.id.btn_see_all);
+        TextView see_all = findViewById(R.id.btn_see_all);
         btn_add_direct_review = findViewById(R.id.btn_add_direct_review);
         tv_product_review = findViewById(R.id.tv_product_review);
         tv_product_review_title = findViewById(R.id.tv_product_review_title);
@@ -121,8 +121,8 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
 
                     }else{
                         tv_product_review.setText("No Review for this product");
-                        tv_product_review_title.setText("");
-                        username_review.setText("");
+                        tv_product_review_title.setVisibility(View.GONE);
+                        username_review.setVisibility(View.GONE);
 
                     }
                 }
