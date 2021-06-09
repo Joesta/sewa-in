@@ -3,6 +3,7 @@ package za.co.robusttech.sewain.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,8 +36,6 @@ public class NotificationActivity extends AppCompatActivity {
     private List<Product> mProducts;
     public static final String CHECKOUT_PRODUCTS = "productList";
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,52 +52,6 @@ public class NotificationActivity extends AppCompatActivity {
 
         mProducts = new ArrayList<>();
 
-        DatabaseReference noteRentRef = FirebaseDatabase.getInstance().getReference("Rented");
-
-        noteRentRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
-                    FirebaseUser auth;
-                    auth = FirebaseAuth.getInstance().getCurrentUser();
-                    String userId = auth.getUid();
-
-                    String rentID = dataSnapshot.getKey();
-
-                    DatabaseReference rentIdRef = FirebaseDatabase.getInstance().getReference("Rented").child(rentID).child(userId);
-
-                    DatabaseReference productRef = FirebaseDatabase.getInstance().getReference("Products").child(rentID);
-
-                    productRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                            Cart cart = snapshot.getValue(Cart.class);
-                            assert cart != null;
-                            Product product = cart.getProduct();
-
-                            mProducts.add(product);
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         DatabaseReference rentRef = FirebaseDatabase.getInstance().getReference("Rented");
 
         rentRef.addValueEventListener(new ValueEventListener() {
@@ -112,6 +65,25 @@ public class NotificationActivity extends AppCompatActivity {
                     String userId = auth.getUid();
 
                     String rentID = dataSnapshot.getKey();
+
+                    FirebaseDatabase.getInstance().getReference("Products").child(rentID)
+                            .addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                    Product product = snapshot.getValue(Product.class);
+                                    mProducts.add(product);
+                                    Toast.makeText(NotificationActivity.this, product.getProductId(), Toast.LENGTH_SHORT).show();
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
 
                     DatabaseReference rentIdRef = FirebaseDatabase.getInstance().getReference("Rented").child(rentID).child(userId);
 
@@ -135,10 +107,14 @@ public class NotificationActivity extends AppCompatActivity {
                                 productBuyedOn.setText(rent.getFirstRentTime());
                                 productRentPrice.setText(rent.getPerRent());
 
+
                                 productRentPay.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
 
+                                        Bundle bundle = new Bundle();
+                                        bundle.putSerializable(CHECKOUT_PRODUCTS, (Serializable) mProducts);
+                                        NavUtil.moveTo(NotificationActivity.this, CheckoutActivityRentPayJava.class, bundle);
 
 
                                     }

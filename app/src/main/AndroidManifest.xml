@@ -34,6 +34,7 @@
         <activity android:name=".activities.ForgotPasswordActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.CheckoutActivityJava" />
+        <activity android:name=".activities.CheckoutActivityRentPayJava" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.SplashScreenActivity">
             <intent-filter>

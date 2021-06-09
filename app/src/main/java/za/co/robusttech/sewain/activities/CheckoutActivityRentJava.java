@@ -300,8 +300,6 @@ public class CheckoutActivityRentJava extends AppCompatActivity {
                                         double currentProductPrice = product.getProductPrice();
                                         String productPrice = String.valueOf(currentProductPrice);
 
-
-
                                         double perRent = product.getProductPrice()/10;
                                         String amountPerRent = String.valueOf(perRent);
 
@@ -411,6 +409,7 @@ public class CheckoutActivityRentJava extends AppCompatActivity {
                                         hashMap.put("productId", product.getProductId());
                                         hashMap.put("productPrice", productPrice);//totalPrice
                                         hashMap.put("productName", product.getProductName());
+
                                         hashMap.put("amountPayed", amountPerRent);///paid
                                         hashMap.put("perRent", amountPerRent);//1time
                                         hashMap.put("amountBalance", amountRentBalance);//balance
@@ -427,7 +426,10 @@ public class CheckoutActivityRentJava extends AppCompatActivity {
                                         hashMap.put("tenthRentTime", tenthTimeOutput);//700-lastday
 
                                         buyRef.setValue(hashMap);
+
                                     }
+
+
 
 
                                 }
