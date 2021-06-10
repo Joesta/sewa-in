@@ -304,202 +304,105 @@ public class CheckoutActivityRentPayJava extends AppCompatActivity {
                                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
                                     String currentDate = simpleDateFormat.format(new Date());
 
+                                    String perRent = rent.getPerRent();
+                                    String amountPayed = rent.getAmountPayed();
+                                    String balance = rent.getAmountBalance();
+
+                                    double perRentInt = Double.parseDouble(perRent);;
+                                    double amountPayedInt = Double.parseDouble(amountPayed);
+                                    double balanceInt = Double.parseDouble(balance);
+
+                                    double amountPayedValue = amountPayedInt + perRentInt;
+                                    double balanceValue = balanceInt - perRentInt;
+
+                                    String amountPayedStr = String.valueOf(amountPayedValue);
+                                    String balanceStr = String.valueOf(balanceValue);
+
+
                                     if (!snapshot.exists()){
 
                                     }else{
+
                                         if (rent.getSecondRentTime().equals(currentDate)){
 
-                                            String perRent = rent.getPerRent();
-                                            String amountPayed = rent.getAmountPayed();
-                                            String balance = rent.getAmountBalance();
+                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
 
-                                            double perRentInt = Double.parseDouble(perRent);;
-                                            double amountPayedInt = Double.parseDouble(amountPayed);
-                                            double balanceInt = Double.parseDouble(balance);
-
-                                            double amountPayedValue = amountPayedInt + perRentInt;
-                                            double balanceValue = balanceInt - perRentInt;
-
-                                            String amountPayedStr = String.valueOf(amountPayedValue);
-                                            String balanceStr = String.valueOf(balanceValue);
-
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(amountPayedStr);
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(balanceStr);
                                             rentPay.child(key).child(userId).child("secondRentTime").setValue("payed");
+
+                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
 
 
 
                                         }else if (rent.getThirdRentTime().equals(currentDate)){
 
+                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
 
-                                            String perRent = rent.getPerRent();
-                                            String amountPayed = rent.getAmountPayed();
-                                            String balance = rent.getAmountBalance();
+                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
 
-                                            double perRentInt = Double.parseDouble(perRent);;
-                                            double amountPayedInt = Double.parseDouble(amountPayed);
-                                            double balanceInt = Double.parseDouble(balance);
-
-                                            double amountPayedValue = amountPayedInt + perRentInt;
-                                            double balanceValue = balanceInt - perRentInt;
-
-                                            String amountPayedStr = String.valueOf(amountPayedValue);
-                                            String balanceStr = String.valueOf(balanceValue);
-
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(amountPayedStr);
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(balanceStr);
                                             rentPay.child(key).child(userId).child("thirdRentTime").setValue("payed");
-
-
 
                                         }else if (rent.getFourthRentTime().equals(currentDate)){
 
+                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
+
+                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
+
                                             rentPay.child(key).child(userId).child("fourthRentTime").setValue("payed");
 
-                                            String perRent = rent.getPerRent();
-                                            String amountPayed = rent.getAmountPayed();
-                                            String balance = rent.getAmountBalance();
-
-                                            double perRentInt = Double.parseDouble(perRent);;
-                                            double amountPayedInt = Double.parseDouble(amountPayed);
-                                            double balanceInt = Double.parseDouble(balance);
-
-                                            double amountPayedValue = amountPayedInt + perRentInt;
-                                            double balanceValue = balanceInt - perRentInt;
-
-                                            String amountPayedStr = String.valueOf(amountPayedValue);
-                                            String balanceStr = String.valueOf(balanceValue);
-
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(amountPayedStr);
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(balanceStr);
 
                                         }else if (rent.getFifthRentTime().equals(currentDate)){
 
+                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
+
+                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
+
                                             rentPay.child(key).child(userId).child("fifthRentTime").setValue("payed");
 
-                                            String perRent = rent.getPerRent();
-                                            String amountPayed = rent.getAmountPayed();
-                                            String balance = rent.getAmountBalance();
-
-                                            double perRentInt = Double.parseDouble(perRent);;
-                                            double amountPayedInt = Double.parseDouble(amountPayed);
-                                            double balanceInt = Double.parseDouble(balance);
-
-                                            double amountPayedValue = amountPayedInt + perRentInt;
-                                            double balanceValue = balanceInt - perRentInt;
-
-                                            String amountPayedStr = String.valueOf(amountPayedValue);
-                                            String balanceStr = String.valueOf(balanceValue);
-
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(amountPayedStr);
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(balanceStr);
 
                                         }else if (rent.getSixthRentTime().equals(currentDate)){
 
+                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
+
+                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
+
                                             rentPay.child(key).child(userId).child("sixthRentTime").setValue("payed");
 
-                                            String perRent = rent.getPerRent();
-                                            String amountPayed = rent.getAmountPayed();
-                                            String balance = rent.getAmountBalance();
-
-                                            double perRentInt = Double.parseDouble(perRent);;
-                                            double amountPayedInt = Double.parseDouble(amountPayed);
-                                            double balanceInt = Double.parseDouble(balance);
-
-                                            double amountPayedValue = amountPayedInt + perRentInt;
-                                            double balanceValue = balanceInt - perRentInt;
-
-                                            String amountPayedStr = String.valueOf(amountPayedValue);
-                                            String balanceStr = String.valueOf(balanceValue);
-
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(amountPayedStr);
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(balanceStr);
 
                                         }else if (rent.getSeventhRentTime().equals(currentDate)){
 
+                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
+
+                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
+
                                             rentPay.child(key).child(userId).child("seventhRentTime").setValue("payed");
 
-                                            String perRent = rent.getPerRent();
-                                            String amountPayed = rent.getAmountPayed();
-                                            String balance = rent.getAmountBalance();
-
-                                            double perRentInt = Double.parseDouble(perRent);;
-                                            double amountPayedInt = Double.parseDouble(amountPayed);
-                                            double balanceInt = Double.parseDouble(balance);
-
-                                            double amountPayedValue = amountPayedInt + perRentInt;
-                                            double balanceValue = balanceInt - perRentInt;
-
-                                            String amountPayedStr = String.valueOf(amountPayedValue);
-                                            String balanceStr = String.valueOf(balanceValue);
-
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(amountPayedStr);
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(balanceStr);
 
                                         }else if (rent.getEighthRentTime().equals(currentDate)){
 
+                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
+
+                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
+
                                             rentPay.child(key).child(userId).child("eighthRentTime").setValue("payed");
 
-                                            String perRent = rent.getPerRent();
-                                            String amountPayed = rent.getAmountPayed();
-                                            String balance = rent.getAmountBalance();
-
-                                            double perRentInt = Double.parseDouble(perRent);;
-                                            double amountPayedInt = Double.parseDouble(amountPayed);
-                                            double balanceInt = Double.parseDouble(balance);
-
-                                            double amountPayedValue = amountPayedInt + perRentInt;
-                                            double balanceValue = balanceInt - perRentInt;
-
-                                            String amountPayedStr = String.valueOf(amountPayedValue);
-                                            String balanceStr = String.valueOf(balanceValue);
-
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(amountPayedStr);
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(balanceStr);
 
                                         }else if (rent.getNinthRentTime().equals(currentDate)){
 
+                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
+
+                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
+
                                             rentPay.child(key).child(userId).child("ninthRentTime").setValue("payed");
-
-                                            String perRent = rent.getPerRent();
-                                            String amountPayed = rent.getAmountPayed();
-                                            String balance = rent.getAmountBalance();
-
-                                            double perRentInt = Double.parseDouble(perRent);;
-                                            double amountPayedInt = Double.parseDouble(amountPayed);
-                                            double balanceInt = Double.parseDouble(balance);
-
-                                            double amountPayedValue = amountPayedInt + perRentInt;
-                                            double balanceValue = balanceInt - perRentInt;
-
-                                            String amountPayedStr = String.valueOf(amountPayedValue);
-                                            String balanceStr = String.valueOf(balanceValue);
-
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(amountPayedStr);
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(balanceStr);
 
                                         }else if (rent.getTenthRentTime().equals(currentDate)){
 
+                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
+
+                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
+
                                             rentPay.child(key).child(userId).child("tenthRentTime").setValue("payed");
 
-                                            String perRent = rent.getPerRent();
-                                            String amountPayed = rent.getAmountPayed();
-                                            String balance = rent.getAmountBalance();
-
-                                            double perRentInt = Double.parseDouble(perRent);;
-                                            double amountPayedInt = Double.parseDouble(amountPayed);
-                                            double balanceInt = Double.parseDouble(balance);
-
-                                            double amountPayedValue = amountPayedInt + perRentInt;
-                                            double balanceValue = balanceInt - perRentInt;
-
-                                            String amountPayedStr = String.valueOf(amountPayedValue);
-                                            String balanceStr = String.valueOf(balanceValue);
-
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(amountPayedStr);
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(balanceStr);
                                         }
-
 
                                     }
 
