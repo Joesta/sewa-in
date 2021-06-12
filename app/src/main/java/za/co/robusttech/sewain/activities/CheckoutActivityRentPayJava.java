@@ -304,103 +304,57 @@ public class CheckoutActivityRentPayJava extends AppCompatActivity {
                                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
                                     String currentDate = simpleDateFormat.format(new Date());
 
-                                    String perRent = rent.getPerRent();
-                                    String amountPayed = rent.getAmountPayed();
-                                    String balance = rent.getAmountBalance();
-
-                                    double perRentInt = Double.parseDouble(perRent);;
-                                    double amountPayedInt = Double.parseDouble(amountPayed);
-                                    double balanceInt = Double.parseDouble(balance);
-
-                                    double amountPayedValue = amountPayedInt + perRentInt;
-                                    double balanceValue = balanceInt - perRentInt;
-
-                                    String amountPayedStr = String.valueOf(amountPayedValue);
-                                    String balanceStr = String.valueOf(balanceValue);
-
-
                                     if (!snapshot.exists()){
 
                                     }else{
 
                                         if (rent.getSecondRentTime().equals(currentDate)){
 
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
-
                                             rentPay.child(key).child(userId).child("secondRentTime").setValue("payed");
-
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
-
 
 
                                         }else if (rent.getThirdRentTime().equals(currentDate)){
 
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
-
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
-
                                             rentPay.child(key).child(userId).child("thirdRentTime").setValue("payed");
 
                                         }else if (rent.getFourthRentTime().equals(currentDate)){
-
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
-
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
 
                                             rentPay.child(key).child(userId).child("fourthRentTime").setValue("payed");
 
 
                                         }else if (rent.getFifthRentTime().equals(currentDate)){
 
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
-
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
 
                                             rentPay.child(key).child(userId).child("fifthRentTime").setValue("payed");
 
 
                                         }else if (rent.getSixthRentTime().equals(currentDate)){
 
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
-
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
-
                                             rentPay.child(key).child(userId).child("sixthRentTime").setValue("payed");
 
 
                                         }else if (rent.getSeventhRentTime().equals(currentDate)){
 
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
-
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
 
                                             rentPay.child(key).child(userId).child("seventhRentTime").setValue("payed");
 
 
                                         }else if (rent.getEighthRentTime().equals(currentDate)){
 
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
-
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
 
                                             rentPay.child(key).child(userId).child("eighthRentTime").setValue("payed");
 
 
                                         }else if (rent.getNinthRentTime().equals(currentDate)){
 
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
-
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
 
                                             rentPay.child(key).child(userId).child("ninthRentTime").setValue("payed");
 
                                         }else if (rent.getTenthRentTime().equals(currentDate)){
 
-                                            rentPay.child(key).child(userId).child("amountPayed").setValue(amountPayedStr);
-
-                                            rentPay.child(key).child(userId).child("amountBalance").setValue(balanceStr);
-
                                             rentPay.child(key).child(userId).child("tenthRentTime").setValue("payed");
+
+
 
                                         }
 

@@ -1,14 +1,13 @@
 package za.co.robusttech.sewain.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,17 +25,21 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 import org.json.JSONException;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import za.co.robusttech.sewain.BuildConfig;
 import za.co.robusttech.sewain.R;
 import za.co.robusttech.sewain.models.Cart;
 import za.co.robusttech.sewain.models.Product;
+import za.co.robusttech.sewain.models.Rent;
 import za.co.robusttech.sewain.utils.NavUtil;
 
-public class PayPalActivity extends AppCompatActivity {
+public class PayPalRentPayActivity extends AppCompatActivity {
 
     private static PayPalConfiguration config = new PayPalConfiguration()
 
@@ -69,7 +72,7 @@ public class PayPalActivity extends AppCompatActivity {
     private double getAmount() {
         double amount = 0.0;
         for (Product product : checkoutProducts) {
-            amount += product.getProductPrice();
+            amount += product.getProductPrice()/10;
         }
 
         return amount;
@@ -108,53 +111,101 @@ public class PayPalActivity extends AppCompatActivity {
                     // see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
                     // for more details.
                     Toast.makeText(this, "Order was paid successfully", Toast.LENGTH_LONG).show();
-
                     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                     String userId = firebaseUser.getUid();
 
-                    FirebaseDatabase
-                            .getInstance()
-                            .getReference("Cart")
-                            .child(userId)
-                            .addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (!snapshot.exists()) return;
+                    DatabaseReference rentPay = FirebaseDatabase.getInstance().getReference("Rented");
 
-                                    for (DataSnapshot currentSnapshot : snapshot.getChildren()) {
-                                        Cart cart = currentSnapshot.getValue(Cart.class);
-                                        assert cart != null;
-                                        Product product = cart.getProduct();
+                    rentPay.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                        for (Product productArray : checkoutProducts) {
-                                            int qnty = productArray.getProductQuantity();
-                                            String qntyStr = String.valueOf(qnty);
+                            for (DataSnapshot currentSnapshot : snapshot.getChildren()) {
 
-                                            double currentProductPrice = product.getProductPrice();
-                                            String productPrice = String.valueOf(currentProductPrice);
-                                            DatabaseReference buyRef = FirebaseDatabase.getInstance().getReference("Buyed").child(product.getProductId()).child(userId);
-                                            HashMap<String, String> hashMap = new HashMap<>();
-                                            hashMap.put("id", userId);
-                                            hashMap.put("productId", product.getProductId());
-                                            hashMap.put("productPrice", productPrice);
-                                            hashMap.put("productReturned", "false");
-                                            hashMap.put("productQuantityBuyed", qntyStr);
+                                String key = currentSnapshot.getKey();
+                                rentPay.child(key).child(userId).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                            buyRef.setValue(hashMap);
+                                        Rent rent = snapshot.getValue(Rent.class);
+
+                                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                                        String currentDate = simpleDateFormat.format(new Date());
+
+                                        if (!snapshot.exists()){
+
+                                        }else{
+
+                                            if (rent.getSecondRentTime().equals(currentDate)){
+
+                                                rentPay.child(key).child(userId).child("secondRentTime").setValue("payed");
+
+
+                                            }else if (rent.getThirdRentTime().equals(currentDate)){
+
+                                                rentPay.child(key).child(userId).child("thirdRentTime").setValue("payed");
+
+                                            }else if (rent.getFourthRentTime().equals(currentDate)){
+
+                                                rentPay.child(key).child(userId).child("fourthRentTime").setValue("payed");
+
+
+                                            }else if (rent.getFifthRentTime().equals(currentDate)){
+
+
+                                                rentPay.child(key).child(userId).child("fifthRentTime").setValue("payed");
+
+
+                                            }else if (rent.getSixthRentTime().equals(currentDate)){
+
+
+
+                                                rentPay.child(key).child(userId).child("sixthRentTime").setValue("payed");
+
+
+                                            }else if (rent.getSeventhRentTime().equals(currentDate)){
+
+
+                                                rentPay.child(key).child(userId).child("seventhRentTime").setValue("payed");
+
+
+                                            }else if (rent.getEighthRentTime().equals(currentDate)){
+
+
+                                                rentPay.child(key).child(userId).child("eighthRentTime").setValue("payed");
+
+
+                                            }else if (rent.getNinthRentTime().equals(currentDate)){
+
+
+                                                rentPay.child(key).child(userId).child("ninthRentTime").setValue("payed");
+
+                                            }else if (rent.getTenthRentTime().equals(currentDate)){
+
+
+                                                rentPay.child(key).child(userId).child("tenthRentTime").setValue("payed");
+
+                                            }
 
                                         }
+
                                     }
 
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
+                                    }
+                                });
 
-                                }
+                            }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                    Toast.makeText(PayPalActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            });
-                    removeCardItem();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
                     NavUtil.moveTo(this, HomeActivity.class, null);
 
@@ -167,21 +218,6 @@ public class PayPalActivity extends AppCompatActivity {
         } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
             Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
         }
-    }
-
-    private void removeCardItem() {
-        FirebaseDatabase
-                .getInstance()
-                .getReference("Cart")
-                .child(getUserId())
-                .removeValue();
-    }
-
-    private String getUserId() {
-        return Objects.requireNonNull(FirebaseAuth
-                .getInstance()
-                .getCurrentUser())
-                .getUid();
     }
 
     @Override

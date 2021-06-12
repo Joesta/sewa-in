@@ -63,7 +63,7 @@ import za.co.robusttech.sewain.models.Product;
 import za.co.robusttech.sewain.utils.NavUtil;
 import za.co.robusttech.sewain.utils.ProgressBar;
 
-public class CheckoutActivityJava extends AppCompatActivity {
+public class cardBuyActivity extends AppCompatActivity {
 
     private static final String TAG = "CheckoutActivityJava";
     // 10.0.2.2 is the Android emulator's alias to localhost
@@ -147,7 +147,11 @@ public class CheckoutActivityJava extends AppCompatActivity {
     private double getAmount() {
         double amount = 0.0;
         for (Product product : checkoutProducts) {
-            amount += product.getProductPrice();
+
+            double originalPrice = product.getProductPrice()/85;
+            int price = (int) originalPrice;
+            Toast.makeText(this, price, Toast.LENGTH_SHORT).show();
+            amount += price;
         }
 
         return amount;
@@ -207,15 +211,15 @@ public class CheckoutActivityJava extends AppCompatActivity {
     // callback request
     private final class PayCallback implements Callback {
         @NonNull
-        private final WeakReference<CheckoutActivityJava> activityRef;
+        private final WeakReference<cardBuyActivity> activityRef;
 
-        PayCallback(@NonNull CheckoutActivityJava activity) {
+        PayCallback(@NonNull cardBuyActivity activity) {
             activityRef = new WeakReference<>(activity);
         }
 
         @Override
         public void onFailure(@NonNull Call call, @NonNull IOException e) {
-            final CheckoutActivityJava activity = activityRef.get();
+            final cardBuyActivity activity = activityRef.get();
             if (activity == null) {
                 return;
             }
@@ -231,7 +235,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
         @Override
         public void onResponse(@NonNull Call call, @NonNull final Response response)
                 throws IOException {
-            final CheckoutActivityJava activity = activityRef.get();
+            final cardBuyActivity activity = activityRef.get();
             if (activity == null) {
                 return;
             }
@@ -255,15 +259,15 @@ public class CheckoutActivityJava extends AppCompatActivity {
     private final class PaymentResultCallback
             implements ApiResultCallback<PaymentIntentResult> {
         @NonNull
-        private final WeakReference<CheckoutActivityJava> activityRef;
+        private final WeakReference<cardBuyActivity> activityRef;
 
-        PaymentResultCallback(@NonNull CheckoutActivityJava activity) {
+        PaymentResultCallback(@NonNull cardBuyActivity activity) {
             activityRef = new WeakReference<>(activity);
         }
 
         @Override
         public void onSuccess(@NonNull PaymentIntentResult result) {
-            final CheckoutActivityJava activity = activityRef.get();
+            final cardBuyActivity activity = activityRef.get();
 
             if (activity == null) {
                 return;
@@ -272,57 +276,50 @@ public class CheckoutActivityJava extends AppCompatActivity {
             PaymentIntent paymentIntent = result.getIntent();
             PaymentIntent.Status status = paymentIntent.getStatus();
             if (status == PaymentIntent.Status.Succeeded) {
-
-
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 activity.displayAlert("Payment completed", paymentIntent.getStatus().getCode());
 
                     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                     String userId = firebaseUser.getUid();
 
-                    FirebaseDatabase
-                            .getInstance()
-                            .getReference("Cart")
-                            .child(userId)
-                            .addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (!snapshot.exists()) return;
 
-                                    for (DataSnapshot currentSnapshot : snapshot.getChildren()) {
-                                        Cart cart = currentSnapshot.getValue(Cart.class);
-                                        assert cart != null;
-                                        Product product = cart.getProduct();
+                FirebaseDatabase.getInstance()
+                        .getReference("Rented").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                        for (Product productArray : checkoutProducts) {
-                                            int qnty = productArray.getProductQuantity();
-                                            String qntyStr = String.valueOf(qnty);
+                        for (DataSnapshot currentSnapshot : snapshot.getChildren()) {
 
-                                            double currentProductPrice = product.getProductPrice();
-                                            String productPrice = String.valueOf(currentProductPrice);
-                                            DatabaseReference buyRef = FirebaseDatabase.getInstance().getReference("Buyed").child(product.getProductId()).child(userId);
-                                            HashMap<String, String> hashMap = new HashMap<>();
-                                            hashMap.put("id", userId);
-                                            hashMap.put("productId", product.getProductId());
-                                            hashMap.put("productPrice", productPrice);
-                                            hashMap.put("productReturned", "false");
-                                            hashMap.put("productQuantityBuyed", qntyStr);
+                            String key = currentSnapshot.getKey();
+                            FirebaseDatabase.getInstance()
+                                    .getReference("Rented").child(key).child(userId).removeValue();
 
-                                            buyRef.setValue(hashMap);
+                            for (Product product : checkoutProducts) {
 
-                                        }
-                                    }
+                                double currentProductPrice = product.getProductPrice();
+                                String productPrice = String.valueOf(currentProductPrice);
+                                DatabaseReference buyRef = FirebaseDatabase.getInstance().getReference("Buyed").child(product.getProductId()).child(userId);
+                                HashMap<String, String> hashMap = new HashMap<>();
+                                hashMap.put("id", userId);
+                                hashMap.put("productId", product.getProductId());
+                                hashMap.put("productPrice", productPrice);
+                                hashMap.put("productReturned", "true");
+
+                                buyRef.setValue(hashMap);
 
 
-                                }
+                            }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                    Toast.makeText(activity, error.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            });
+                        }
 
-                removeCardItem();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
             } else if (status == PaymentIntent.Status.RequiresPaymentMethod) {
                 // Payment failed – allow retrying using a different payment method
@@ -350,7 +347,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
         @Override
         public void onError(@NonNull Exception e) {
-            final CheckoutActivityJava activity = activityRef.get();
+            final cardBuyActivity activity = activityRef.get();
             if (activity == null) {
                 return;
             }

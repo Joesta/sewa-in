@@ -292,20 +292,39 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         resetPrice();
         cart.setProduct(mProduct);
         cart.setCustomerId(mUserId);
-        mRef
-                .child("Cart")
-                .child(mUserId)
-                .child(mProduct.getProductId())
-                .setValue(cart)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isComplete()) {
-                        Toast.makeText(this, "Product added", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "Failed to add product to cart", Toast.LENGTH_LONG).show();
-                    }
-                });
 
-        startActivity(new Intent(this, HomeActivity.class));
+        DatabaseReference checkCart = FirebaseDatabase.getInstance().getReference("Cart").child(mUserId);
+
+        checkCart.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (!snapshot.exists()){
+
+                    mRef
+                            .child("Cart")
+                            .child(mUserId)
+                            .child(mProduct.getProductId())
+                            .setValue(cart)
+                            .addOnCompleteListener(ProductDetailActivity.this, task -> {
+                                if (task.isComplete()) {
+                                    Toast.makeText(ProductDetailActivity.this, "Product added", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }else{
+
+                    Toast.makeText(ProductDetailActivity.this, "You have a product in Cart", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
     }
 }

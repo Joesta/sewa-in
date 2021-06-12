@@ -21,16 +21,18 @@ public class Rent {
     private String productId;
     private String productPrice;
     private String productName;
-    private String amountPayed;
     private String perRent;
-    private String amountBalance;
+    private String buyOrReturnTimeExpire;
+    private String buyOrReturnTimeOutOne;
+    private String buyOrReturnTimeOutTwo;
+
 
 
     public Rent() {
 
     }
 
-    public Rent(String firstRentTime, String secondRentTime, String thirdRentTime, String fourthRentTime, String fifthRentTime, String sixthRentTime, String seventhRentTime, String eighthRentTime, String ninthRentTime, String tenthRentTime, String id, String productId, String productPrice, String productName, String amountPayed, String perRent, String amountBalance) {
+    public Rent(String firstRentTime, String secondRentTime, String thirdRentTime, String fourthRentTime, String fifthRentTime, String sixthRentTime, String seventhRentTime, String eighthRentTime, String ninthRentTime, String tenthRentTime, String id, String productId, String productPrice, String productName, String perRent, String buyOrReturnTimeExpire, String buyOrReturnTimeOutOne, String buyOrReturnTimeOutTwo) {
         this.firstRentTime = firstRentTime;
         this.secondRentTime = secondRentTime;
         this.thirdRentTime = thirdRentTime;
@@ -45,9 +47,10 @@ public class Rent {
         this.productId = productId;
         this.productPrice = productPrice;
         this.productName = productName;
-        this.amountPayed = amountPayed;
         this.perRent = perRent;
-        this.amountBalance = amountBalance;
+        this.buyOrReturnTimeExpire = buyOrReturnTimeExpire;
+        this.buyOrReturnTimeOutOne = buyOrReturnTimeOutOne;
+        this.buyOrReturnTimeOutTwo = buyOrReturnTimeOutTwo;
     }
 
     public String getFirstRentTime() {
@@ -162,14 +165,6 @@ public class Rent {
         this.productName = productName;
     }
 
-    public String getAmountPayed() {
-        return amountPayed;
-    }
-
-    public void setAmountPayed(String amountPayed) {
-        this.amountPayed = amountPayed;
-    }
-
     public String getPerRent() {
         return perRent;
     }
@@ -178,11 +173,27 @@ public class Rent {
         this.perRent = perRent;
     }
 
-    public String getAmountBalance() {
-        return amountBalance;
+    public String getBuyOrReturnTimeExpire() {
+        return buyOrReturnTimeExpire;
     }
 
-    public void setAmountBalance(String amountBalance) {
-        this.amountBalance = amountBalance;
+    public void setBuyOrReturnTimeExpire(String buyOrReturnTimeExpire) {
+        this.buyOrReturnTimeExpire = buyOrReturnTimeExpire;
+    }
+
+    public String getBuyOrReturnTimeOutOne() {
+        return buyOrReturnTimeOutOne;
+    }
+
+    public void setBuyOrReturnTimeOutOne(String buyOrReturnTimeOutOne) {
+        this.buyOrReturnTimeOutOne = buyOrReturnTimeOutOne;
+    }
+
+    public String getBuyOrReturnTimeOutTwo() {
+        return buyOrReturnTimeOutTwo;
+    }
+
+    public void setBuyOrReturnTimeOutTwo(String buyOrReturnTimeOutTwo) {
+        this.buyOrReturnTimeOutTwo = buyOrReturnTimeOutTwo;
     }
 }

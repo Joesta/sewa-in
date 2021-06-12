@@ -24,9 +24,7 @@
         <item
             android:id="@+id/nav_My_Wishlist"
             android:title="My Wishlist" />
-        <item
-            android:id="@+id/nav_My_Rewards"
-            android:title="My Rewards" />
+
 
     </group>
 

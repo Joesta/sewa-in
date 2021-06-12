@@ -109,52 +109,64 @@ public class CheckoutActivityRentJava extends AppCompatActivity {
         // Create a PaymentIntent by calling the server's endpoint.
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
 
-        double amount = getAmount() * 100;
 
-        Map<String, Object> payMap = new HashMap<>();
-        Map<String, Object> itemMap = new HashMap<>();
-
-        List<Map<String, Object>> itemList = new ArrayList<>();//getItemsList();
-
-        payMap.put("currency", currencyCode);
-        itemMap.put("amount", amount);
-        itemList.add(itemMap);
-        payMap.put("items", itemList);
-
-        String json = new Gson().toJson(payMap);
-        Log.d(TAG, "startCheckout: json: " + json);
-
-        RequestBody body = RequestBody.create(json, mediaType);
-        Request request = new Request.Builder()
-                .url(BACKEND_URL + "create-payment-intent")
-                .post(body)
-                .build();
-        httpClient.newCall(request)
-                .enqueue(new PayCallback(this));
-
-        // Hook up the pay button to the card widget and stripe instance
-        Button payButton = findViewById(R.id.payButton);
-
-        payButton.setOnClickListener((View view) -> {
-            CardInputWidget cardInputWidget = findViewById(R.id.cardInputWidget);
-            PaymentMethodCreateParams params = cardInputWidget.getPaymentMethodCreateParams();
-            if (params != null) {
-                ProgressBar.displayDialog(this, "Processing payment...");
-                ConfirmPaymentIntentParams confirmParams = ConfirmPaymentIntentParams
-                        .createWithPaymentMethodCreateParams(params, paymentIntentClientSecret);
-                stripe.confirmPayment(this, confirmParams);
-            }
-
-        });
-    }
-
-    private double getAmount() {
-        double amount = 0.0;
         for (Product product : checkoutProducts) {
-            amount += product.getProductPrice()/10;
+
+           FirebaseDatabase.getInstance().getReference("Products").child(product.getProductId()).
+                   addValueEventListener(new ValueEventListener() {
+                       @Override
+                       public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                           Product priceProduct = snapshot.getValue(Product.class);
+
+                           double amountPrice = priceProduct.getProductPrice()/10 * 10;
+
+                           Map<String, Object> payMap = new HashMap<>();
+                           Map<String, Object> itemMap = new HashMap<>();
+
+                           Toast.makeText(CheckoutActivityRentJava.this, String.valueOf(amountPrice), Toast.LENGTH_SHORT).show();
+
+                           List<Map<String, Object>> itemList = new ArrayList<>();//getItemsList();
+
+                           payMap.put("currency", currencyCode);
+                           itemMap.put("amount", amountPrice);
+                           itemList.add(itemMap);
+                           payMap.put("items", itemList);
+
+                           String json = new Gson().toJson(payMap);
+                           Log.d(TAG, "startCheckout: json: " + json);
+
+                           RequestBody body = RequestBody.create(json, mediaType);
+                           Request request = new Request.Builder()
+                                   .url(BACKEND_URL + "create-payment-intent")
+                                   .post(body)
+                                   .build();
+                           httpClient.newCall(request)
+                                   .enqueue(new PayCallback(CheckoutActivityRentJava.this));
+
+                           // Hook up the pay button to the card widget and stripe instance
+                           Button payButton = findViewById(R.id.payButton);
+
+                           payButton.setOnClickListener((View view) -> {
+                               CardInputWidget cardInputWidget = findViewById(R.id.cardInputWidget);
+                               PaymentMethodCreateParams params = cardInputWidget.getPaymentMethodCreateParams();
+                               if (params != null) {
+                                   ProgressBar.displayDialog(CheckoutActivityRentJava.this, "Processing payment...");
+                                   ConfirmPaymentIntentParams confirmParams = ConfirmPaymentIntentParams
+                                           .createWithPaymentMethodCreateParams(params, paymentIntentClientSecret);
+                                   stripe.confirmPayment(CheckoutActivityRentJava.this, confirmParams);
+                               }
+
+                           });
+                       }
+
+                       @Override
+                       public void onCancelled(@NonNull DatabaseError error) {
+
+                       }
+                   });
         }
 
-        return amount;
     }
 
     private List<Map<String, Object>> getItemsList() {
@@ -297,15 +309,6 @@ public class CheckoutActivityRentJava extends AppCompatActivity {
                                         assert cart != null;
                                         Product product = cart.getProduct();
 
-                                        double currentProductPrice = product.getProductPrice();
-                                        String productPrice = String.valueOf(currentProductPrice);
-
-                                        double perRent = product.getProductPrice()/10;
-                                        String amountPerRent = String.valueOf(perRent);
-
-                                        double amountBalance = product.getProductPrice()-perRent;
-                                        String amountRentBalance = String.valueOf(amountBalance);
-
 
                                         SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
                                         String firstTimeOutput = simpleDateFormat1.format(new Date());
@@ -402,35 +405,87 @@ public class CheckoutActivityRentJava extends AppCompatActivity {
                                         SimpleDateFormat simpleDateFormat40 = new SimpleDateFormat("dd-MM-yyyy");
                                         String tenthTimeOutput = simpleDateFormat40.format(calendar20.getTime());
 
-                                        DatabaseReference buyRef = FirebaseDatabase.getInstance().getReference("Rented").child(product.getProductId()).child(userId);
+                                        Calendar calendar21 = Calendar.getInstance();
+                                        try {
+                                            calendar21.setTime(simpleDateFormat2.parse(date1));
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        calendar21.add(Calendar.DATE, 65);//700
+                                        SimpleDateFormat simpleDateFormat41 = new SimpleDateFormat("dd-MM-yyyy");
+                                        String buyOrReturnTimeOutExpire = simpleDateFormat41.format(calendar21.getTime());
 
-                                        HashMap<String, String> hashMap = new HashMap<>();
-                                        hashMap.put("id", userId);
-                                        hashMap.put("productId", product.getProductId());
-                                        hashMap.put("productPrice", productPrice);//totalPrice
-                                        hashMap.put("productName", product.getProductName());
 
-                                        hashMap.put("amountPayed", amountPerRent);///paid
-                                        hashMap.put("perRent", amountPerRent);//1time
-                                        hashMap.put("amountBalance", amountRentBalance);//balance
+                                        Calendar calendar22 = Calendar.getInstance();
+                                        try {
+                                            calendar22.setTime(simpleDateFormat2.parse(date1));
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        calendar22.add(Calendar.DATE, 63);//700
+                                        SimpleDateFormat simpleDateFormat42 = new SimpleDateFormat("dd-MM-yyyy");
+                                        String buyOrReturnTimeOutOne = simpleDateFormat42.format(calendar22.getTime());
 
-                                        hashMap.put("firstRentTime", firstTimeOutput);//70-today
-                                        hashMap.put("secondRentTime", secondTimeOutput);//140
-                                        hashMap.put("thirdRentTime", thirdTimeOutput);//210
-                                        hashMap.put("fourthRentTime", fourthTimeOutput);//280
-                                        hashMap.put("fifthRentTime", fivethTimeOutput);//350
-                                        hashMap.put("sixthRentTime", sixthTimeOutput);//420
-                                        hashMap.put("seventhRentTime", seventhTimeOutput);//490
-                                        hashMap.put("eighthRentTime", eighthTimeOutput);//560
-                                        hashMap.put("ninthRentTime", ninthTimeOutput);//630
-                                        hashMap.put("tenthRentTime", tenthTimeOutput);//700-lastday
+                                        Calendar calendar23 = Calendar.getInstance();
+                                        try {
+                                            calendar23.setTime(simpleDateFormat2.parse(date1));
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        calendar23.add(Calendar.DATE, 64);//700
+                                        SimpleDateFormat simpleDateFormat43 = new SimpleDateFormat("dd-MM-yyyy");
+                                        String buyOrReturnTimeOutTwo = simpleDateFormat43.format(calendar23.getTime());
 
-                                        buyRef.setValue(hashMap);
 
+
+                                        DatabaseReference priceRef = FirebaseDatabase.getInstance().getReference("Products").child(product.getProductId());
+
+                                        priceRef.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                                DatabaseReference buyRef = FirebaseDatabase.getInstance().getReference("Rented").child(product.getProductId()).child(userId);
+
+                                                Product productRate = snapshot.getValue(Product.class);
+
+                                                double currentProductPrice = productRate.getProductPrice();
+                                                String productPrice = String.valueOf(currentProductPrice);
+
+                                                double perRent = productRate.getProductPrice()/10;
+                                                String amountPerRent = String.valueOf(perRent);
+
+                                                HashMap<String, String> hashMap = new HashMap<>();
+                                                hashMap.put("id", userId);
+                                                hashMap.put("productId", product.getProductId());
+                                                hashMap.put("productPrice", productPrice);//totalPrice
+                                                hashMap.put("productName", product.getProductName());
+
+                                                hashMap.put("perRent", amountPerRent);//1time
+                                                hashMap.put("buyOrReturnTimeExpire", buyOrReturnTimeOutExpire);
+                                                hashMap.put("buyOrReturnTimeOutOne", buyOrReturnTimeOutOne);
+                                                hashMap.put("buyOrReturnTimeOutTwo", buyOrReturnTimeOutTwo);
+
+                                                hashMap.put("firstRentTime", firstTimeOutput);//70-today
+                                                hashMap.put("secondRentTime", secondTimeOutput);//140
+                                                hashMap.put("thirdRentTime", thirdTimeOutput);//210
+                                                hashMap.put("fourthRentTime", fourthTimeOutput);//280
+                                                hashMap.put("fifthRentTime", fivethTimeOutput);//350
+                                                hashMap.put("sixthRentTime", sixthTimeOutput);//420
+                                                hashMap.put("seventhRentTime", seventhTimeOutput);//490
+                                                hashMap.put("eighthRentTime", eighthTimeOutput);//560
+                                                hashMap.put("ninthRentTime", ninthTimeOutput);//630
+                                                hashMap.put("tenthRentTime", tenthTimeOutput);//700-lastday
+
+                                                buyRef.setValue(hashMap);
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
                                     }
-
-
-
 
                                 }
 

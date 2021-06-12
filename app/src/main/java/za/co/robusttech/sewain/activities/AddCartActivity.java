@@ -117,17 +117,6 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-//        checkout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Intent deliverAddrss = new Intent(AddCartActivity.this , DeliveryAdressActivity.class);
-//                startActivity(deliverAddrss);
-//
-//
-//            }
-//        });
-
     }
 
     private void fetchCartProducts() {
@@ -182,20 +171,73 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onResume() {
         super.onResume();
-        mAdapter.notifyDataSetChanged();
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_checkout) {
-            showDialog();
+
+            FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+
+            String uid = mAuth.getUid();
+
+            DatabaseReference checkRent = FirebaseDatabase.getInstance().getReference("Rented");
+            checkRent.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if (!snapshot.exists()){
+
+                        showDialog();
+
+
+                    }else{
+
+                        for (DataSnapshot currentSnapshot : snapshot.getChildren()) {
+
+                            String key = currentSnapshot.getKey();
+                            checkRent.child(key).child(uid).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                    if (!snapshot.exists()){
+
+                                        showDialog();
+
+                                    }else{
+
+                                        Toast.makeText(AddCartActivity.this, "You have rented a product,  Finish to do a purchase", Toast.LENGTH_SHORT).show();
+
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    
+                                    
+
+                                }
+                            });
+
+                        }
+
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         }
     }
 
@@ -247,10 +289,10 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
 
     private void showDialogRent() {
 
-        View paymentOptions = this.getLayoutInflater().inflate(R.layout.checkout_payment_options, null);
-        paymentOptions.findViewById(R.id.card_payment).setOnClickListener(this::cardPaymentRent);
-        paymentOptions.findViewById(R.id.paypal_payment).setOnClickListener(this::paypayPaymentRent);
-        paymentOptions.findViewById(R.id.google_payment).setOnClickListener(this::googlePayment);
+        View paymentOptions = this.getLayoutInflater().inflate(R.layout.checkout_payment_rent, null);
+        paymentOptions.findViewById(R.id.card_payment_rent).setOnClickListener(this::cardPaymentRent);
+        paymentOptions.findViewById(R.id.paypal_payment_rent).setOnClickListener(this::paypayPaymentRent);
+        paymentOptions.findViewById(R.id.google_payment_rent).setOnClickListener(this::googlePayment);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Payment method to rent");
@@ -280,7 +322,7 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void cardPaymentRent(View view) {
-        toast("card payment");
+        toast("You can Rent 1 item Only");
         Bundle bundle = new Bundle();
         bundle.putSerializable(CHECKOUT_PRODUCTS, (Serializable) mProducts);
         NavUtil.moveTo(this, CheckoutActivityRentJava.class, bundle);
@@ -288,7 +330,7 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void paypayPaymentRent(View view) {
-        toast("paypal payment");
+        toast("You can Rent 1 item Only");
         Bundle bundle = new Bundle();
         bundle.putSerializable(CHECKOUT_PRODUCTS, (Serializable) mProducts);
         NavUtil.moveTo(this, PayPalRentActivity.class, bundle);

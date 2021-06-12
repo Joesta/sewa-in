@@ -279,6 +279,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 }else if (rent.getTenthRentTime().equals(currentDate)){
 
                                     addNotification();
+
+                                }else if (rent.getBuyOrReturnTimeExpire().equals(currentDate)){
+
+                                    FirebaseDatabase.getInstance().getReference("Rented").child(rentID).child(userId).removeValue();
+
                                 }
                             }
 
@@ -304,7 +309,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void addNotification() {
 
-        Intent intent = new Intent(HomeActivity.this, NotificationActivity.class);
+        Intent intent = new Intent(HomeActivity.this, OrdersActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("Notification", "Text");
         PendingIntent pendingIntent = PendingIntent.getActivity(HomeActivity.this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
@@ -761,11 +766,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 return true;
 
             case R.id.nav_My_Orders:
-                Toast.makeText(this, "My Orders", Toast.LENGTH_SHORT).show();
-                return true;
-
-            case R.id.nav_My_Rewards:
-                Toast.makeText(this, "My Rewards", Toast.LENGTH_SHORT).show();
+                Intent order = new Intent(HomeActivity.this, OrdersActivity.class);
+                startActivity(order);
                 return true;
 
             case R.id.nav_My_Cart:

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.NotificationActivity">
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff">
+
 
     <TextView
         android:layout_width="match_parent"
@@ -36,55 +38,6 @@
         android:layout_marginStart="125dp"
         android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Product Price - "
-        android:textColor="#000"
-        android:layout_marginTop="80dp"
-        android:textSize="15sp"
-        android:layout_marginStart="15dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="#000"
-        android:id="@+id/rent_product_price"
-        android:layout_marginTop="80dp"
-        android:textSize="15sp"
-        android:layout_marginStart="125dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Total Amount Payed - "
-        android:textColor="#000"
-        android:layout_marginTop="100dp"
-        android:textSize="15sp"
-        android:layout_marginStart="15dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="#000"
-        android:id="@+id/rent_amount_payed"
-        android:layout_marginTop="100dp"
-        android:textSize="15sp"
-        android:layout_marginStart="165dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Amount Balance - "
-        android:textColor="#000"
-        android:layout_marginTop="120dp"
-        android:textSize="15sp"
-        android:layout_marginStart="15dp"
-        android:textStyle="bold" />
 
     <TextView
         android:layout_width="match_parent"
@@ -101,7 +54,7 @@
         android:layout_height="match_parent"
         android:text="Product Buyed On - "
         android:textColor="#000"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="100dp"
         android:textSize="15sp"
         android:layout_marginStart="15dp"
         android:textStyle="bold" />
@@ -111,7 +64,7 @@
         android:layout_height="match_parent"
         android:textColor="#000"
         android:id="@+id/rent_product_buyed_on"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="100dp"
         android:textSize="15sp"
         android:layout_marginStart="155dp"
         android:textStyle="bold" />
@@ -138,28 +91,24 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-27dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <Button
+            android:id="@+id/rent_product_pay"
             android:layout_width="100dp"
             android:layout_height="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="200dp"
             android:background="#FFC107"
             android:text="Pay Rent"
-            android:id="@+id/rent_product_pay"
-            android:layout_marginTop="200dp"
-            android:layout_marginStart="30dp"
             android:textColor="#000" />
 
-        <Button
-            android:layout_width="160dp"
-            android:layout_height="50dp"
-            android:background="#FFC107"
-            android:text="Pay Full Balance"
-            android:id="@+id/rent_pay_full"
-            android:layout_marginTop="200dp"
-            android:layout_marginStart="180dp"
-            android:textColor="#000" />
 
     </RelativeLayout>
+
+
+    <!-- More GUI components go here  -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

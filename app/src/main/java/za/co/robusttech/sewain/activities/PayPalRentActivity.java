@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import za.co.robusttech.sewain.BuildConfig;
 import za.co.robusttech.sewain.R;
@@ -68,15 +69,6 @@ public class PayPalRentActivity extends AppCompatActivity {
 //        processPayment();
 //    }
 
-    private double getAmount() {
-        double amount = 0.0;
-        for (Product product : checkoutProducts) {
-            amount += product.getProductPrice()/7;
-        }
-
-        return amount;
-    }
-
     private void processPayment() {
         // PAYMENT_INTENT_SALE will cause the payment to complete immediately.
         // Change PAYMENT_INTENT_SALE to
@@ -84,17 +76,38 @@ public class PayPalRentActivity extends AppCompatActivity {
         //   - PAYMENT_INTENT_ORDER to create a payment for authorization and capture
         //     later via calls from your server.
 
-        PayPalPayment payment = new PayPalPayment(new BigDecimal(getAmount()), "USD", "Total",
-                PayPalPayment.PAYMENT_INTENT_SALE);
+        for (Product product : checkoutProducts) {
 
-        Intent intent = new Intent(this, PaymentActivity.class);
+            DatabaseReference priceRef = FirebaseDatabase.getInstance().getReference("Products");
+            priceRef.child(product.getProductId()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        // send the same configuration for restart resiliency
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+                    Product priceProduct = snapshot.getValue(Product.class);
 
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
 
-        startActivityForResult(intent, 0);
+                    PayPalPayment payment = new PayPalPayment(new BigDecimal(priceProduct.getProductPrice()/10), "USD", "Total",
+                            PayPalPayment.PAYMENT_INTENT_SALE);
+
+                    Intent intent = new Intent(PayPalRentActivity.this, PaymentActivity.class);
+
+                    // send the same configuration for restart resiliency
+                    intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+
+                    intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+
+                    startActivityForResult(intent, 0);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
+
     }
 
     @Override
@@ -110,7 +123,6 @@ public class PayPalRentActivity extends AppCompatActivity {
                     // see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
                     // for more details.
                     Toast.makeText(this, "Order was paid successfully", Toast.LENGTH_LONG).show();
-
                     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                     String userId = firebaseUser.getUid();
 
@@ -128,8 +140,6 @@ public class PayPalRentActivity extends AppCompatActivity {
                                         assert cart != null;
                                         Product product = cart.getProduct();
 
-                                        double currentProductPrice = product.getProductPrice();
-                                        String productPrice = String.valueOf(currentProductPrice);
 
                                         SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
                                         String firstTimeOutput = simpleDateFormat1.format(new Date());
@@ -226,26 +236,87 @@ public class PayPalRentActivity extends AppCompatActivity {
                                         SimpleDateFormat simpleDateFormat40 = new SimpleDateFormat("dd-MM-yyyy");
                                         String tenthTimeOutput = simpleDateFormat40.format(calendar20.getTime());
 
-                                        DatabaseReference buyRef = FirebaseDatabase.getInstance().getReference("Rented").child(product.getProductId()).child(userId);
+                                        Calendar calendar21 = Calendar.getInstance();
+                                        try {
+                                            calendar21.setTime(simpleDateFormat2.parse(date1));
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        calendar21.add(Calendar.DATE, 65);//700
+                                        SimpleDateFormat simpleDateFormat41 = new SimpleDateFormat("dd-MM-yyyy");
+                                        String buyOrReturnTimeOutExpire = simpleDateFormat41.format(calendar21.getTime());
 
-                                        HashMap<String, String> hashMap = new HashMap<>();
-                                        hashMap.put("id", userId);
-                                        hashMap.put("productId", product.getProductId());
-                                        hashMap.put("productPrice", productPrice);
-                                        hashMap.put("firstRentTime", firstTimeOutput);//70-today
-                                        hashMap.put("secondRentTime", secondTimeOutput);//140
-                                        hashMap.put("thirdRentTime", thirdTimeOutput);//210
-                                        hashMap.put("fourthRentTime", fourthTimeOutput);//280
-                                        hashMap.put("fifthRentTime", fivethTimeOutput);//350
-                                        hashMap.put("sixthRentTime", sixthTimeOutput);//420
-                                        hashMap.put("seventhRentTime", seventhTimeOutput);//490
-                                        hashMap.put("eighthRentTime", eighthTimeOutput);//560
-                                        hashMap.put("ninthRentTime", ninthTimeOutput);//630
-                                        hashMap.put("tenthRentTime", tenthTimeOutput);//700-lastday
 
-                                        buyRef.setValue(hashMap);
+                                        Calendar calendar22 = Calendar.getInstance();
+                                        try {
+                                            calendar22.setTime(simpleDateFormat2.parse(date1));
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        calendar22.add(Calendar.DATE, 63);//700
+                                        SimpleDateFormat simpleDateFormat42 = new SimpleDateFormat("dd-MM-yyyy");
+                                        String buyOrReturnTimeOutOne = simpleDateFormat42.format(calendar22.getTime());
+
+                                        Calendar calendar23 = Calendar.getInstance();
+                                        try {
+                                            calendar23.setTime(simpleDateFormat2.parse(date1));
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        calendar23.add(Calendar.DATE, 64);//700
+                                        SimpleDateFormat simpleDateFormat43 = new SimpleDateFormat("dd-MM-yyyy");
+                                        String buyOrReturnTimeOutTwo = simpleDateFormat43.format(calendar23.getTime());
+
+
+
+                                        DatabaseReference priceRef = FirebaseDatabase.getInstance().getReference("Products").child(product.getProductId());
+
+                                        priceRef.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                                DatabaseReference buyRef = FirebaseDatabase.getInstance().getReference("Rented").child(product.getProductId()).child(userId);
+
+                                                Product productRate = snapshot.getValue(Product.class);
+
+                                                double currentProductPrice = productRate.getProductPrice();
+                                                String productPrice = String.valueOf(currentProductPrice);
+
+                                                double perRent = productRate.getProductPrice()/10;
+                                                String amountPerRent = String.valueOf(perRent);
+
+                                                HashMap<String, String> hashMap = new HashMap<>();
+                                                hashMap.put("id", userId);
+                                                hashMap.put("productId", product.getProductId());
+                                                hashMap.put("productPrice", productPrice);//totalPrice
+                                                hashMap.put("productName", product.getProductName());
+
+                                                hashMap.put("perRent", amountPerRent);//1time
+                                                hashMap.put("buyOrReturnTimeExpire", buyOrReturnTimeOutExpire);
+                                                hashMap.put("buyOrReturnTimeOutOne", buyOrReturnTimeOutOne);
+                                                hashMap.put("buyOrReturnTimeOutTwo", buyOrReturnTimeOutTwo);
+
+                                                hashMap.put("firstRentTime", firstTimeOutput);//70-today
+                                                hashMap.put("secondRentTime", secondTimeOutput);//140
+                                                hashMap.put("thirdRentTime", thirdTimeOutput);//210
+                                                hashMap.put("fourthRentTime", fourthTimeOutput);//280
+                                                hashMap.put("fifthRentTime", fivethTimeOutput);//350
+                                                hashMap.put("sixthRentTime", sixthTimeOutput);//420
+                                                hashMap.put("seventhRentTime", seventhTimeOutput);//490
+                                                hashMap.put("eighthRentTime", eighthTimeOutput);//560
+                                                hashMap.put("ninthRentTime", ninthTimeOutput);//630
+                                                hashMap.put("tenthRentTime", tenthTimeOutput);//700-lastday
+
+                                                buyRef.setValue(hashMap);
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
                                     }
-
 
                                 }
 
@@ -254,6 +325,10 @@ public class PayPalRentActivity extends AppCompatActivity {
                                     Toast.makeText(PayPalRentActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             });
+
+
+                    removeCardItem();
+
                     NavUtil.moveTo(this, HomeActivity.class, null);
 
                 } catch (JSONException e) {
@@ -265,6 +340,21 @@ public class PayPalRentActivity extends AppCompatActivity {
         } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
             Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
         }
+    }
+
+    private void removeCardItem() {
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Cart")
+                .child(getUserId())
+                .removeValue();
+    }
+
+    private String getUserId() {
+        return Objects.requireNonNull(FirebaseAuth
+                .getInstance()
+                .getCurrentUser())
+                .getUid();
     }
 
     @Override
