@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="MissingClass">
-        <activity android:name=".activities.OrdersActivity"></activity>
+        <activity android:name=".activities.CODRentActivity"></activity>
+        <activity android:name=".activities.CODActivity" />
+        <activity android:name=".activities.OrdersActivity" />
         <activity android:name=".activities.CommentUpdateActivity" />
         <activity android:name=".activities.CommentsActivity" />
         <activity android:name=".activities.GooglePayActivity" />
@@ -51,7 +53,6 @@
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
-
     </application>
 
 </manifest>

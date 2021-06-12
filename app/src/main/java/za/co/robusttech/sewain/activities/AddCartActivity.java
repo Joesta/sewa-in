@@ -31,7 +31,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -39,6 +41,7 @@ import java.util.Objects;
 import za.co.robusttech.sewain.DeliveryAdressActivity;
 import za.co.robusttech.sewain.R;
 import za.co.robusttech.sewain.adapter.Cart_WishListAdapter;
+import za.co.robusttech.sewain.constants.IProductConstants;
 import za.co.robusttech.sewain.models.Cart;
 import za.co.robusttech.sewain.models.Product;
 import za.co.robusttech.sewain.models.address;
@@ -275,6 +278,8 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
         paymentOptions.findViewById(R.id.card_payment).setOnClickListener(this::cardPayment);
         paymentOptions.findViewById(R.id.paypal_payment).setOnClickListener(this::paypayPayment);
         paymentOptions.findViewById(R.id.google_payment).setOnClickListener(this::googlePayment);
+        paymentOptions.findViewById(R.id.cod_payment).setOnClickListener(this::codPaymentBuy);
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Payment method to buy");
@@ -293,6 +298,8 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
         paymentOptions.findViewById(R.id.card_payment_rent).setOnClickListener(this::cardPaymentRent);
         paymentOptions.findViewById(R.id.paypal_payment_rent).setOnClickListener(this::paypayPaymentRent);
         paymentOptions.findViewById(R.id.google_payment_rent).setOnClickListener(this::googlePayment);
+        paymentOptions.findViewById(R.id.cod_payment_rent).setOnClickListener(this::codPaymentRent);
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Payment method to rent");
@@ -336,6 +343,22 @@ public class AddCartActivity extends AppCompatActivity implements View.OnClickLi
         NavUtil.moveTo(this, PayPalRentActivity.class, bundle);
 
     }
+
+    private void codPaymentBuy(View view ) {
+        toast("Cash On Delivery");
+
+        Intent buyCOD = new Intent(AddCartActivity.this, CODActivity.class);
+        startActivity(buyCOD);
+    }
+
+    private void codPaymentRent(View view ) {
+        toast("Cash On Delivery");
+
+        Intent rentCod = new Intent(AddCartActivity.this, CODRentActivity.class);
+        startActivity(rentCod);
+
+    }
+
 
     private void googlePayment(View view) {
         NavUtil.moveTo(this, GooglePayActivity.class, null);

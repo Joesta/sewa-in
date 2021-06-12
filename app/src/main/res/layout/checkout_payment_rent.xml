@@ -46,6 +46,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/paypal_payment_rent"/>
 
+
+        <ImageButton
+            android:id="@+id/cod_payment_rent"
+            android:layout_width="match_parent"
+            android:layout_height="173dp"
+            android:src="@drawable/cod_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="#FFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/google_payment_rent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

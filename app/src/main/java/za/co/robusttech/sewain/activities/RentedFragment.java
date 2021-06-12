@@ -193,6 +193,8 @@ public class RentedFragment extends Fragment {
         View paymentOptions = this.getLayoutInflater().inflate(R.layout.checkout_payment_options, null);
         paymentOptions.findViewById(R.id.card_payment).setOnClickListener(this::cardPaymentRent);
         paymentOptions.findViewById(R.id.paypal_payment).setOnClickListener(this::paypayPaymentRent);
+        paymentOptions.findViewById(R.id.cod_payment).setOnClickListener(this::codPaymentBuy);
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Payment method to rent");
@@ -217,11 +219,17 @@ public class RentedFragment extends Fragment {
 
     }
 
+    private void codPaymentBuy(View view) {
+        Toast.makeText(getActivity(), "Not Available", Toast.LENGTH_SHORT).show();
+
+    }
+
     private void paymentComplete() {
 
         View paymentOptions = this.getLayoutInflater().inflate(R.layout.buy_or_return, null);
         paymentOptions.findViewById(R.id.buy_85_off).setOnClickListener(this::showDialogBuy);
         paymentOptions.findViewById(R.id.return_product).setOnClickListener(this::returnProduct);
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("What would you like to do");
@@ -238,6 +246,7 @@ public class RentedFragment extends Fragment {
         View paymentOptions = this.getLayoutInflater().inflate(R.layout.checkout_payment_options, null);
         paymentOptions.findViewById(R.id.card_payment).setOnClickListener(this::buyProductCard);
         paymentOptions.findViewById(R.id.paypal_payment).setOnClickListener(this::buyProductPaypal);
+        paymentOptions.findViewById(R.id.cod_payment).setOnClickListener(this::codPaymentBuy);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Choose Method to buy product");
@@ -249,7 +258,6 @@ public class RentedFragment extends Fragment {
                 .show();
 
     }
-
 
     private void buyProductCard(View view) { Bundle bundle = new Bundle();
         bundle.putSerializable(CHECKOUT_PRODUCTS, (Serializable) mProducts);
