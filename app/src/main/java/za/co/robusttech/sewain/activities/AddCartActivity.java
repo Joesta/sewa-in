@@ -3,13 +3,10 @@ package za.co.robusttech.sewain.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,21 +28,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import za.co.robusttech.sewain.DeliveryAdressActivity;
 import za.co.robusttech.sewain.R;
 import za.co.robusttech.sewain.adapter.Cart_WishListAdapter;
-import za.co.robusttech.sewain.constants.IProductConstants;
 import za.co.robusttech.sewain.models.Cart;
 import za.co.robusttech.sewain.models.Product;
 import za.co.robusttech.sewain.models.address;
-import za.co.robusttech.sewain.models.profile;
 import za.co.robusttech.sewain.utils.NavUtil;
 
 public class AddCartActivity extends AppCompatActivity implements View.OnClickListener {

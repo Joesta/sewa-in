@@ -38,7 +38,6 @@ import java.util.HashMap;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import za.co.robusttech.sewain.DeliveryAdressActivity;
 import za.co.robusttech.sewain.R;
 import za.co.robusttech.sewain.models.address;
 import za.co.robusttech.sewain.models.profile;

@@ -25,7 +25,7 @@
         <activity android:name=".activities.CommentsActivity" />
         <activity android:name=".activities.GooglePayActivity" />
         <activity android:name=".activities.PayPalActivity" />
-        <activity android:name=".DeliveryAdressActivity" />
+        <activity android:name=".activities.DeliveryAdressActivity" />
         <activity android:name=".activities.WishListActivity" />
         <activity android:name=".activities.AddCartActivity" />
         <activity android:name=".activities.UploadDataActivity" />

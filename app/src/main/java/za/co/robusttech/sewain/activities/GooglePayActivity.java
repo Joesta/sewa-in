@@ -63,18 +63,16 @@ public class GooglePayActivity extends AppCompatActivity {
         final IsReadyToPayRequest request = createIsReadyToPayRequest();
         paymentsClient.isReadyToPay(request)
                 .addOnCompleteListener(
-                        new OnCompleteListener<Boolean>() {
-                            public void onComplete(Task<Boolean> task) {
-                                if (task.isSuccessful()) {
-                                    // show Google Pay as payment option
-                                    try {
-                                        payWithGoogle();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    // hide Google Pay as payment option
+                        task -> {
+                            if (task.isSuccessful()) {
+                                // show Google Pay as payment option
+                                try {
+                                    payWithGoogle();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
+                            } else {
+                                // hide Google Pay as payment option
                             }
                         }
                 );

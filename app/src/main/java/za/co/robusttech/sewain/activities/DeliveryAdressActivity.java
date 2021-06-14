@@ -1,4 +1,4 @@
-package za.co.robusttech.sewain;
+package za.co.robusttech.sewain.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Objects;
 
-import za.co.robusttech.sewain.activities.AddCartActivity;
+import za.co.robusttech.sewain.R;
 
 
 public class DeliveryAdressActivity extends AppCompatActivity {
